@@ -15,6 +15,10 @@ The members of this team are below.
 
 Bridget is a senior in Statistics. Her github account can be found at https://github.com/bridgetzhang 
 
+## Arlo Ramoutar
+
+Arlo is a senior in Statistics. Her github account can be found at https://github.com/avramoutar 
+
 <!-- Please leave in the information below -->
 
 ### Info About this Template.
