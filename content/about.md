@@ -19,6 +19,10 @@ Bridget is a senior in Statistics. Her github account can be found at https://gi
 
 Arlo is a senior in Statistics. Her github account can be found at https://github.com/avramoutar 
 
+## Cleo Ulisse
+
+Cleo is a senior studying statistics. Her github account can be found at https://github.com/cleoulisse
+
 <!-- Please leave in the information below -->
 
 ### Info About this Template.
