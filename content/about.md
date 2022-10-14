@@ -23,6 +23,10 @@ Arlo is a senior in Statistics. Her github account can be found at https://githu
 
 Cleo is a senior studying statistics. Her github account can be found at https://github.com/cleoulisse
 
+## Tessa Wu
+
+Tessa is a junior studying Data Science. Her github account can be found at https://github.com/tessajwu
+
 <!-- Please leave in the information below -->
 
 ### Info About this Template.
