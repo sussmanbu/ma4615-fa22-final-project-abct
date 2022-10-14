@@ -1,0 +1,40 @@
+---
+title: Blogpost 1
+author: Bridget Zhang, Cleo Ulisse, Tessa Wu, Arlo Ramoutar
+date: '2022-10-14'
+slug: []
+categories: []
+tags: []
+description: ~ The 3 datasets that we propose.
+toc: yes
+authors: Bridget Zhang, Cleo Ulisse, Tessa Wu, Arlo Ramoutar
+series: []
+lastmod: '2022-10-14T17:03:14-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+Dataset 1:
+
+https://corgis-edu.github.io/corgis/csv/school_scores/ 
+
+This data set comes from the CORGIS Datasets Project and has 578 rows and 99 columns. The SAT scores data came from the Common Core of Data (CCD), the Department of Education’s primary comprehensive database on public primary and secondary education data. We were able to load the data into Excel and RStudio, but have not yet found ways to clean it. 
+
+From this data set, we hope we can gain some insight into whether or not there truly are significant differences in SAT scores between students with higher family incomes and students with lower family incomes. We can use different columns to see if perhaps family income has a stronger impact on performance in certain subjects (e.g, English) than others as well. The data set also provides us with adequate information to see if family income has a relationship with GPA, and we can examine the existence of a relationship between GPA and SAT score. One of the potential challenges we foresee with this data set is that the family income data is self-reported, whereas SAT scores and GPAs are exhaustively collected, which could render our analysis inaccurate; students on both ends of the family income spectrum could feel reluctant to report so, and others may have been too apathetic to bother filling out the form for income. 
+
+Dataset 2:
+
+https://nces.ed.gov/programs/digest/d12/tables/dt12_173.asp 
+
+This dataset contains 105 rows and 19 columns and came from the National Center for Education Statistics. The dataset is about SAT mean scores and the percent distribution of college-bound seniors from 1995-96 through 2011-12. Within each year, there are columns that specify each part of the SAT scoring: critical reading, mathematics, writing score, percentage distribution. Each row has specified different characteristics such as high school rank, GPA, school type, etc. Since this data is not in schema, meaning it is not structured, there is a lot of cleaning and loading that needs to be done. First off, all unavailable or nulls should be removed. Then the characteristics of each row and column should be more unilateral. 
+
+Looking at this data set, there are several questions we wish to address. To start off, we would like to see how high school performance relates (GPA) to scores. There has been a lot of debate between how insightful SAT has been on academic performance over the past few years. Another question that can be asked is whether or not SAT scores increase or decrease depending on school types. Private schools are known to be associated with more affluent families therefore more likely to send their children to cram schools or SAT tutoring. This variable could also be related with family income as they do overlap. This double variable may be a challenge because blocking might need to be implemented or some type or variable control. 
+
+Dataset 3:
+
+https://www.kaggle.com/datasets/whenamancodes/students-performance-in-exams
+
+This data set outlines the performance of 1000 students in 3 different subjects. It has 8 columns and 1000 rows. Each of the columns include some details about the individual students. The data included is gender, race/ethnicity, parental level of education, lunch price, test preparation completion, math score, reading score, and writing score. All of the data is represented as strings apart from the scores for math, reading and writing. The data is contained in a csv file, so we can load the data into RStudio and clean it there like we’ve been working on in class. 
+
+With this data, we hope to examine any possible connections between test scores and the other columns. For example, we can focus on whether test preparation has any impact on math, reading and writing scores. We can also similarly see if test preparation had differing impacts on math, reading and writing scores. Another direction we are interested in possibly pursuing is using the lunch column as an indicator of family income, since the students would have to qualify to get a reduced price or free lunch. A possible challenge could be that there are many possible directions to take our project with this data. There’s a lot of variables that we can look at at once so it may be hard to pinpoint the exact relationships.
+
