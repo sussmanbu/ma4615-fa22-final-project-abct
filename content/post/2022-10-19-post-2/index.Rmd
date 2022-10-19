@@ -1,5 +1,5 @@
 ---
-title: post 2
+title: blogpost 2
 author: Daniel Sussman
 date: '2022-10-19'
 slug: []
