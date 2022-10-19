@@ -1,0 +1,15 @@
+---
+title: post 2
+author: Daniel Sussman
+date: '2022-10-19'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-19T09:38:50-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
