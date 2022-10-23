@@ -1,0 +1,24 @@
+---
+title: Blogpost 2
+author: Arlo Ramoutar, Bridget Zhang, Cleo Ulisse, Tessa Wu
+date: '2022-10-21'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-23T15:21:26-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+To clean our data, we used the load.clean.data.csv file. 
+`[load_and_clean_data.R](/load_and_clean_data.R)`
+In doing so, the data file was removed of any missing values, and the columns were defined as either double or character. There are 99 columns with 577 rows, with only one row removed from the original dataset. 
+For column specification, State.Code and State.Name are character columns, and the other 97 are double columns.
+
+From this data set, since the data is on the state level we can gain some insight into whether or not there truly are significant differences in SAT scores between students with higher family incomes and students with lower family incomes, if we want to combine with other datasets.
+
+We can use the different academic columns to see if perhaps family income has a stronger impact on performance in certain subjects (e.g, English) than others. We will be focusing on if family income has a relationship with GPA. We can also examine the existence of a relationship between GPA and SAT score.
