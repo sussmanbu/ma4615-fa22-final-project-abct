@@ -21,4 +21,4 @@ For column specification, State.Code and State.Name are character columns, and t
 
 From this data set, since the data is on the state level we can gain some insight into whether or not there truly are significant differences in SAT scores between students with higher family incomes and students with lower family incomes, if we want to combine with other datasets.
 
-We can use the different academic columns to see if perhaps family income has a stronger impact on performance in certain subjects (e.g, English) than others. We will be focusing on if family income has a relationship with GPA. We can also examine the existence of a relationship between GPA and SAT score.
+We can use the different academic columns to see if perhaps family income has a stronger impact on performance in certain subjects (e.g, English) than others. We will be focusing on if family income has a relationship with GPA. We can also examine the existence of a relationship between GPA and SAT scores.
