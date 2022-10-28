@@ -1,0 +1,25 @@
+---
+title: Blogpost 3
+author: Arlo Ramoutaur, Cleo Ulisse, Tessa Wu, Bridget Zhang
+date: '2022-10-28'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-28T13:05:03-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+We will be working with a data set from the CORGIS Dataset Project about school scores and family income. It can be found at https://corgis-edu.github.io/corgis/csv/school_scores/.
+
+Some important principles for advancing equitable data practices include beneficence, respect for persons, and justice. Beneficence refers to maximizing benefits and avoiding causing harm. Respect for persons, or respecting people’s power to make decisions and protecting those who do not have this power, is important to our chosen data set in ensuring personal information is kept anonymous. Lastly, justice, defined as the fair distribution of benefits and burdens, is applied to our analysis through avoiding the misuse of data results.
+
+Respect for persons is the most important principle for us to consider when performing our data analysis of factors that may affect SAT scores. While we do believe that there may exist a correlation between school scores and family income, it is also important to remember that the SAT (and most standardized testing) is a test designed by eugenicists to keep communities of color outside of academia and allow upper-middle and upper class students to remain the ones in power. 
+
+Justice is another principle we want to prioritize during this project; the article on Data for Equity Principals states that “it is important to be conscientious about the labor and the mental or emotional stress it takes for people to respond, especially when they may not have a way to opt out.” For our particular data analysis, family income is an important factor we will be looking at. However,  income is a sensitive and private piece of information that many feel reluctant to voluntarily disclose, and that is a decision we have to respect and keep in mind as we go about our data analysis. Students taking the SAT are already under enough pressure to perform well without having to deal with feeling as though they must report their family income. As such, we will only work with the voluntarily disclosed income data.
+
+Based on the data we are using, we cannot generalize this past the United States. The data also uses average scores per state, so it’s not representative of all scores and therefore is just a generalization. There may be deviant results from different sample groups including other factors for analysis. Like with all data, there is a potential for misuse or abuse of the data. With the data we are studying, there is a possibility for the results to target racial or ethnic minorities and less affluent families. It is important to avoid projecting these individuals in the wrong light based on the results of our analysis.
