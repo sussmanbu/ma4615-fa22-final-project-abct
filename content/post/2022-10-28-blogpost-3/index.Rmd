@@ -5,7 +5,7 @@ date: '2022-10-28'
 slug: []
 categories: []
 tags: []
-description: Data for Equity Principals.
+description: Data for Equity Principles.
 toc: yes
 authors: Arlo Ramoutaur, Cleo Ulisse, Tessa Wu, Bridget Zhang
 series: []
