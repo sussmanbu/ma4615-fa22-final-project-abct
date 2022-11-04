@@ -1,13 +1,13 @@
 ---
 title: Blogpost 3
-author: Arlo Ramoutaur, Cleo Ulisse, Tessa Wu, Bridget Zhang
+author: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
 date: '2022-10-28'
 slug: []
 categories: []
 tags: []
 description: Data for Equity Principals.
 toc: yes
-authors: Arlo Ramoutaur, Cleo Ulisse, Tessa Wu, Bridget Zhang
+authors: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
 series: []
 lastmod: '2022-10-28T13:05:03-04:00'
 featuredVideo: ~
