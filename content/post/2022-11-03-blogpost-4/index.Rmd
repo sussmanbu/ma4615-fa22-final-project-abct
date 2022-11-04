@@ -35,7 +35,7 @@ newdata <- school_scores_data_clean %>% mutate(total.score = total.math + total.
 
 
 For our model, we decided to do a multiple linear regression comparing the Total Score to all of the income categories.
-```{r info}
+```{r model}
 
 m.ols <- lm(total.score ~ newdata$income.between.20.40k + newdata$income.between.40.60k + newdata$income.between.60.80k + newdata$income.between.80.100k + newdata$income.less.than.20k + newdata$income.more.than.100k, data = newdata)
 summary(m.ols)
@@ -43,7 +43,7 @@ summary(m.ols)
 ```
 
 Description:
-```{r info}
+```{r plot 1}
 
 # Probably copy and paste this and do some ggplots with this!
   
@@ -51,7 +51,7 @@ Description:
 
 
 We also decided to plot the standard residuals for our regression summary.
-```{r info}
+```{r stanresls}
 
 StanResLS <- rstandard(m.ols)
 dataLS <- data.frame(newdata$total.score,StanResLS)
