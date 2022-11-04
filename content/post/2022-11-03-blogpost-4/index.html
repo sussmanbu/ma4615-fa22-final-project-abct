@@ -1,0 +1,73 @@
+---
+title: Blogpost 4
+author: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
+date: '2022-11-03'
+slug: []
+categories: []
+tags: []
+description: Modeling
+toc: yes
+authors: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
+series: []
+lastmod: '2022-11-03T14:53:09-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+
+<div id="TOC">
+
+</div>
+
+<p>The response variables we are most interested in are total verbal and total math SAT scores, and the predictor variable we want to examine is family income, as these are most relevant to our initial question — is there a statistically significant relationship between family income and SAT score? We will likely need to create a new column for total overall score by adding the verbal and math scores in our preliminary analysis for the sake of simplicity, but it would definitely also be compelling to look at if family income possibly has a stronger relationship with one section of the SAT over the other. A linear model may be our best bet to start off with, but other models (e.g., logistic) could provide insight into our questions as well.</p>
+<p>We started by changing the column names to make them more manageable, as well as making a new column for the total overall score by adding the Total Math column with the Total verbal column. We did the same for the family income columns.</p>
+<pre class="r"><code>library(tidyverse)
+school_scores_data_clean &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))
+
+colnames(school_scores_data_clean) &lt;- c(&#39;year&#39;, &#39;state.code&#39;, &#39;state.name&#39;, &#39;total.math&#39;, &#39;total.testtakers&#39;, &#39;total.verbal&#39;, &#39;arts.music.avggpa&#39;, &#39;arts.music.avgyears&#39;, &#39;english.avggpa&#39;, &#39;english.avgyears&#39;, &#39;foreign.languages.avggpa&#39;, &#39;foreign.languages.avgyears&#39;, &#39;mathematics.avggpa&#39;, &#39;mathematics.avgyears&#39;, &#39;natural.sciences.avggpa&#39;, &#39;natural.sciences.avgyears&#39;, &#39;social.sciences.history.avggpa&#39;, &#39;social.sciences.history.avgyears&#39;, &#39;income.between.20.40k.math&#39;, &#39;income.between.20.40k.testtakers&#39;,&#39;income.between.20.40k.verbal&#39;, &#39;income.between.40.60k.math&#39;, &#39;income.between.40.60k.testtakers&#39;, &#39;income.between.40.60k.verbal&#39;, &#39;income.between.60.80k.math&#39;, &#39;income.between.60.80k.testtakers&#39;,&#39;income.between.60.80k.verbal&#39;, &#39;income.between.80.100k.math&#39;,&#39;income.between.80.100k.testtakers&#39;, &#39;income.between.80.100k.verbal&#39;, &#39;income.less.than.20k.math&#39;, &#39;income.less.than.20k.testtakers&#39;, &#39;income.less.than.20k.verbal&#39;, &#39;income.more.than.100k.math&#39;, &#39;income.more.than.100k.testtakers&#39;, &#39;income.more.than.100k.verbal&#39;, &#39;gpa.aminus.math&#39;, &#39;gpa.aminus.testtakers&#39;, &#39;gpa.aminus.verbal&#39;, &#39;gpa.aplus.math&#39;, &#39;gpa.aplus.testtakers&#39;, &#39;gpa.aplus.verbal&#39;, &#39;gpa.a.math&#39;, &#39;gpa.a.testtakers&#39;, &#39;gpa.a.verbal&#39;, &#39;gpa.b.math&#39;, &#39;gpa.b.testtakers&#39;, &#39;gpa.b.verbal&#39;, &#39;gpa.c.math&#39;, &#39;gpa.c.testtakers&#39;, &#39;gpa.c.verbal&#39;, &#39;gpa.d.or.lower.math&#39;, &#39;gpa.d.or.lower.testtakers&#39;, &#39;gpa.d.or.lower.verbal&#39;, &#39;gpa.no.response.math&#39;, &#39;gpa.no.response.testtakers&#39;, &#39;gpa.no.response.verbal&#39;, &#39;gender.female.math&#39;,&#39;gender.female.testtakers&#39;, &#39;gender.female.verbal&#39;, &#39;gender.male.math&#39;, &#39;gender.male.testtakers&#39;, &#39;gender.male.verbal&#39;, &#39;score.between.200.to.300.math.females&#39;, &#39;score.between.200.to.300.math.males&#39;, &#39;score.between.200.to.300.math.total&#39;, &#39;score.between.200.to.300.verbal.females&#39;, &#39;score.between.200.to.300.verbal.males&#39;, &#39;score.between.200.to.300.verbal.total&#39;, &#39;score.between.300.to.400.math.females&#39;, &#39;score.between.300.to.400.math.males&#39;, &#39;score.between.300.to.400.math.total&#39;, &#39;score.between.300.to.400.verbal.females&#39;, &#39;score.between.300.to.400.verbal.males&#39;, &#39;score.between.300.to.400.verbal.total&#39;, &#39;score.between.400.to.500.math.females&#39;, &#39;score.between.400.to.500.math.males&#39;, &#39;score.between.400.to.500.math.total&#39;, &#39;score.between.400.to.500.verbal.females&#39;, &#39;score.between.400.to.500.verbal.males&#39;, &#39;score.between.400.to.500.verbal.total&#39;, &#39;score.between.500.to.600.math.females&#39;, &#39;score.between.500.to.600.math.males&#39;, &#39;score.between.500.to.600.math.total&#39;, &#39;score.between.500.to.600.verbal.females&#39;, &#39;score.between.500.to.600.verbal.males&#39;, &#39;score.between.500.to.600.verbal.total&#39;, &#39;score.between.600.to.700.math.females&#39;, &#39;score.between.600.to.700.math.males&#39;, &#39;score.between.600.to.700.math.total&#39;, &#39;score.between.600.to.700.verbal.females&#39;, &#39;score.between.600.to.700.verbal.males&#39;, &#39;score.between.600.to.700.verbal.total&#39;, &#39;score.between.700.to.800.math.females&#39;, &#39;score.between.700.to.800.math.males&#39;, &#39;score.between.700.to.800.math.total&#39;, &#39;score.between.700.to.800.verbal.females&#39;, &#39;score.between.700.to.800.verbal.males&#39;, &#39;score.between.700.to.800.verbal.total&#39;)
+
+newdata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
+  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %&gt;%
+  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %&gt;%
+  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %&gt;%
+  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %&gt;%
+  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %&gt;%
+  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)</code></pre>
+<p>For our model, we decided to do a multiple linear regression comparing the Total Score to all of the income categories.</p>
+<pre class="r"><code>m.ols &lt;- lm(total.score ~ newdata$income.between.20.40k + newdata$income.between.40.60k + newdata$income.between.60.80k + newdata$income.between.80.100k + newdata$income.less.than.20k + newdata$income.more.than.100k, data = newdata)
+summary(m.ols)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = total.score ~ newdata$income.between.20.40k + newdata$income.between.40.60k + 
+##     newdata$income.between.60.80k + newdata$income.between.80.100k + 
+##     newdata$income.less.than.20k + newdata$income.more.than.100k, 
+##     data = newdata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -171.980  -12.118    4.942   17.864  124.449 
+## 
+## Coefficients:
+##                                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                    -1.209e+02  1.906e+01  -6.343 4.60e-10 ***
+## newdata$income.between.20.40k   1.656e-01  3.653e-02   4.533 7.11e-06 ***
+## newdata$income.between.40.60k   3.139e-01  5.749e-02   5.460 7.10e-08 ***
+## newdata$income.between.60.80k   8.070e-02  3.617e-02   2.231   0.0261 *  
+## newdata$income.between.80.100k  4.334e-01  5.015e-02   8.641  &lt; 2e-16 ***
+## newdata$income.less.than.20k    1.176e-04  9.901e-03   0.012   0.9905    
+## newdata$income.more.than.100k   1.193e-01  2.384e-02   5.004 7.48e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 29.62 on 570 degrees of freedom
+## Multiple R-squared:  0.8928, Adjusted R-squared:  0.8917 
+## F-statistic: 791.6 on 6 and 570 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Description:</p>
+<pre class="r"><code># Probably copy and paste this and do some ggplots with this!</code></pre>
+<p>We also decided to plot the standard residuals for our regression summary.</p>
+<pre class="r"><code>StanResLS &lt;- rstandard(m.ols)
+dataLS &lt;- data.frame(newdata$total.score,StanResLS)
+ggplot(dataLS, aes(x= newdata$total.score, y=StanResLS)) + geom_point(size = 0.1) +
+geom_hline(yintercept=2,color=&#39;blue&#39;) + geom_hline(yintercept=-2, color=&#39;blue&#39;) +
+ggtitle(&quot;Standarized Residuals for OLS&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/stanresls-1.png" width="672" /></p>
