@@ -43,7 +43,7 @@ summary(m.ols)
   
 ```
 
-Description:
+in both of these plots we see a strong relationship between log(income) and log(total SAT score).
 ```{r plot 1}
 data <- newdata
 
@@ -55,7 +55,6 @@ data <- newdata
 
 ggplot(data) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
 
-# in both of these plots we see a strong relationship between log(income) and log(total SAT score)
 ```
 
 We also decided to plot the standard residuals for our regression summary.
