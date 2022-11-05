@@ -43,17 +43,15 @@ summary(m.ols)
   
 ```
 
-in both of these plots we see a strong relationship between log(income) and log(total SAT score).
+In both of these plots we see a strong relationship between log(income) and log(total SAT score).
 ```{r plot 1}
-data <- newdata
+schooldata <- newdata
 
-ggplot(data) + geom_point(aes(x = log(income.between.20.40k), y = log(total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
+ggplot(schooldata) + geom_point(aes(x = log(income.between.20.40k), y = log(total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
 ```
 ```{r plot 2}
 
-data <- newdata
-
-ggplot(data) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
+ggplot(schooldata) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
 
 ```
 
