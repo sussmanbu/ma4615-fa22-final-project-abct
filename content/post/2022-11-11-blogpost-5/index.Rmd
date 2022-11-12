@@ -40,6 +40,15 @@ newdata <- school_scores_data_clean %>% mutate(total.score = total.math + total.
 
 Now we load in the new dataset:
 
+```{r}
+library(tidyverse)
+census_data <- read_csv(here::here("dataset/acs2017_census_tract_data.csv"))
+
+```
+
+A new dataset we found that we would like to combine without original data is this https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data, which contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests. 
+
+We hope to combine them by using the merge() function since both datasets have a column dedicated to the 50 states, but we are concerned about the fact that this new dataset has 74000 rows, whereas our original one only has 578. To overcome this we may need to create new columns in the census dataset.
 
 
 
