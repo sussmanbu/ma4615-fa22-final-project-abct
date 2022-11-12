@@ -374,7 +374,54 @@ Zhang</h4>
 true
 </div>
 
+<p>We decided to include information from the US Census demographic data
+from 2017 that we found on kaggle. This dataset contains demographic
+data of the U.S. population from 2017, with 37 columns and 74000 rows.
+By combining this dataset with out schools scores data, we can use this
+information to find other factors that might contribute to deviations in
+SAT scores, e.g. gender ratios, racial demographics.</p>
+<p>Firstly, we loaded and cleaned the data. We used the
+load.clean.data.csv file.
+<code>[load_and_clean_data.R](/load_and_clean_data.R)</code> One
+comparison to note is that the State.Name column in the original dataset
+is equal to the State column in the new dataset.</p>
+<pre class="r"><code>library(tidyverse)
+school_scores_data_clean &lt;- read_csv(&quot;school_scores_data_clean.csv&quot;)
 
+colnames(school_scores_data_clean) &lt;- c(&#39;year&#39;, &#39;state.code&#39;, &#39;state.name&#39;, &#39;total.math&#39;, &#39;total.testtakers&#39;, &#39;total.verbal&#39;, &#39;arts.music.avggpa&#39;, &#39;arts.music.avgyears&#39;, &#39;english.avggpa&#39;, &#39;english.avgyears&#39;, &#39;foreign.languages.avggpa&#39;, &#39;foreign.languages.avgyears&#39;, &#39;mathematics.avggpa&#39;, &#39;mathematics.avgyears&#39;, &#39;natural.sciences.avggpa&#39;, &#39;natural.sciences.avgyears&#39;, &#39;social.sciences.history.avggpa&#39;, &#39;social.sciences.history.avgyears&#39;, &#39;income.between.20.40k.math&#39;, &#39;income.between.20.40k.testtakers&#39;,&#39;income.between.20.40k.verbal&#39;, &#39;income.between.40.60k.math&#39;, &#39;income.between.40.60k.testtakers&#39;, &#39;income.between.40.60k.verbal&#39;, &#39;income.between.60.80k.math&#39;, &#39;income.between.60.80k.testtakers&#39;,&#39;income.between.60.80k.verbal&#39;, &#39;income.between.80.100k.math&#39;,&#39;income.between.80.100k.testtakers&#39;, &#39;income.between.80.100k.verbal&#39;, &#39;income.less.than.20k.math&#39;, &#39;income.less.than.20k.testtakers&#39;, &#39;income.less.than.20k.verbal&#39;, &#39;income.more.than.100k.math&#39;, &#39;income.more.than.100k.testtakers&#39;, &#39;income.more.than.100k.verbal&#39;, &#39;gpa.aminus.math&#39;, &#39;gpa.aminus.testtakers&#39;, &#39;gpa.aminus.verbal&#39;, &#39;gpa.aplus.math&#39;, &#39;gpa.aplus.testtakers&#39;, &#39;gpa.aplus.verbal&#39;, &#39;gpa.a.math&#39;, &#39;gpa.a.testtakers&#39;, &#39;gpa.a.verbal&#39;, &#39;gpa.b.math&#39;, &#39;gpa.b.testtakers&#39;, &#39;gpa.b.verbal&#39;, &#39;gpa.c.math&#39;, &#39;gpa.c.testtakers&#39;, &#39;gpa.c.verbal&#39;, &#39;gpa.d.or.lower.math&#39;, &#39;gpa.d.or.lower.testtakers&#39;, &#39;gpa.d.or.lower.verbal&#39;, &#39;gpa.no.response.math&#39;, &#39;gpa.no.response.testtakers&#39;, &#39;gpa.no.response.verbal&#39;, &#39;gender.female.math&#39;,&#39;gender.female.testtakers&#39;, &#39;gender.female.verbal&#39;, &#39;gender.male.math&#39;, &#39;gender.male.testtakers&#39;, &#39;gender.male.verbal&#39;, &#39;score.between.200.to.300.math.females&#39;, &#39;score.between.200.to.300.math.males&#39;, &#39;score.between.200.to.300.math.total&#39;, &#39;score.between.200.to.300.verbal.females&#39;, &#39;score.between.200.to.300.verbal.males&#39;, &#39;score.between.200.to.300.verbal.total&#39;, &#39;score.between.300.to.400.math.females&#39;, &#39;score.between.300.to.400.math.males&#39;, &#39;score.between.300.to.400.math.total&#39;, &#39;score.between.300.to.400.verbal.females&#39;, &#39;score.between.300.to.400.verbal.males&#39;, &#39;score.between.300.to.400.verbal.total&#39;, &#39;score.between.400.to.500.math.females&#39;, &#39;score.between.400.to.500.math.males&#39;, &#39;score.between.400.to.500.math.total&#39;, &#39;score.between.400.to.500.verbal.females&#39;, &#39;score.between.400.to.500.verbal.males&#39;, &#39;score.between.400.to.500.verbal.total&#39;, &#39;score.between.500.to.600.math.females&#39;, &#39;score.between.500.to.600.math.males&#39;, &#39;score.between.500.to.600.math.total&#39;, &#39;score.between.500.to.600.verbal.females&#39;, &#39;score.between.500.to.600.verbal.males&#39;, &#39;score.between.500.to.600.verbal.total&#39;, &#39;score.between.600.to.700.math.females&#39;, &#39;score.between.600.to.700.math.males&#39;, &#39;score.between.600.to.700.math.total&#39;, &#39;score.between.600.to.700.verbal.females&#39;, &#39;score.between.600.to.700.verbal.males&#39;, &#39;score.between.600.to.700.verbal.total&#39;, &#39;score.between.700.to.800.math.females&#39;, &#39;score.between.700.to.800.math.males&#39;, &#39;score.between.700.to.800.math.total&#39;, &#39;score.between.700.to.800.verbal.females&#39;, &#39;score.between.700.to.800.verbal.males&#39;, &#39;score.between.700.to.800.verbal.total&#39;)
+
+newdata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
+  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %&gt;%
+  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %&gt;%
+  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %&gt;%
+  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %&gt;%
+  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %&gt;%
+  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)</code></pre>
+<p>Now we load in the new dataset:</p>
+<pre class="r"><code>library(tidyverse)
+census_data &lt;- read_csv(&quot;acs2017_census_tract_data.csv&quot;)</code></pre>
+<pre><code>## Rows: 74001 Columns: 37
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): State, County
+## dbl (35): TractId, TotalPop, Men, Women, Hispanic, White, Black, Native, Asi...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>A new dataset we found that we would like to combine without original
+data is this <a href="https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data" class="uri">https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data</a>,
+which contains demographic data of the U.S. population from 2017 with 37
+columns and 740000 rows total. We chose this dataset to combine with our
+original one because we want to see if we can find other factors that
+could contribute to or explain the differences in SAT scores between
+states and different income levels — for example, certain states may
+have racial and gender demographics that historically perform more
+poorly on standardized tests.</p>
+<p>We hope to combine them by using the merge() function since both
+datasets have a column dedicated to the 50 states, but we are concerned
+about the fact that this new dataset has 74000 rows, whereas our
+original one only has 578. To overcome this we may need to create new
+columns in the census dataset.</p>
 
 
 
