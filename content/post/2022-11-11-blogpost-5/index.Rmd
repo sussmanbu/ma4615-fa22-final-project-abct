@@ -50,5 +50,3 @@ A new dataset we found that we would like to combine without original data is th
 We hope to combine them by using the merge() function since both datasets have a column dedicated to the 50 states, but we are concerned about the fact that this new dataset has 74000 rows, whereas our original one only has 578. To overcome this we may need to create new columns in the census dataset.
 
 
-
-
