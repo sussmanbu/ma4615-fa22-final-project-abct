@@ -1,0 +1,42 @@
+---
+title: Blogpost 6
+author: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
+date: '2022-11-18'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
+series: []
+lastmod: '2022-11-18T14:22:19-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+For our interactives on the final project, we want our website’s users to have a variety of ways they can view our data visualizations. Since we are working with data that is sorted by state, we want to create an interactive where one can zoom in on a map of the United States to see SAT score and income data for each state. We will do so by using htmlwidgets and crosstalk. This will allow them to first see the “big picture” of our data and then focus on states they are potentially more interested in. 
+
+Perhaps the simplest interactive we can put on our website is an animated ggplot. We are a little stuck on how we would go about creating one, as most of them use a measure of time as the frame. As of right now, we are considering using various demographics on the sliding scale, so users can see how the plot of SAT scores vs. family income changes within different races, genders, etc. Another potential way to format the sliding scale on an animated plot is to use state; however, this does not seem to be the best idea since we could just color data points by state instead. 
+
+The most difficult interactive we would like to create is an interactive web app, where users can input any state and see the SAT scores and family incomes for it. 
+
+```{r}
+library(tidyverse)
+library(shiny)
+```
+
+```{r}
+# creating an animation 
+library(plotly)
+data(gapminder, package = "gapminder")
+gg <- ggplot(gapminder,
+aes(x = gdpPercap, y = lifeExp,
+color = continent,
+size = pop)) +
+geom_point(alpha = 0.1) +
+geom_point(aes(frame = year)) +
+scale_x_log10()
+ggplotly(gg)
+
+# data <- read.csv("")
+```

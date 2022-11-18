@@ -12,6 +12,7 @@ series: []
 lastmod: "2022-11-11T09:42:56-05:00"
 featuredVideo: null
 featuredImage: null
+output: html_document
 ---
 
 We decided to include information from the US Census demographic data from 2017 that we found on kaggle. 
