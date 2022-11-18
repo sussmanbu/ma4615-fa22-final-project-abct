@@ -27,6 +27,8 @@ library(tidyverse)
 library(shiny)
 ```
 
+In order to build an animation, we wrote:
+
 ```{r}
 # creating an animation 
 library(plotly)
