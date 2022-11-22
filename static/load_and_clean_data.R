@@ -1,10 +1,21 @@
 library(tidyverse)
 
-loan_data <- read_csv(here::here("dataset", "loan_refusal.csv"))
+school_scores_data <- read_csv(here::here("dataset", "school_scores.csv"))
 
 ## CLEAN the data
-loan_data_clean <- loan_data
+school_scores_data_clean <- school_scores_data
 
-write_csv(loan_data_clean, file = here::here("dataset", "loan_refusal_clean.csv"))
+write_csv(school_scores_data_clean, file = here::here("dataset", "school_scores_data_clean.csv"))
 
-save(loan_data_clean, file = here::here("dataset/loan_refusal.RData"))
+save(school_scores_data_clean, file = here::here("dataset/school_scores.RData"))
+
+library(tidyverse)
+
+census_data <- read_csv(here::here("dataset", "acs2017_census_tract_data.csv"))
+
+## CLEAN the data
+census_data_clean <- census_data
+
+write_csv(census_data_clean, file = here::here("dataset", "acs2017_census_tract_data.csv"))
+
+save(census_data_clean, file = here::here("dataset/census_data.RData"))

@@ -7,8 +7,6 @@ featuredImage: images/data-import-cheatsheet-thumbs.png
 draft: false
 ---
 
-
-
 This comes from the file `content/data.Rmd`.
 
 Section 1:
