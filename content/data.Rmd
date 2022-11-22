@@ -11,35 +11,15 @@ draft: false
 
 This comes from the file `content/data.Rmd`.
 
-Your first steps in this project will be to find data to work on.
+Section 1:
 
-I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.
+The main dataset used within this project can be found at https://corgis-edu.github.io/corgis/csv/school_scores/.
 
-You are __not__ allowed to work on COVID data.
+We focused on a data set from the CORGIS Dataset Project that presents students’ academic scoring along with family income, GPA, and gender. his data set comes from the CORGIS Datasets Project and has 578 rows and 99 columns. The data reports SAT scores from the Common Core of Data (CCD), which is the Department of Education’s primary comprehensive database on public primary and secondary education data. The Department of Education collects data on students in hopes of using analysis results to assess teacher performance and improve classroom experiences. 
 
-Initially, you will study _one dataset_ but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
-Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.
+The data was collected by Austin Cory Bart, and he can be reached at acbart@vt.edu. He worked alongside Dennis Kafura, Clifford A. Shaffer, Javier Tibau, Luke Gusukuma, and Eli Tilevich.
 
-
-## Where to keep data?
-
-
-Below 50mb: In `dataset` folder
-
-Above 50mb: In `dataset_ignore` folder. This folder will be ignored by `git` so you'll have to manually sync these files across your team.
-
-### Sharing your data
-
-
-For small datasets (<50mb), you can use the `dataset` folder that is tracked by github. Add the files just like you would any other file.
-
-**Do not** use a folder named `data`.
-This folder is reserved by `hugo`.
-If you create a folder named `data` this will cause problems.
-
-For larger datasets, you'll need to create a new folder in the project root directory named `dataset-ignore`. This will be ignored by git (based off the `.gitignore` file in the project root directory) which will help you avoid issues with Github's size limits. Your team will have to manually make sure the data files in `dataset-ignore` are synced across team members.
-
-Your [load_and_clean_data.R](/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
+Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cleaned our data. You can find it attached below.
 
 ```{r}
 source(
@@ -48,51 +28,70 @@ source(
 )
 ```
 
-Note how I use the `here::here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
-This function is used to specify directories within the project's root directory.
-You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\\MA415\\Final_Project\\`) and using `here` ensures that it doesn't matter what the current working directory is as long as you have this RStudio Project open.
+In order to better organize the dataset, we changed the column names to more manageable titles. 
+These titles include: year, state code, state name, average gpa per subject, average years per subject, income levels, gender, and SAT Scores. 
+Subjects include: Arts/Music, English, 'Foreign Languages, Mathematics, Natural Sciences, Social Sciences/History.
+Income levels per year include: less than 20k, 20 to 40k, 40 to 60k, 60 to 80k, 80 to 100k, more than 100k.
+Moreover, we mutated the total score column to include both the math score and the verbal score. We also mutated the income columns to do the same thing.
 
-----
+```{r, message=FALSE}
+
+library(tidyverse)
+school_scores_data_clean <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+
+colnames(school_scores_data_clean) <- c('year', 'state.code', 'state.name', 'total.math', 'total.testtakers', 'total.verbal', 'arts.music.avggpa', 'arts.music.avgyears', 'english.avggpa', 'english.avgyears', 'foreign.languages.avggpa', 'foreign.languages.avgyears', 'mathematics.avggpa', 'mathematics.avgyears', 'natural.sciences.avggpa', 'natural.sciences.avgyears', 'social.sciences.history.avggpa', 'social.sciences.history.avgyears', 'income.between.20.40k.math', 'income.between.20.40k.testtakers','income.between.20.40k.verbal', 'income.between.40.60k.math', 'income.between.40.60k.testtakers', 'income.between.40.60k.verbal', 'income.between.60.80k.math', 'income.between.60.80k.testtakers','income.between.60.80k.verbal', 'income.between.80.100k.math','income.between.80.100k.testtakers', 'income.between.80.100k.verbal', 'income.less.than.20k.math', 'income.less.than.20k.testtakers', 'income.less.than.20k.verbal', 'income.more.than.100k.math', 'income.more.than.100k.testtakers', 'income.more.than.100k.verbal', 'gpa.aminus.math', 'gpa.aminus.testtakers', 'gpa.aminus.verbal', 'gpa.aplus.math', 'gpa.aplus.testtakers', 'gpa.aplus.verbal', 'gpa.a.math', 'gpa.a.testtakers', 'gpa.a.verbal', 'gpa.b.math', 'gpa.b.testtakers', 'gpa.b.verbal', 'gpa.c.math', 'gpa.c.testtakers', 'gpa.c.verbal', 'gpa.d.or.lower.math', 'gpa.d.or.lower.testtakers', 'gpa.d.or.lower.verbal', 'gpa.no.response.math', 'gpa.no.response.testtakers', 'gpa.no.response.verbal', 'gender.female.math','gender.female.testtakers', 'gender.female.verbal', 'gender.male.math', 'gender.male.testtakers', 'gender.male.verbal', 'score.between.200.to.300.math.females', 'score.between.200.to.300.math.males', 'score.between.200.to.300.math.total', 'score.between.200.to.300.verbal.females', 'score.between.200.to.300.verbal.males', 'score.between.200.to.300.verbal.total', 'score.between.300.to.400.math.females', 'score.between.300.to.400.math.males', 'score.between.300.to.400.math.total', 'score.between.300.to.400.verbal.females', 'score.between.300.to.400.verbal.males', 'score.between.300.to.400.verbal.total', 'score.between.400.to.500.math.females', 'score.between.400.to.500.math.males', 'score.between.400.to.500.math.total', 'score.between.400.to.500.verbal.females', 'score.between.400.to.500.verbal.males', 'score.between.400.to.500.verbal.total', 'score.between.500.to.600.math.females', 'score.between.500.to.600.math.males', 'score.between.500.to.600.math.total', 'score.between.500.to.600.verbal.females', 'score.between.500.to.600.verbal.males', 'score.between.500.to.600.verbal.total', 'score.between.600.to.700.math.females', 'score.between.600.to.700.math.males', 'score.between.600.to.700.math.total', 'score.between.600.to.700.verbal.females', 'score.between.600.to.700.verbal.males', 'score.between.600.to.700.verbal.total', 'score.between.700.to.800.math.females', 'score.between.700.to.800.math.males', 'score.between.700.to.800.math.total', 'score.between.700.to.800.verbal.females', 'score.between.700.to.800.verbal.males', 'score.between.700.to.800.verbal.total')
+
+newdata <- school_scores_data_clean %>% mutate(total.score = total.math + total.verbal) %>% 
+  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %>%
+  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %>%
+  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %>%
+  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %>%
+  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %>%
+  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)
+  
+```
+
+Section 2:
+
+Additionally, We decided to include information from the US Census demographic data from 2017 that we found on kaggle. 
+
+This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with out schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.
+
+Firstly, we loaded and cleaned the data using the file:
+`[load_and_clean_data.R](/load_and_clean_data.R)`
+
+One comparison to note is that the State.Name column in the original dataset is equal to the State column in the new dataset.
+
+```{r}
+library(tidyverse)
+census_data <- read_csv(here::here("dataset/acs2017_census_tract_data.csv"))
+
+censusdata <- census_data %>% mutate(State.Name = State) %>% ungroup() %>%
+  select(State.Name, White, Black, Asian, Native, Pacific)
+
+newdata_1 <- school_scores_data_clean %>% mutate(total.score = total.math + total.verbal) %>% 
+  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %>%
+  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %>%
+  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %>%
+  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %>%
+  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %>%
+  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal) %>%
+  ungroup()
+
+incomedata <- newdata_1 %>% select(state.name, total.score, income.between.20.40k, income.between.40.60k,
+                                   income.between.60.80k, income.between.80.100k, income.less.than.20k,
+                                   income.more.than.100k)
 
 
+newdata_inc <- incomedata %>% crossing(censusdata)
+newdata_inc
+```
 
-## Files in static
+This dataset that is found at https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests. 
 
-### `load_and_clean_data.R`
+The data here were collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.
 
-The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
-This file might create a derivative data set that you then use for your subsequent analysis.
-Note that you don't need to run this script from every post/page.
-Instead, you can load in the results of this script, which could be plain text files or `.RData` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use `[cleaning script](/load_and_clean_data.R)`. 
+Section 3:
 
+We hope to combine these two datasets by using the merge() function since both datasets have a column dedicated to the 50 states, but we are concerned about the fact that this new dataset has 74000 rows, whereas our original one only has 578. To overcome this we may need to create new columns in the census dataset.
 
-When you are loading in data, I recommend using the `here::here` function to specify the file path. This function is used to specify a path relative to your project's root directory. Hence, you can read a file using eg, `read_csv(here::here("dataset/data_file.csv"))`.
-
-
-### Shiny Interactive
-
-If you are using a shiny interactive, you'll need to keep that in a separate folder (i.e. not in `static` or `content`). For the shiny interactive you'll need to publish the app on `shinyapps.io` where the app can be run. When you publish, make sure to include any data sets you are loading in among the files you publish since those datasets will need to be loaded by your app. 
-
-
-
-
-
-----
-
-## Rubric: On this page
-
-you will
-
-* Describe where/how to find data.
-  * You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.
-  * Why was the data collected/curated? Who put it together? (This is important, if you don't know why it was collected then that might not be a good dataset to look at.
-* Describe the different data files used and what each variable means. 
-  * If you have many variables then only describe the most relevant ones and summarize the rest.
-* Describe any cleaning you had to do for your data.
-  * You *must* include a link to your `load_and_clean_data.R` file.
-  * Also, describe any additional R packages you used outside of those covered in class.
-  * Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.
-  * Some repetition of what you do in your `load_and_clean_data.R` file is fine and encouraged if it helps explain what you did.
-* Organization, clarity, cleanliness of the page
-  * Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.
