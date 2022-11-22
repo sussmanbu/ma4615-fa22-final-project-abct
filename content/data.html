@@ -17,7 +17,7 @@ draft: false
 <p>The main dataset used within this project can be found at <a href="https://corgis-edu.github.io/corgis/csv/school_scores/" class="uri">https://corgis-edu.github.io/corgis/csv/school_scores/</a>.</p>
 <p>We focused on a data set from the CORGIS Dataset Project that presents students’ academic scoring along with family income, GPA, and gender. his data set comes from the CORGIS Datasets Project and has 578 rows and 99 columns. The data reports SAT scores from the Common Core of Data (CCD), which is the Department of Education’s primary comprehensive database on public primary and secondary education data. The Department of Education collects data on students in hopes of using analysis results to assess teacher performance and improve classroom experiences.</p>
 <p>The data was collected by Austin Cory Bart, and he can be reached at <a href="mailto:acbart@vt.edu" class="email">acbart@vt.edu</a>. He worked alongside Dennis Kafura, Clifford A. Shaffer, Javier Tibau, Luke Gusukuma, and Eli Tilevich.</p>
-<p>Our <a href="/load_and_clean_data.R">load_and_clean_data.R</a> file is how we loaded and cleaned our data. You can find it attached below.</p>
+<p>Our <a href="/load_and_clean_data.R">load_and_clean_data.R</a> file is how we loaded and cleaned our data. You can find it attached within the code below.</p>
 <pre class="r"><code>source(
   here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
   echo = TRUE # Use echo=FALSE or omit it to avoid code output  
@@ -33,22 +33,42 @@ draft: false
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre><code>## 
-## &gt; loan_data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;loan_refusal.csv&quot;))</code></pre>
-<pre><code>## Rows: 20 Columns: 5
+## &gt; school_scores_data &lt;- read_csv(here::here(&quot;dataset&quot;, 
+## +     &quot;school_scores.csv&quot;))</code></pre>
+<pre><code>## Rows: 577 Columns: 99
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (1): bank
-## dbl (4): min, white, himin, hiwhite
+## chr  (2): State.Code, State.Name
+## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre><code>## 
-## &gt; loan_data_clean &lt;- loan_data
+## &gt; school_scores_data_clean &lt;- school_scores_data
 ## 
-## &gt; write_csv(loan_data_clean, file = here::here(&quot;dataset&quot;, 
-## +     &quot;loan_refusal_clean.csv&quot;))
+## &gt; write_csv(school_scores_data_clean, file = here::here(&quot;dataset&quot;, 
+## +     &quot;school_scores_data_clean.csv&quot;))
 ## 
-## &gt; save(loan_data_clean, file = here::here(&quot;dataset/loan_refusal.RData&quot;))</code></pre>
+## &gt; save(school_scores_data_clean, file = here::here(&quot;dataset/school_scores.RData&quot;))
+## 
+## &gt; library(tidyverse)
+## 
+## &gt; census_data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;acs2017_census_tract_data.csv&quot;))</code></pre>
+<pre><code>## Rows: 74001 Columns: 37
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): State, County
+## dbl (35): TractId, TotalPop, Men, Women, Hispanic, White, Black, Native, Asi...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## 
+## &gt; census_data_clean &lt;- census_data
+## 
+## &gt; write_csv(census_data_clean, file = here::here(&quot;dataset&quot;, 
+## +     &quot;acs2017_census_tract_data.csv&quot;))
+## 
+## &gt; save(census_data_clean, file = here::here(&quot;dataset/census_data.RData&quot;))</code></pre>
 <p>In order to better organize the dataset, we changed the column names to more manageable titles.
 These titles include: year, state code, state name, average gpa per subject, average years per subject, income levels, gender, and SAT Scores.
 Subjects include: Arts/Music, English, ’Foreign Languages, Mathematics, Natural Sciences, Social Sciences/History.

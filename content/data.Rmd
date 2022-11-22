@@ -17,9 +17,9 @@ We focused on a data set from the CORGIS Dataset Project that presents studentsâ
 
 The data was collected by Austin Cory Bart, and he can be reached at acbart@vt.edu. He worked alongside Dennis Kafura, Clifford A. Shaffer, Javier Tibau, Luke Gusukuma, and Eli Tilevich.
 
-Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cleaned our data. You can find it attached below.
+Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cleaned our data. You can find it attached within the code below.
 
-```{r}
+```{r cleaned data}
 source(
   here::here("static", "load_and_clean_data.R"),
   echo = TRUE # Use echo=FALSE or omit it to avoid code output  
