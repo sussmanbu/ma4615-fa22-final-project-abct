@@ -7,10 +7,7 @@ featuredImage: https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithqu
 draft: false
 ---
 
-This comes from the file `content/analysis.Rmd`.
-
 We describe here our detailed data analysis.
-
 
 ```{r}
 library(tidyverse)
@@ -33,8 +30,6 @@ If you are directly quoting from a source, please make that clear. You can show 
 Also, make sure to provide a link or citation to where you are quoting from.
 
 -------
-
-
 ## Rubric: On this page
 
 you will
@@ -43,6 +38,19 @@ you will
 * Introduce what motivates your Data Analysis (DA)
   * Which variables and relationships are you most interested in?
   * What questions are you interested in answering?
+
+The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores. Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
+
+Some questions we would like to answer are:
+
+1. What is the nature of the relationship between family income and SAT scores?
+2. Is this relationship statistically significant?
+3. Are there differences in income and SAT scores between states? 
+4. Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)? 
+5. Is GPA more affected by family income than SAT scores?
+
+>  
+
 * Breadth of the DA
   * Make sure that you ask enough initial questions to explore the different variables in your data.
   * i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?
@@ -51,6 +59,11 @@ you will
   * The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.
 * Modeling and Inference 
   * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
+  
+```{r}
+
+```
+
   * Explain the techniques you used for validating your results.
   * Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
 * Explain the flaws and limitations of your analysis
