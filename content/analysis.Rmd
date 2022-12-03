@@ -51,17 +51,16 @@ Some questions we would like to answer are:
 
 >  
 
-* Breadth of the DA
-  * Make sure that you ask enough initial questions to explore the different variables in your data.
-  * i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?
-* Depth of the DA
-  * When you answer one question, usually more questions arise as well. 
-  * The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.
 * Modeling and Inference 
   * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
   
-```{r}
+```{r model 1}
+schooldata <- newdata
 
+ggplot(schooldata) + geom_point(aes(x = log(income.between.20.40k), y = log(total.score), col = state.code)) + labs(x = "log(Income)", y = "SAT Score")
+```
+```{r model 2}
+ggplot(schooldata) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "log(Income)", y = "SAT Score")
 ```
 
   * Explain the techniques you used for validating your results.
