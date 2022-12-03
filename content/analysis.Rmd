@@ -51,15 +51,10 @@ Some questions we would like to answer are:
 
 >  
 
-* Breadth of the DA
-  * Make sure that you ask enough initial questions to explore the different variables in your data.
-  * i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?
-* Depth of the DA
-  * When you answer one question, usually more questions arise as well. 
-  * The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.
 * Modeling and Inference 
   * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
   
+<<<<<<< HEAD
 ```{r data}
 
 library(tidyverse)
@@ -68,7 +63,15 @@ school_scores_data_clean <- read_csv(here::here("dataset/school_scores_data_clea
 colnames(school_scores_data_clean) <- c('year', 'state.code', 'state.name', 'total.math', 'total.testtakers', 'total.verbal', 'arts.music.avggpa', 'arts.music.avgyears', 'english.avggpa', 'english.avgyears', 'foreign.languages.avggpa', 'foreign.languages.avgyears', 'mathematics.avggpa', 'mathematics.avgyears', 'natural.sciences.avggpa', 'natural.sciences.avgyears', 'social.sciences.history.avggpa', 'social.sciences.history.avgyears', 'income.between.20.40k.math', 'income.between.20.40k.testtakers','income.between.20.40k.verbal', 'income.between.40.60k.math', 'income.between.40.60k.testtakers', 'income.between.40.60k.verbal', 'income.between.60.80k.math', 'income.between.60.80k.testtakers','income.between.60.80k.verbal', 'income.between.80.100k.math','income.between.80.100k.testtakers', 'income.between.80.100k.verbal', 'income.less.than.20k.math', 'income.less.than.20k.testtakers', 'income.less.than.20k.verbal', 'income.more.than.100k.math', 'income.more.than.100k.testtakers', 'income.more.than.100k.verbal', 'gpa.aminus.math', 'gpa.aminus.testtakers', 'gpa.aminus.verbal', 'gpa.aplus.math', 'gpa.aplus.testtakers', 'gpa.aplus.verbal', 'gpa.a.math', 'gpa.a.testtakers', 'gpa.a.verbal', 'gpa.b.math', 'gpa.b.testtakers', 'gpa.b.verbal', 'gpa.c.math', 'gpa.c.testtakers', 'gpa.c.verbal', 'gpa.d.or.lower.math', 'gpa.d.or.lower.testtakers', 'gpa.d.or.lower.verbal', 'gpa.no.response.math', 'gpa.no.response.testtakers', 'gpa.no.response.verbal', 'gender.female.math','gender.female.testtakers', 'gender.female.verbal', 'gender.male.math', 'gender.male.testtakers', 'gender.male.verbal', 'score.between.200.to.300.math.females', 'score.between.200.to.300.math.males', 'score.between.200.to.300.math.total', 'score.between.200.to.300.verbal.females', 'score.between.200.to.300.verbal.males', 'score.between.200.to.300.verbal.total', 'score.between.300.to.400.math.females', 'score.between.300.to.400.math.males', 'score.between.300.to.400.math.total', 'score.between.300.to.400.verbal.females', 'score.between.300.to.400.verbal.males', 'score.between.300.to.400.verbal.total', 'score.between.400.to.500.math.females', 'score.between.400.to.500.math.males', 'score.between.400.to.500.math.total', 'score.between.400.to.500.verbal.females', 'score.between.400.to.500.verbal.males', 'score.between.400.to.500.verbal.total', 'score.between.500.to.600.math.females', 'score.between.500.to.600.math.males', 'score.between.500.to.600.math.total', 'score.between.500.to.600.verbal.females', 'score.between.500.to.600.verbal.males', 'score.between.500.to.600.verbal.total', 'score.between.600.to.700.math.females', 'score.between.600.to.700.math.males', 'score.between.600.to.700.math.total', 'score.between.600.to.700.verbal.females', 'score.between.600.to.700.verbal.males', 'score.between.600.to.700.verbal.total', 'score.between.700.to.800.math.females', 'score.between.700.to.800.math.males', 'score.between.700.to.800.math.total', 'score.between.700.to.800.verbal.females', 'score.between.700.to.800.verbal.males', 'score.between.700.to.800.verbal.total')
 
 school_scores_data_clean %>% pivot_longer(cols = starts_with("score"), names_to = "score value", values_to = "score", values_drop_na = TRUE) %>% pivot_longer(cols = starts_with("income"), names_to = "income range", values_to = "income", values_drop_na = TRUE)
+=======
+```{r model 1}
+schooldata <- newdata
+>>>>>>> ee8a0eed3aeff905bc0ce9a8b1cc1c5732475f2e
 
+ggplot(schooldata) + geom_point(aes(x = log(income.between.20.40k), y = log(total.score), col = state.code)) + labs(x = "log(Income)", y = "SAT Score")
+```
+```{r model 2}
+ggplot(schooldata) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "log(Income)", y = "SAT Score")
 ```
 
 ```{r model1}
