@@ -79,25 +79,31 @@ ggplot(schooldata) + geom_point(aes(x = income.more.than.100k, y = (total.score)
 
 ```
 
+```{r model 1 analysis}
+
+model1 <- lm(income.more.than.100k ~ total.score, schooldata)
+summary(model1)
+
+```
+
 ```{r model 2}
 
-model2 <- lm(income.more.than.100k ~ total.score, schooldata)
+ggplot(schooldata) + geom_point(aes(x = income.less.than.20k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
+
+```
+
+```{r model 2 analysis}
+
+model2 <- lm(income.less.than.20k ~ total.score, schooldata)
 summary(model2)
 
 ```
 
 ```{r model 3}
 
-model3<- lm(income.less.than.20k ~ total.score, schooldata)
-summary(model3)
-
+ggplot(schooldata, aes(x = state.code, y = total.score, color= state.code)) + geom_point(position = "jitter") + coord_polar("x") + labs(title = "SAT Score by State", x = "State", y = "SAT Score", color ="State")
 
 ```
-
-```{r model 4}
-ggplot(schooldata) + geom_point(aes(x = total.score, y = income.more.than.100k, col = state.code)) + labs(x = "SAT Score", y = "Income")
-```
-
 
   * Explain the techniques you used for validating your results.
   * Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
