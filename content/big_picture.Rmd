@@ -7,8 +7,6 @@ featuredVideo:
 draft: false
 ---
 
-This comes from the file `content/big_picture.Rmd`.
-
 Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.
 
 ---
@@ -16,8 +14,6 @@ Think of this page as your 538/Upshot style article. This means that you should 
 ## Rubric: On this page
 
 You will
-
-
 
 * Title
   * Your big picture page should have a creative/click-baity title/headline that provides a hint about your thesis.

@@ -39,14 +39,14 @@ you will
   * Which variables and relationships are you most interested in?
   * What questions are you interested in answering?
 
-The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores. Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
+The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relaionships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
 
 Some questions we would like to answer are:
 
 1. What is the nature of the relationship between family income and SAT scores?
 2. Is this relationship statistically significant?
 3. Are there differences in income and SAT scores between states? 
-4. Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)? 
+4. Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)?
 5. Is GPA more affected by family income than SAT scores?
 
 >  
@@ -56,7 +56,6 @@ Some questions we would like to answer are:
   
 <<<<<<< HEAD
 ```{r data}
-
 library(tidyverse)
 school_scores_data_clean <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 
@@ -74,27 +73,30 @@ schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + tot
 ```
 
 
-```{r model}
+```{r model 1}
 
-ggplot(schooldata) + geom_point(aes(x = log(income.more.than.100k), y = log(total.score), col = state.code)) + labs(x = "log(Income)", y = "SAT Score")
+ggplot(schooldata) + geom_point(aes(x = income.more.than.100k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
 
 ```
 
-```{r model1}
+```{r model 2}
 
-model1 <- lm(income.more.than.100k ~ total.score, schooldata)
+model2 <- lm(income.more.than.100k ~ total.score, schooldata)
 summary(model2)
 
 ```
 
-```{r model2}
+```{r model 3}
 
-model2<- lm(income.less.than.20k ~ total.score, schooldata)
-summary(model2)
+model3<- lm(income.less.than.20k ~ total.score, schooldata)
+summary(model3)
 
 
 ```
 
+```{r model 4}
+ggplot(schooldata) + geom_point(aes(x = total.score, y = income.more.than.100k, col = state.code)) + labs(x = "SAT Score", y = "Income")
+```
 
 
   * Explain the techniques you used for validating your results.
