@@ -12,34 +12,13 @@ We describe here our detailed data analysis.
 ```{r}
 library(tidyverse)
 print(getwd())
-data <- read_csv(here::here("dataset/loan_refusal_clean.csv"))
-load(here::here("dataset/loan_refusal.RData"))
+data <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+load(here::here("dataset/school_scores.RData"))
 print(ls())
 ```
 
-## Note on Attribution
-
-If you are directly quoting from a source, please make that clear. You can show quotes using `>` like this
-
-```
-> To be or not to be.
-```
-
-> To be or not to be.
-
-Also, make sure to provide a link or citation to where you are quoting from.
-
 -------
-## Rubric: On this page
-
-you will
-
-
-* Introduce what motivates your Data Analysis (DA)
-  * Which variables and relationships are you most interested in?
-  * What questions are you interested in answering?
-
-The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relaionships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
+The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relationships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
 
 Some questions we would like to answer are:
 
@@ -62,71 +41,20 @@ school_scores_data_clean <- read_csv(here::here("dataset/school_scores_data_clea
 colnames(school_scores_data_clean) <- c('year', 'state.code', 'state.name', 'total.math', 'total.testtakers', 'total.verbal', 'arts.music.avggpa', 'arts.music.avgyears', 'english.avggpa', 'english.avgyears', 'foreign.languages.avggpa', 'foreign.languages.avgyears', 'mathematics.avggpa', 'mathematics.avgyears', 'natural.sciences.avggpa', 'natural.sciences.avgyears', 'social.sciences.history.avggpa', 'social.sciences.history.avgyears', 'income.between.20.40k.math', 'income.between.20.40k.testtakers','income.between.20.40k.verbal', 'income.between.40.60k.math', 'income.between.40.60k.testtakers', 'income.between.40.60k.verbal', 'income.between.60.80k.math', 'income.between.60.80k.testtakers','income.between.60.80k.verbal', 'income.between.80.100k.math','income.between.80.100k.testtakers', 'income.between.80.100k.verbal', 'income.less.than.20k.math', 'income.less.than.20k.testtakers', 'income.less.than.20k.verbal', 'income.more.than.100k.math', 'income.more.than.100k.testtakers', 'income.more.than.100k.verbal', 'gpa.aminus.math', 'gpa.aminus.testtakers', 'gpa.aminus.verbal', 'gpa.aplus.math', 'gpa.aplus.testtakers', 'gpa.aplus.verbal', 'gpa.a.math', 'gpa.a.testtakers', 'gpa.a.verbal', 'gpa.b.math', 'gpa.b.testtakers', 'gpa.b.verbal', 'gpa.c.math', 'gpa.c.testtakers', 'gpa.c.verbal', 'gpa.d.or.lower.math', 'gpa.d.or.lower.testtakers', 'gpa.d.or.lower.verbal', 'gpa.no.response.math', 'gpa.no.response.testtakers', 'gpa.no.response.verbal', 'gender.female.math','gender.female.testtakers', 'gender.female.verbal', 'gender.male.math', 'gender.male.testtakers', 'gender.male.verbal', 'score.between.200.to.300.math.females', 'score.between.200.to.300.math.males', 'score.between.200.to.300.math.total', 'score.between.200.to.300.verbal.females', 'score.between.200.to.300.verbal.males', 'score.between.200.to.300.verbal.total', 'score.between.300.to.400.math.females', 'score.between.300.to.400.math.males', 'score.between.300.to.400.math.total', 'score.between.300.to.400.verbal.females', 'score.between.300.to.400.verbal.males', 'score.between.300.to.400.verbal.total', 'score.between.400.to.500.math.females', 'score.between.400.to.500.math.males', 'score.between.400.to.500.math.total', 'score.between.400.to.500.verbal.females', 'score.between.400.to.500.verbal.males', 'score.between.400.to.500.verbal.total', 'score.between.500.to.600.math.females', 'score.between.500.to.600.math.males', 'score.between.500.to.600.math.total', 'score.between.500.to.600.verbal.females', 'score.between.500.to.600.verbal.males', 'score.between.500.to.600.verbal.total', 'score.between.600.to.700.math.females', 'score.between.600.to.700.math.males', 'score.between.600.to.700.math.total', 'score.between.600.to.700.verbal.females', 'score.between.600.to.700.verbal.males', 'score.between.600.to.700.verbal.total', 'score.between.700.to.800.math.females', 'score.between.700.to.800.math.males', 'score.between.700.to.800.math.total', 'score.between.700.to.800.verbal.females', 'score.between.700.to.800.verbal.males', 'score.between.700.to.800.verbal.total')
 
 schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + total.verbal) %>% 
-  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %>%
-  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %>%
-  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %>%
-  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %>%
-  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %>% 
-  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)
+  mutate(income.between.20.40k_score = income.between.20.40k.math + income.between.20.40k.verbal) %>%
+  mutate(income.between.40.60k_score = income.between.40.60k.math + income.between.40.60k.verbal) %>%
+  mutate(income.between.60.80k_score = income.between.60.80k.math + income.between.60.80k.verbal) %>%
+  mutate(income.between.80.100k_score = income.between.80.100k.math + income.between.80.100k.verbal) %>%
+  mutate(income.less.than.20k_score = income.less.than.20k.math + income.less.than.20k.verbal) %>% 
+  mutate(income.more.than.100k_score = income.more.than.100k.math + income.more.than.100k.verbal)
 ```
 
 ```{r model 1}
+schooldata6 <- schooldata %>% filter(state.code %in% sixstates) %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score") %>% group_by(state.code) %>% transmute(avg.total.score = mean(total.score))
 
-ggplot(schooldata) + geom_point(aes(x = income.more.than.100k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
-
+ggplot(data = schooldata6, mapping = aes(x = state.code, y = avg.total.score, fill = state.code)) + geom_col(aes(color = state.code))
 ```
 
-```{r model 1 analysis}
-
-model1 <- lm(income.more.than.100k ~ total.score, schooldata)
-summary(model1)
-
-```
-
-```{r model 2}
-
-ggplot(schooldata) + geom_point(aes(x = income.less.than.20k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
-
-```
-
-```{r model 2 analysis}
-
-model2 <- lm(income.less.than.20k ~ total.score, schooldata)
-summary(model2)
-
-```
-
-```{r model 3}
-
-ggplot(schooldata, aes(x = state.code, y = income.more.than.100k, color = total.score)) + geom_point(position = "jitter") + coord_polar("x") + labs(title = "SAT Score by State", x = "State", y = "SAT Score", color ="State")
-
-```
-
-
-```{r}
-ggplot(schooldata, aes(x = stringency_index_average, y = confirmed, color = state.code)) + geom_point(size = 0.3) + stat_smooth(aes(group = state), color='black', alpha = 0.5, geom = "line") + facet_wrap(~as.factor(state))
-```
-
-```{r}
-sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
-
-schooldata6 <- schooldata %>% filter(state.code %in% sixstates) %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
-schooldata6
-```
-
-
-```{r}
-# ggplot(schooldata) + geom_bar(aes(x = total.score, fill = state.code), position = "dodge")
-
-# three highest median income and three lowest
-sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
-
-schooldata6 <- schooldata %>% filter(state.code %in% sixstates)
-
-# how to get average total score of each state
-# how to set columns in decreasing order
-
-ggplot(data = schooldata6, mapping = aes(state.code, total.score, fill = state.code)) + geom_col(aes(color = state.code))
 ```
 
 ```{r}
