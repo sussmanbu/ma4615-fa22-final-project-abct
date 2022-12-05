@@ -38,9 +38,13 @@ Some questions we would like to answer are:
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
 
 schooldatacleaned <- schooldatacleaned %>% pivot_longer(c(income.less.than.20k, income.between.20.40k, income.between.60.80k, income.between.80.100k, income.more.than.100k), names_to = "income.bracket",values_to = "average.score.of.bracket", values_drop_na = TRUE) 
+
+schooldatacleaned <- schooldatacleaned %>% select("state.code", "income.bracket", "total.score")
+schooldatacleaned
 ```
 
 ```{r model 1}
+schooldata <- read_csv("school_scores.csv")
 schooldata6 <- schooldata %>% filter(state.code %in% sixstates) %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score") %>% group_by(state.code) %>% transmute(avg.total.score = mean(total.score))
 schooldata6
 
@@ -48,7 +52,7 @@ ggplot(data = schooldata6, mapping = aes(x = state.code, y = avg.total.score, fi
 ```
 
 ```{r model 2}
-ggplot(schooldatacleaned) + geom_point(x = income.bracket, y = total.score, col = state.code)
+ggplot(schooldatacleaned) + geom_point(aes(x = income.bracket, y = total.score, col = state.code))
 ```
 
 ```
