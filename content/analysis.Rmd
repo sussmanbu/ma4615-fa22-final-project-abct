@@ -53,10 +53,10 @@ ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fi
 ```
 
 ```{r model 2}
-schooldatacleaned <- schooldatacleaned %>% group_by(income.bracket) %>% transmute(avg.total.score = mean(total.score))
+schooldatacleaned <- schooldatacleaned %>% select("income.bracket", "total.score") %>% group_by(income.bracket) %>% transmute(avg.total.score = mean(total.score))
 schooldatacleaned
 
-ggplot(schooldatacleaned) + geom_point(aes(x = income.bracket, y = total.score, col = state.code))
+ggplot(schooldatacleaned) + geom_col(aes(x = income.bracket, y = avg.total.score, col = income.bracket))
 ```
 
 ```
