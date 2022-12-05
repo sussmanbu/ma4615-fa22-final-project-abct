@@ -12,8 +12,8 @@ We describe here our detailed data analysis.
 ```{r}
 library(tidyverse)
 print(getwd())
-data <- read_csv(here::here("dataset/loan_refusal_clean.csv"))
-load(here::here("dataset/loan_refusal.RData"))
+data <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+load(here::here("dataset/school_scoress.RData"))
 print(ls())
 ```
 
