@@ -46,6 +46,8 @@ schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + tot
   
 ```
 
+To save some time and space, we loaded all changes from the chunk above into a new csv file, titles "schooldataclean.csv"
+
 Section 2:
 
 Additionally, We decided to include information from the US Census demographic data from 2017 that we found on kaggle. 
