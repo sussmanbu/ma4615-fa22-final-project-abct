@@ -64,12 +64,12 @@ colnames(school_scores_data_clean) <- c('year', 'state.code', 'state.name', 'tot
 school_scores_data_clean %>% pivot_longer(cols = starts_with("score"), names_to = "score value", values_to = "score", values_drop_na = TRUE) %>% pivot_longer(cols = starts_with("income"), names_to = "income range", values_to = "income", values_drop_na = TRUE)
 
 schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + total.verbal) %>% 
-  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %>%
-  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %>%
-  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %>%
-  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %>%
-  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %>% 
-  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)
+  mutate(income.between.20.40k_score = income.between.20.40k.math + income.between.20.40k.verbal) %>%
+  mutate(income.between.40.60k_score = income.between.40.60k.math + income.between.40.60k.verbal) %>%
+  mutate(income.between.60.80k_score = income.between.60.80k.math + income.between.60.80k.verbal) %>%
+  mutate(income.between.80.100k_score = income.between.80.100k.math + income.between.80.100k.verbal) %>%
+  mutate(income.less.than.20k_score = income.less.than.20k.math + income.less.than.20k.verbal) %>% 
+  mutate(income.more.than.100k_score = income.more.than.100k.math + income.more.than.100k.verbal)
 ```
 
 ```{r model 1}
@@ -113,7 +113,81 @@ ggplot(schooldata, aes(x = stringency_index_average, y = confirmed, color = stat
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 
 schooldata6 <- schooldata %>% filter(state.code %in% sixstates) %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
-schooldata6
+#schooldata6
+
+#schooldata6 %>% filter(state.code %in% sixstates) %>%
+  #group_by(state.code, total.score) %>%
+  #summarize(average_SAT_score = mean(schooldata6$total.score)) %>%
+  #arrange(state.code, desc(state.code)) %>%
+  #knitr::kable()
+
+schooldataMD <- schooldata %>% filter(state.code == "MD") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataMD <- schooldataMD %>% filter(state.code == "MD") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataMD$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# MD avg = 1002
+
+schooldataNJ <- schooldata %>% filter(state.code == "NJ") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataNJ <- schooldataNJ %>% filter(state.code == "NJ") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataNJ$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# nj avg = 1014
+
+schooldataMA <- schooldata %>% filter(state.code == "MA") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataMA <- schooldataMA %>% filter(state.code == "MA") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataMA$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# ma avg = 1042
+
+schooldataAR <- schooldata %>% filter(state.code == "AR") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataAR <- schooldataAR %>% filter(state.code == "AR") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataAR$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# ar avg = 1139
+
+schooldataWV <- schooldata %>% filter(state.code == "WV") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataWV <- schooldataWV %>% filter(state.code == "WV") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataWV$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# ar avg = 1018
+
+schooldataMS <- schooldata %>% filter(state.code == "MS") %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score")
+
+schooldataMS <- schooldataMS %>% filter(state.code == "MS") %>%
+  group_by(state.code, total.score) %>%
+  summarize(average_SAT_score = mean(schooldataMS$total.score)) %>%
+  arrange(state.code, desc(state.code)) %>%
+  knitr::kable()
+
+# ms avg = 1123
+```
+
+```{r}
+states <- c("MD", "NJ", "MA", "AR", "WV", "MS")
+average_scores <- c(1002, 1014, 1042, 1139, 1018, 1123)
+data <- data.frame(states, average_scores)
+
+ggplot(data = data, mapping = aes(x = states, y = average_scores, fill = states)) + geom_col(aes(color = states))
 ```
 
 
