@@ -72,43 +72,6 @@ schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + tot
   mutate(income.more.than.100k_score = income.more.than.100k.math + income.more.than.100k.verbal)
 ```
 
-```{r model 1}
-
-ggplot(schooldata) + geom_point(aes(x = income.more.than.100k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
-
-```
-
-```{r model 1 analysis}
-
-model1 <- lm(income.more.than.100k ~ total.score, schooldata)
-summary(model1)
-
-```
-
-```{r model 2}
-
-ggplot(schooldata) + geom_point(aes(x = income.less.than.20k, y = (total.score), col = state.code)) + labs(x = "Income", y = "SAT Score")
-
-```
-
-```{r model 2 analysis}
-
-model2 <- lm(income.less.than.20k ~ total.score, schooldata)
-summary(model2)
-
-```
-
-```{r model 3}
-
-ggplot(schooldata, aes(x = state.code, y = income.more.than.100k, color = total.score)) + geom_point(position = "jitter") + coord_polar("x") + labs(title = "SAT Score by State", x = "State", y = "SAT Score", color ="State")
-
-```
-
-
-```{r}
-ggplot(schooldata, aes(x = stringency_index_average, y = confirmed, color = state.code)) + geom_point(size = 0.3) + stat_smooth(aes(group = state), color='black', alpha = 0.5, geom = "line") + facet_wrap(~as.factor(state))
-```
-
 ```{r}
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 
@@ -189,20 +152,6 @@ data <- data.frame(states, average_scores)
 
 ggplot(data = data, mapping = aes(x = states, y = average_scores, fill = states)) + geom_col(aes(color = states))
 ```
-
-
-```{r}
-# ggplot(schooldata) + geom_bar(aes(x = total.score, fill = state.code), position = "dodge")
-
-# three highest median income and three lowest
-sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
-
-schooldata6 <- schooldata %>% filter(state.code %in% sixstates)
-
-# how to get average total score of each state
-# how to set columns in decreasing order
-
-ggplot(data = schooldata6, mapping = aes(state.code, total.score, fill = state.code)) + geom_col(aes(color = state.code))
 ```
 
   * Explain the techniques you used for validating your results.
