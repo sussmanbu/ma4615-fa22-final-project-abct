@@ -35,6 +35,7 @@ Some questions we would like to answer are:
   
 
 ```{r new data}
+schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
 
 schooldatacleaned <- schooldatacleaned %>% pivot_longer(c(income.less.than.20k, income.between.20.40k, income.between.60.80k, income.between.80.100k, income.more.than.100k), names_to = "income.bracket",values_to = "average.score.of.bracket", values_drop_na = TRUE) 
@@ -44,14 +45,17 @@ schooldatacleaned
 ```
 
 ```{r model 1}
-schooldata <- read_csv("school_scores.csv")
-schooldata6 <- schooldata %>% filter(state.code %in% sixstates) %>% mutate(total.score = total.math + total.verbal) %>% select("state.code", "total.score") %>% group_by(state.code) %>% transmute(avg.total.score = mean(total.score))
+sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
+schooldata6 <- schooldata %>% filter(State.Code %in% sixstates) %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score") %>% group_by(State.Code) %>% transmute(avg.total.score = mean(Total.Score))
 schooldata6
 
-ggplot(data = schooldata6, mapping = aes(x = state.code, y = avg.total.score, fill = state.code)) + geom_col(aes(color = state.code))
+ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + geom_col(aes(color = State.Code))
 ```
 
 ```{r model 2}
+schooldatacleaned <- schooldatacleaned %>% group_by(income.bracket) %>% transmute(avg.total.score = mean(total.score))
+schooldatacleaned
+
 ggplot(schooldatacleaned) + geom_point(aes(x = income.bracket, y = total.score, col = state.code))
 ```
 
