@@ -115,5 +115,37 @@ ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = grou
                           
 ```
 
+```{r model 5}
+west <- c("WA","OR", "ID", "MT", "WY", "CA", "NV", "UT", "CO")
+southwest <- c("AZ", "NM", "OK", "TX")
+midwest <- c("ND", "SD", "NE", "KS", "MN", "IA", "MO", "WI", "IL", "MI", "IN", "OH")
+southeast <- c("LA", "MS", "TN", "KY", "WV", "VA", "NC", "SC", "AL", "GA", "FL", "AR")
+northeast <- c("MA", "MD", "DE", "NJ", "ME", "VT", "NH", "PA", "NY", "CT", "RI")
+continental_us <- c(west, southwest, midwest, southeast, northeast)
+state_codes <- schooldata %>% select(State.Code) %>% unique() %>% filter(State.Code %in% continental_us)
+
+schooldata5 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score", "Year") %>% add_column(region = NA) %>% mutate(region = ifelse(State.Code %in% west, "west", region)) %>% mutate(region = ifelse(State.Code %in% southwest, "southwest", region)) %>% mutate(region = ifelse(State.Code %in% midwest, "midwest", region)) %>% mutate(region = ifelse(State.Code %in% southeast, "southeast", region)) %>% mutate(region = ifelse(State.Code %in% northeast, "northeast", region)) %>% group_by(region)
+
+
+continental_us <- schooldata$State.Code %>% unique()
+#continental_us
+par(mfrow = c(2,3))
+
+schooldata5 %>% filter(region == "west") %>%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+
+schooldata5 %>% filter(region == "southwest") %>%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+
+schooldata5 %>% filter(region == "midwest") %>%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+
+schooldata5 %>% filter(region == "southeast") %>%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+
+schooldata5 %>% filter(region == "northeast") %>%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+```
+
 
 ```
