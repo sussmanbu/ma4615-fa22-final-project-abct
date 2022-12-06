@@ -34,16 +34,18 @@ Some questions we would like to answer are:
   * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
 
 ```{r new data}
+library(stringr)
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
-threestates <- c("AL", "ID", "TX")
 schooldatacleaned_math <- schooldatacleaned %>% 
   select(year,"state.code","income.less.than.20k.math", "income.between.20.40k.math", "income.between.60.80k.math", "income.between.80.100k.math", "income.more.than.100k.math") %>%
   pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
                names_to = "income.bracket.math", 
                values_to = "average.math.score.of.bracket", 
                values_drop_na = TRUE) %>%
-  select("state.code", "income.bracket.math","average.math.score.of.bracket")
+  mutate(income.bracket = income.bracket.math)
+  mutate_at("income.bracket", str_replace, "income.less.than.20k.math", "income.less.than.20k") %>%
+  select("state.code", "income.bracket","average.math.score.of.bracket") 
 schooldatacleaned_math
 
 schooldatacleaned_verbal <- schooldatacleaned %>% 
@@ -55,15 +57,10 @@ schooldatacleaned_verbal <- schooldatacleaned %>%
   select("state.code", "income.bracket.verbal", "average.verbal.score.of.bracket")
 schooldatacleaned_verbal
 
-schooldatacleaned <- merge(schooldatacleaned_math, schooldatacleaned_verbal, by = NULL, all = T) %>%
-  mutate(income.bracket = income.bracket.math,
-         state.code = state.code.x) %>%
-  select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
+schooldatacleaned <- schooldatacleaned_math %>%
+  left_join(schooldatacleaned_verbal, by = c("income.bracket.math" = "income.bracket.verbal", 
+                                             "state.code" = "state.code"))
 schooldatacleaned
-
-#schooldatacleaned <- schooldatacleaned_math %>%
-#  left_join(schooldatacleaned_verbal, by = c("income.bracket.math" = "income.bracket.verbal", 
-#                                             "state.code" = "state.code"))
 ```
 
 ```{r model 1}
@@ -94,7 +91,7 @@ ggplot(data = schooldatacleaned, mapping = aes(x = income.bracket, y = average.t
 # boxplot of all states and their average total scores
 schooldata3 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score") %>% group_by(State.Code)
 
-ggplot(schooldata3, aes(x = State.Code, y = Total.Score)) + geom_boxplot() + labs(x = "State", y = "Total SAT Score")
+ggplot(schooldata3, aes(x = Total.Score, y = State.Code)) + geom_boxplot() + labs(x = "SAT Score", y = "State")
 ```
 
 ```{r model 4}
@@ -112,24 +109,11 @@ schooldata4 <- schooldata4 %>% transmute(region = str_to_lower(State.Name), avg.
 MergedStates <- inner_join(MainStates, schooldata4, by = "region")
 
 ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
-                                                 fill = avg.total.score), color = "white")
+                                                 fill = avg.total.score), color = "white") +
+  scale_fill_continuous(name = "Avg. SAT Score") + 
+  labs(title = "Average SAT Score by State")
+                          
 ```
 
-```
 
-  * Explain the techniques you used for validating your results.
-  * Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
-* Explain the flaws and limitations of your analysis
-  * Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions? ...
-* Clarity Figures
-  * Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?
-  * Each figure should provide a key insight. Too many figures or other data summaries can detract from this.
-* Clarity of Explanations
-  * Do you introduce why you are doing each analysis?
-  * How well do you explain each figure/result?
-  * Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
-* Organization and cleanliness.
-  * Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.
-  
-  
-**NOTE**: Your Data Analysis can be broken up into multiple pages if that helps with your organization.
+```
