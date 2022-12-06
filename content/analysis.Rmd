@@ -36,12 +36,9 @@ Some questions we would like to answer are:
 ```{r new data}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
-schooldatacleaned
-schooldata
 threestates <- c("AL", "ID", "TX")
 schooldatacleaned_math <- schooldatacleaned %>% 
   select(year,"state.code","income.less.than.20k.math", "income.between.20.40k.math", "income.between.60.80k.math", "income.between.80.100k.math", "income.more.than.100k.math") %>%
-  filter(state.code %in% threestates) %>% 
   pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
                names_to = "income.bracket.math", 
                values_to = "average.math.score.of.bracket", 
@@ -51,19 +48,22 @@ schooldatacleaned_math
 
 schooldatacleaned_verbal <- schooldatacleaned %>% 
   select(year,"state.code","income.less.than.20k.verbal", "income.between.20.40k.verbal", "income.between.60.80k.verbal", "income.between.80.100k.verbal", "income.more.than.100k.verbal") %>%
-  filter(state.code %in% threestates) %>% 
   pivot_longer(c(income.less.than.20k.verbal, income.between.20.40k.verbal, income.between.60.80k.verbal, income.between.80.100k.verbal, income.more.than.100k.verbal), 
                names_to = "income.bracket.verbal", 
                values_to = "average.verbal.score.of.bracket", 
                values_drop_na = TRUE) %>%
-  select("state.code", "income.bracket.verbal","average.verbal.score.of.bracket")
+  select("state.code", "income.bracket.verbal", "average.verbal.score.of.bracket")
 schooldatacleaned_verbal
 
-schooldatacleaned <- schooldatacleaned_math %>%
-  left_join(schooldatacleaned_verbal, by = c("state.code" = "state.code"))
-
-#schooldatacleaned <- schooldatacleaned %>% select("state.code", "income.bracket.math", "total.math", "total.verbal") 
+schooldatacleaned <- merge(schooldatacleaned_math, schooldatacleaned_verbal, by = NULL, all = T) %>%
+  mutate(income.bracket = income.bracket.math,
+         state.code = state.code.x) %>%
+  select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
 schooldatacleaned
+
+#schooldatacleaned <- schooldatacleaned_math %>%
+#  left_join(schooldatacleaned_verbal, by = c("income.bracket.math" = "income.bracket.verbal", 
+#                                             "state.code" = "state.code"))
 ```
 
 ```{r model 1}
@@ -82,11 +82,12 @@ ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fi
 ```{r model 2}
 schooldatacleaned <- schooldatacleaned %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
-  select("state.code", "income.bracket.math", "average.total.score.of.bracket") %>% 
-  group_by(income.bracket.math) 
+  select("state.code", "income.bracket", "average.total.score.of.bracket") %>% 
+  group_by(income.bracket) 
 schooldatacleaned
 
-ggplot(schooldatacleaned, fill = income.bracket.math) + geom_col(aes(x = income.bracket.math, y = average.total.score.of.bracket, color = income.bracket.math))
+ggplot(data = schooldatacleaned, mapping = aes(x = income.bracket, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col(aes(color = income.bracket)) + labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
+#ggplot(schooldatacleaned, fill = income.bracket.math) + geom_col(aes(x = income.bracket.math, y = average.total.score.of.bracket, color = income.bracket.math))
 ```
 
 ```
