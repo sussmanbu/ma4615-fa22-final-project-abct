@@ -90,6 +90,31 @@ ggplot(data = schooldatacleaned, mapping = aes(x = income.bracket, y = average.t
 #ggplot(schooldatacleaned, fill = income.bracket.math) + geom_col(aes(x = income.bracket.math, y = average.total.score.of.bracket, color = income.bracket.math))
 ```
 
+```{r model 3}
+# boxplot of all states and their average total scores
+schooldata3 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score") %>% group_by(State.Code)
+
+ggplot(schooldata3, aes(x = State.Code, y = Total.Score)) + geom_boxplot() + labs(x = "State", y = "Total SAT Score")
+```
+
+```{r model 4}
+# map of average total score by state
+library(maps)
+
+schooldata4 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Name", "Total.Score") %>% group_by(State.Name) %>% transmute(avg.total.score = mean(Total.Score), State.Name)
+schooldata4 <- unique(schooldata4)
+
+MainStates <- map_data("state")
+states <- MainStates %>% transmute(region) %>% unique()
+schooldata4 <- schooldata4 %>% transmute(region = str_to_lower(State.Name), avg.total.score) %>% 
+  filter(region %in% states$region)
+
+MergedStates <- inner_join(MainStates, schooldata4, by = "region")
+
+ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
+                                                 fill = avg.total.score), color = "white")
+```
+
 ```
 
   * Explain the techniques you used for validating your results.
