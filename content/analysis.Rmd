@@ -43,8 +43,8 @@ schooldatacleaned_math <- schooldatacleaned %>%
                names_to = "income.bracket.math", 
                values_to = "average.math.score.of.bracket", 
                values_drop_na = TRUE) %>%
-  mutate(income.bracket = income.bracket.math)
-  mutate_at("income.bracket", str_replace, "income.less.than.20k.math", "income.less.than.20k") %>%
+  mutate(income.bracket = str_remove(income.bracket.math, ".math")) %>%
+ # mutate_at("income.bracket", str_replace, "income.less.than.20k.math", "income.less.than.20k") %>%
   select("state.code", "income.bracket","average.math.score.of.bracket") 
 schooldatacleaned_math
 
@@ -54,11 +54,12 @@ schooldatacleaned_verbal <- schooldatacleaned %>%
                names_to = "income.bracket.verbal", 
                values_to = "average.verbal.score.of.bracket", 
                values_drop_na = TRUE) %>%
-  select("state.code", "income.bracket.verbal", "average.verbal.score.of.bracket")
+  mutate(income.bracket = str_remove(income.bracket.verbal, ".verbal")) %>%
+  select("state.code", "income.bracket", "average.verbal.score.of.bracket")
 schooldatacleaned_verbal
 
 schooldatacleaned <- schooldatacleaned_math %>%
-  left_join(schooldatacleaned_verbal, by = c("income.bracket.math" = "income.bracket.verbal", 
+  left_join(schooldatacleaned_verbal, by = c("income.bracket" = "income.bracket",
                                              "state.code" = "state.code"))
 schooldatacleaned
 ```
@@ -73,22 +74,28 @@ schooldata6 <- schooldata %>%
   transmute(avg.total.score = mean(Total.Score))
 schooldata6
 
-ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + geom_col(aes(color = State.Code))
+ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + 
+  geom_col(aes(color = State.Code))
 ```
 
 ```{r model 2}
 schooldatacleaned <- schooldatacleaned %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
-  select("state.code", "income.bracket", "average.total.score.of.bracket") %>% 
-  group_by(income.bracket) 
+  select("state.code", "income.bracket.math", "average.total.score.of.bracket") %>% 
+  group_by(income.bracket.math) 
 schooldatacleaned
 
-ggplot(data = schooldatacleaned, mapping = aes(x = income.bracket, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col(aes(color = income.bracket)) + labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
+ggplot(data = schooldatacleaned, 
+       mapping = aes(x = income.bracket.math, 
+                     y = average.total.score.of.bracket, 
+                     fill = income.bracket.math)) + 
+  geom_col(aes(color = income.bracket.math)) + 
+  labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
 #ggplot(schooldatacleaned, fill = income.bracket.math) + geom_col(aes(x = income.bracket.math, y = average.total.score.of.bracket, color = income.bracket.math))
 ```
 
 ```{r model 3}
-# boxplot of all states and their average total scores
+# boxplot of all states and their average SAT scores
 schooldata3 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score") %>% group_by(State.Code)
 
 ggplot(schooldata3, aes(x = Total.Score, y = State.Code)) + geom_boxplot() + labs(x = "SAT Score", y = "State")
@@ -110,7 +117,7 @@ MergedStates <- inner_join(MainStates, schooldata4, by = "region")
 
 ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
                                                  fill = avg.total.score), color = "white") +
-  scale_fill_continuous(name = "Avg. SAT Score") + 
+  scale_fill_continuous(low = "springgreen", high = "springgreen4", name = "Avg. SAT Score") + 
   labs(title = "Average SAT Score by State")
                           
 ```
@@ -126,9 +133,10 @@ state_codes <- schooldata %>% select(State.Code) %>% unique() %>% filter(State.C
 
 schooldata5 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score", "Year") %>% add_column(region = NA) %>% mutate(region = ifelse(State.Code %in% west, "west", region)) %>% mutate(region = ifelse(State.Code %in% southwest, "southwest", region)) %>% mutate(region = ifelse(State.Code %in% midwest, "midwest", region)) %>% mutate(region = ifelse(State.Code %in% southeast, "southeast", region)) %>% mutate(region = ifelse(State.Code %in% northeast, "northeast", region)) %>% group_by(region)
 
-
 continental_us <- schooldata$State.Code %>% unique()
 #continental_us
+
+facet_grid(Total.Score ~ State.Code, facets = "region")
 par(mfrow = c(2,3))
 
 schooldata5 %>% filter(region == "west") %>%
