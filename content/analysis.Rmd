@@ -154,5 +154,20 @@ schooldata5 %>% filter(region == "northeast") %>%
   ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
 ```
 
+```{r backwards selection}
+
+library(leaps)
+
+bs <- leaps::regsubsets(
+  average.total.score.of.bracket ~ .,
+  method = "backward",
+  data = schooldatacleaned
+)
+
+summary(bs)$which
+summary(bs)$cp
+
+```
+
 
 ```
