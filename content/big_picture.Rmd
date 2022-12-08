@@ -13,7 +13,7 @@ Think of this page as your 538/Upshot style article. This means that you should 
 
 ## Rubric: On this page
 
-You will
+You will do
 
 * Title
   * Your big picture page should have a creative/click-baity title/headline that provides a hint about your thesis.
