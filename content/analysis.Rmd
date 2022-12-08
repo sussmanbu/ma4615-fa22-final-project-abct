@@ -73,6 +73,23 @@ summary(lm(incomescore ~ income, lm2))
 
 We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.
 
+```{r model 3}
+
+# boxplot of all states and their average SAT scores
+# reorder later
+schooldata3 <- schooldata %>% 
+  filter(State.Code %in% sixstates) %>%
+  mutate(Total.Score = Total.Math + Total.Verbal) %>% 
+  select("State.Code", "Total.Score") %>% 
+  group_by(State.Code)
+
+schooldata3
+
+schooldata3 %>% ggplot(aes(x = Total.Score, y = State.Code), outlier.colour = NULL) + 
+  geom_boxplot() + 
+  labs(x = "SAT Score", y = "State")
+
+```
 
 
 This model is a more in-depth look at the differences in SAT scores across different states. 
@@ -102,7 +119,7 @@ ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = grou
                           
 ```
 
-Similar to Model 3, Model 4 takes a look at the average SAT score in every state, but in a more digestible and aesthetically pleasing map form. We see that states in the midwest tend to have higher average SAT score.
+Similarly to Model 3, Model 4 takes a look at the average SAT score in every state, but in a more digestible and aesthetically pleasing map form. We see that states in the midwest tend to have higher average SAT score.
 
 ```{r model 5}
 # use facet_grid later to put all plots into a matrix
