@@ -3,95 +3,413 @@ title: Analysis
 description:
 toc: true
 featuredVideo:
-featuredImage: https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg
+featuredImage: https://s.marketwatch.com/public/resources/images/MW-BV988_sat_te_MG_20140305143435.jpg
 draft: false
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 
 </div>
 
-<p>This comes from the file <code>content/analysis.Rmd</code>.</p>
 <p>We describe here our detailed data analysis.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
-## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-## ✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>print(getwd())</code></pre>
-<pre><code>## [1] &quot;/Users/dsussman/Dropbox (Personal)/Teaching/MA_415/project_template/content&quot;</code></pre>
-<pre class="r"><code>data &lt;- read_csv(here::here(&quot;dataset/loan_refusal_clean.csv&quot;))</code></pre>
-<pre><code>## Rows: 20 Columns: 5</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre><code>## [1] &quot;C:/Users/alyss/OneDrive/Desktop/ma415/ma4615-fa22-final-project-abct/content&quot;</code></pre>
+<pre class="r"><code>data &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
+<pre><code>## Rows: 577 Columns: 99
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (1): bank
-## dbl (4): min, white, himin, hiwhite
+## chr  (2): State.Code, State.Name
+## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>load(here::here(&quot;dataset/loan_refusal.RData&quot;))
+<pre class="r"><code>load(here::here(&quot;dataset/school_scores.RData&quot;))
 print(ls())</code></pre>
-<pre><code>## [1] &quot;data&quot;            &quot;loan_data_clean&quot;</code></pre>
-<div id="note-on-attribution" class="section level2">
-<h2>Note on Attribution</h2>
-<p>If you are directly quoting from a source, please make that clear. You can show quotes using <code>&gt;</code> like this</p>
-<pre><code>&gt; To be or not to be.</code></pre>
-<blockquote>
-<p>To be or not to be.</p>
-</blockquote>
-<p>Also, make sure to provide a link or citation to where you are quoting from.</p>
+<pre><code>## [1] &quot;data&quot;                     &quot;school_scores_data_clean&quot;</code></pre>
 <hr />
-</div>
-<div id="rubric-on-this-page" class="section level2">
-<h2>Rubric: On this page</h2>
-<p>you will</p>
-<ul>
-<li>Introduce what motivates your Data Analysis (DA)
-<ul>
-<li>Which variables and relationships are you most interested in?</li>
-<li>What questions are you interested in answering?</li>
-</ul></li>
-<li>Breadth of the DA
-<ul>
-<li>Make sure that you ask enough initial questions to explore the different variables in your data.</li>
-<li>i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?</li>
-</ul></li>
-<li>Depth of the DA
-<ul>
-<li>When you answer one question, usually more questions arise as well.</li>
-<li>The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.</li>
-</ul></li>
-<li>Modeling and Inference
-<ul>
-<li>You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.</li>
-<li>Explain the techniques you used for validating your results.</li>
-<li>Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.</li>
-</ul></li>
-<li>Explain the flaws and limitations of your analysis
-<ul>
-<li>Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions? …</li>
-</ul></li>
-<li>Clarity Figures
-<ul>
-<li>Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?</li>
-<li>Each figure should provide a key insight. Too many figures or other data summaries can detract from this.</li>
-</ul></li>
-<li>Clarity of Explanations
-<ul>
-<li>Do you introduce why you are doing each analysis?</li>
-<li>How well do you explain each figure/result?</li>
-<li>Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?</li>
-</ul></li>
-<li>Organization and cleanliness.
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.</li>
-</ul></li>
-</ul>
-<p><strong>NOTE</strong>: Your Data Analysis can be broken up into multiple pages if that helps with your organization.</p>
-</div>
+<p>The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relationships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top.</p>
+<p>Some questions we would like to answer are:</p>
+<ol style="list-style-type: decimal">
+<li>What is the nature of the relationship between family income and SAT scores?</li>
+<li>Is this relationship statistically significant?</li>
+<li>Are there differences in income and SAT scores between states?</li>
+<li>Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)?</li>
+<li>Is GPA more affected by family income than SAT scores?</li>
+</ol>
+<pre class="r"><code>library(stringr)
+schooldata &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
+<pre><code>## Rows: 577 Columns: 99
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): State.Code, State.Name
+## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>schooldatacleaned &lt;- read_csv(here::here(&quot;dataset/schooldatacleaned.csv&quot;))</code></pre>
+<pre><code>## New names:
+## Rows: 577 Columns: 107
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (2): state.code, state.name dbl (105): ...1, year, total.math,
+## total.testtakers, total.verbal, arts.musi...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>schooldatacleaned_math &lt;- schooldatacleaned %&gt;% 
+  select(year,&quot;state.code&quot;,&quot;income.less.than.20k.math&quot;, &quot;income.between.20.40k.math&quot;, &quot;income.between.40.60k.math&quot;, &quot;income.between.60.80k.math&quot;, &quot;income.between.80.100k.math&quot;, &quot;income.more.than.100k.math&quot;) %&gt;%
+  pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.40.60k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
+               names_to = &quot;income.bracket.math&quot;, 
+               values_to = &quot;average.math.score.of.bracket&quot;, 
+               values_drop_na = TRUE) %&gt;%
+  mutate(income.bracket = str_remove(income.bracket.math, &quot;.math&quot;)) %&gt;%
+  select(&quot;state.code&quot;, &quot;income.bracket&quot;,&quot;average.math.score.of.bracket&quot;) 
+schooldatacleaned_math</code></pre>
+<pre><code>## # A tibble: 3,462 × 3
+##    state.code income.bracket         average.math.score.of.bracket
+##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 AL         income.less.than.20k                             462
+##  2 AL         income.between.20.40k                            513
+##  3 AL         income.between.40.60k                            539
+##  4 AL         income.between.60.80k                            550
+##  5 AL         income.between.80.100k                           566
+##  6 AL         income.more.than.100k                            588
+##  7 AK         income.less.than.20k                             464
+##  8 AK         income.between.20.40k                            492
+##  9 AK         income.between.40.60k                            517
+## 10 AK         income.between.60.80k                            513
+## # … with 3,452 more rows</code></pre>
+<pre class="r"><code>schooldatacleaned_verbal &lt;- schooldatacleaned %&gt;% 
+  select(year,&quot;state.code&quot;,&quot;income.less.than.20k.verbal&quot;, &quot;income.between.20.40k.verbal&quot;, &quot;income.between.40.60k.verbal&quot;, &quot;income.between.60.80k.verbal&quot;, &quot;income.between.80.100k.verbal&quot;, &quot;income.more.than.100k.verbal&quot;) %&gt;%
+  pivot_longer(c(income.less.than.20k.verbal, income.between.20.40k.verbal, income.between.40.60k.verbal, income.between.60.80k.verbal, income.between.80.100k.verbal, income.more.than.100k.verbal), 
+               names_to = &quot;income.bracket.verbal&quot;, 
+               values_to = &quot;average.verbal.score.of.bracket&quot;, 
+               values_drop_na = TRUE) %&gt;%
+  mutate(income.bracket = str_remove(income.bracket.verbal, &quot;.verbal&quot;)) %&gt;%
+  select(&quot;state.code&quot;, &quot;income.bracket&quot;, &quot;average.verbal.score.of.bracket&quot;)
+schooldatacleaned_verbal</code></pre>
+<pre><code>## # A tibble: 3,462 × 3
+##    state.code income.bracket         average.verbal.score.of.bracket
+##    &lt;chr&gt;      &lt;chr&gt;                                            &lt;dbl&gt;
+##  1 AL         income.less.than.20k                               474
+##  2 AL         income.between.20.40k                              527
+##  3 AL         income.between.40.60k                              551
+##  4 AL         income.between.60.80k                              564
+##  5 AL         income.between.80.100k                             577
+##  6 AL         income.more.than.100k                              590
+##  7 AK         income.less.than.20k                               467
+##  8 AK         income.between.20.40k                              500
+##  9 AK         income.between.40.60k                              522
+## 10 AK         income.between.60.80k                              519
+## # … with 3,452 more rows</code></pre>
+<pre class="r"><code>schooldatacleaned_math$average.verbal.score.of.bracket &lt;- schooldatacleaned_verbal$average.verbal.score.of.bracket
+schooldatacleaned &lt;- schooldatacleaned_math %&gt;% 
+  bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %&gt;%
+  select(&quot;state.code&quot;, &quot;income.bracket&quot;, &quot;average.math.score.of.bracket&quot;, &quot;average.verbal.score.of.bracket&quot;)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...5`</code></pre>
+<pre class="r"><code>schooldatacleaned</code></pre>
+<pre><code>## # A tibble: 3,462 × 4
+##    state.code income.bracket         average.math.score.of.bracket average.ver…¹
+##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;         &lt;dbl&gt;
+##  1 AL         income.less.than.20k                             462           474
+##  2 AL         income.between.20.40k                            513           527
+##  3 AL         income.between.40.60k                            539           551
+##  4 AL         income.between.60.80k                            550           564
+##  5 AL         income.between.80.100k                           566           577
+##  6 AL         income.more.than.100k                            588           590
+##  7 AK         income.less.than.20k                             464           467
+##  8 AK         income.between.20.40k                            492           500
+##  9 AK         income.between.40.60k                            517           522
+## 10 AK         income.between.60.80k                            513           519
+## # … with 3,452 more rows, and abbreviated variable name
+## #   ¹​average.verbal.score.of.bracket</code></pre>
+<pre class="r"><code># this needs to be fixed — use something other than geom_col
+sixstates &lt;- c(&quot;MD&quot;, &quot;NJ&quot;, &quot;MA&quot;, &quot;AR&quot;, &quot;WV&quot;, &quot;MS&quot;)
+schooldata6 &lt;- schooldata %&gt;% 
+  filter(State.Code %in% sixstates) %&gt;% 
+  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% 
+  select(&quot;State.Code&quot;, &quot;Total.Score&quot;) %&gt;% 
+  group_by(State.Code) %&gt;% 
+  transmute(avg.total.score = mean(Total.Score))
+schooldata6</code></pre>
+<pre><code>## # A tibble: 64 × 2
+## # Groups:   State.Code [6]
+##    State.Code avg.total.score
+##    &lt;chr&gt;                &lt;dbl&gt;
+##  1 AR                   1139.
+##  2 MD                   1002 
+##  3 MA                   1042.
+##  4 MS                   1123.
+##  5 NJ                   1014.
+##  6 AR                   1139.
+##  7 MD                   1002 
+##  8 MA                   1042.
+##  9 MS                   1123.
+## 10 NJ                   1014.
+## # … with 54 more rows</code></pre>
+<pre class="r"><code>ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + 
+  geom_col(aes(color = State.Code))</code></pre>
+<p><img src="/analysis_files/figure-html/model%201-1.png" width="672" /></p>
+<p>Our first model takes the three U.S. states with the highest median household income and the three with the lowest and plots them against their average SAT scores. We can see that this plot does not support our conjecture that higher family incomes lead to higher SAT scores, as the scores for Arkansas and Mississippi, two of the states with the lowest median household income in the country, have higher average SAT scores than all three states with the highest median household incomes.</p>
+<pre class="r"><code># this needs to be fixed — use something other than geom_col
+# Big Picture page idea: put the lowest and highest brackets
+schooldatacleaned &lt;- schooldatacleaned %&gt;% 
+  mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %&gt;% 
+  select(&quot;state.code&quot;, &quot;income.bracket&quot;, &quot;average.total.score.of.bracket&quot;) %&gt;% 
+  group_by(income.bracket) 
+schooldatacleaned</code></pre>
+<pre><code>## # A tibble: 3,462 × 3
+## # Groups:   income.bracket [6]
+##    state.code income.bracket         average.total.score.of.bracket
+##    &lt;chr&gt;      &lt;chr&gt;                                           &lt;dbl&gt;
+##  1 AL         income.less.than.20k                              936
+##  2 AL         income.between.20.40k                            1040
+##  3 AL         income.between.40.60k                            1090
+##  4 AL         income.between.60.80k                            1114
+##  5 AL         income.between.80.100k                           1143
+##  6 AL         income.more.than.100k                            1178
+##  7 AK         income.less.than.20k                              931
+##  8 AK         income.between.20.40k                             992
+##  9 AK         income.between.40.60k                            1039
+## 10 AK         income.between.60.80k                            1032
+## # … with 3,452 more rows</code></pre>
+<pre class="r"><code>ggplot(data = schooldatacleaned, 
+       mapping = aes(x = income.bracket, 
+                     y = average.total.score.of.bracket, 
+                     fill = income.bracket)) + 
+  geom_col(aes(color = income.bracket)) + 
+  labs(x = &quot;Income Bracket&quot;, y = &quot;Average SAT Score of Bracket&quot;) </code></pre>
+<p><img src="/analysis_files/figure-html/model%202-1.png" width="672" /></p>
+<p>Model 2 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, which could indicate that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
+<pre class="r"><code>income &lt;- c(20000, 40000, 60000, 80000, 100000)
+incomescore &lt;- c(936, 1040, 1090, 1114, 1143)
+lm2 &lt;- data.frame(cbind(income, incomescore))
+summary(lm(incomescore ~ income, lm2))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = incomescore ~ income, data = lm2)
+## 
+## Residuals:
+##     1     2     3     4     5 
+## -31.0  24.2  25.4   0.6 -19.2 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 9.182e+02  3.064e+01  29.965 8.16e-05 ***
+## income      2.440e-03  4.620e-04   5.282   0.0132 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 29.22 on 3 degrees of freedom
+## Multiple R-squared:  0.9029, Adjusted R-squared:  0.8705 
+## F-statistic:  27.9 on 1 and 3 DF,  p-value: 0.01323</code></pre>
+<p>We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.</p>
+<p>This model is a more in-depth look at the differences in SAT scores across different states.</p>
+<pre class="r"><code># map of average total score by state
+library(maps)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre class="r"><code>schooldata4 &lt;- schooldata %&gt;% 
+  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% 
+  select(&quot;State.Name&quot;, &quot;Total.Score&quot;) %&gt;% 
+  group_by(State.Name) %&gt;% 
+  transmute(avg.total.score = mean(Total.Score), State.Name)
+schooldata4 &lt;- unique(schooldata4)
+
+MainStates &lt;- map_data(&quot;state&quot;)
+states &lt;- MainStates %&gt;% transmute(region) %&gt;% unique()
+schooldata4 &lt;- schooldata4 %&gt;% transmute(region = str_to_lower(State.Name), avg.total.score) %&gt;% 
+  filter(region %in% states$region)
+
+MergedStates &lt;- inner_join(MainStates, schooldata4, by = &quot;region&quot;)
+
+ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
+                                                 fill = avg.total.score), color = &quot;white&quot;) +
+  scale_fill_continuous(low = &quot;springgreen&quot;, high = &quot;springgreen4&quot;, name = &quot;Average SAT Score&quot;) + 
+  labs(title = &quot;Average SAT Score by State&quot;)</code></pre>
+<p><img src="/analysis_files/figure-html/model%204-1.png" width="672" /></p>
+<p>Similar to Model 3, Model 4 takes a look at the average SAT score in every state, but in a more digestible and aesthetically pleasing map form. We see that states in the midwest tend to have higher average SAT score.</p>
+<pre class="r"><code># use facet_grid later to put all plots into a matrix
+west &lt;- c(&quot;WA&quot;,&quot;OR&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;UT&quot;, &quot;CO&quot;)
+southwest &lt;- c(&quot;AZ&quot;, &quot;NM&quot;, &quot;OK&quot;, &quot;TX&quot;)
+midwest &lt;- c(&quot;ND&quot;, &quot;SD&quot;, &quot;NE&quot;, &quot;KS&quot;, &quot;MN&quot;, &quot;IA&quot;, &quot;MO&quot;, &quot;WI&quot;, &quot;IL&quot;, &quot;MI&quot;, &quot;IN&quot;, &quot;OH&quot;)
+southeast &lt;- c(&quot;LA&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;KY&quot;, &quot;WV&quot;, &quot;VA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;AL&quot;, &quot;GA&quot;, &quot;FL&quot;, &quot;AR&quot;)
+northeast &lt;- c(&quot;MA&quot;, &quot;MD&quot;, &quot;DE&quot;, &quot;NJ&quot;, &quot;ME&quot;, &quot;VT&quot;, &quot;NH&quot;, &quot;PA&quot;, &quot;NY&quot;, &quot;CT&quot;, &quot;RI&quot;)
+continental_us &lt;- c(west, southwest, midwest, southeast, northeast)
+state_codes &lt;- schooldata %&gt;% select(State.Code) %&gt;% unique() %&gt;% filter(State.Code %in% continental_us)
+
+schooldata5 &lt;- schooldata %&gt;% mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% select(&quot;State.Code&quot;, &quot;Total.Score&quot;, &quot;Year&quot;) %&gt;% add_column(region = NA) %&gt;% mutate(region = ifelse(State.Code %in% west, &quot;west&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% southwest, &quot;southwest&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% midwest, &quot;midwest&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% southeast, &quot;southeast&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% northeast, &quot;northeast&quot;, region)) %&gt;% group_by(region)
+
+continental_us &lt;- schooldata$State.Code %&gt;% unique()
+#continental_us
+
+facet_grid(Total.Score ~ State.Code, facets = &quot;region&quot;)</code></pre>
+<pre><code>## &lt;ggproto object: Class FacetGrid, Facet, gg&gt;
+##     compute_layout: function
+##     draw_back: function
+##     draw_front: function
+##     draw_labels: function
+##     draw_panels: function
+##     finish_data: function
+##     init_scales: function
+##     map_data: function
+##     params: list
+##     setup_data: function
+##     setup_params: function
+##     shrink: TRUE
+##     train_scales: function
+##     vars: function
+##     super:  &lt;ggproto object: Class FacetGrid, Facet, gg&gt;</code></pre>
+<pre class="r"><code>par(mfrow = c(2,3))
+
+schooldata5 %&gt;% filter(region == &quot;west&quot;) %&gt;%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()</code></pre>
+<p><img src="/analysis_files/figure-html/model%205-1.png" width="672" /></p>
+<pre class="r"><code>schooldata5 %&gt;% filter(region == &quot;southwest&quot;) %&gt;%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()</code></pre>
+<p><img src="/analysis_files/figure-html/model%205-2.png" width="672" /></p>
+<pre class="r"><code>schooldata5 %&gt;% filter(region == &quot;midwest&quot;) %&gt;%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()</code></pre>
+<p><img src="/analysis_files/figure-html/model%205-3.png" width="672" /></p>
+<pre class="r"><code>schooldata5 %&gt;% filter(region == &quot;southeast&quot;) %&gt;%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()</code></pre>
+<p><img src="/analysis_files/figure-html/model%205-4.png" width="672" /></p>
+<pre class="r"><code>schooldata5 %&gt;% filter(region == &quot;northeast&quot;) %&gt;%
+  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()</code></pre>
+<p><img src="/analysis_files/figure-html/model%205-5.png" width="672" /></p>
+<p>This is a matrix of average SAT scores by state, split into the 5 regions of the continental United States. Just as in Model 4, we see that the Midwest generally have higher average scores.</p>
+<pre class="r"><code>library(leaps)
+
+bs &lt;- leaps::regsubsets(
+  average.total.score.of.bracket ~ .,
+  method = &quot;backward&quot;,
+  data = schooldatacleaned
+)
+
+summary(bs)$which</code></pre>
+<pre><code>##   (Intercept) state.codeAL state.codeAR state.codeAZ state.codeCA state.codeCO
+## 1        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+##   state.codeCT state.codeDC state.codeDE state.codeFL state.codeGA state.codeHI
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+##   state.codeIA state.codeID state.codeIL state.codeIN state.codeKS state.codeKY
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
+##   state.codeLA state.codeMA state.codeMD state.codeME state.codeMI state.codeMN
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+##   state.codeMO state.codeMS state.codeMT state.codeNC state.codeND state.codeNE
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+##   state.codeNH state.codeNJ state.codeNM state.codeNV state.codeNY state.codeOH
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+##   state.codeOK state.codeOR state.codePA state.codePR state.codeRI state.codeSC
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
+## 7        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
+## 8        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
+##   state.codeSD state.codeTN state.codeTX state.codeUT state.codeVA state.codeVI
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 7        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+## 8        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
+##   state.codeVT state.codeWA state.codeWI state.codeWV state.codeWY
+## 1        FALSE        FALSE        FALSE        FALSE        FALSE
+## 2        FALSE        FALSE        FALSE        FALSE        FALSE
+## 3        FALSE        FALSE        FALSE        FALSE        FALSE
+## 4        FALSE        FALSE        FALSE        FALSE        FALSE
+## 5        FALSE        FALSE        FALSE        FALSE        FALSE
+## 6        FALSE        FALSE        FALSE        FALSE        FALSE
+## 7        FALSE        FALSE         TRUE        FALSE        FALSE
+## 8        FALSE        FALSE         TRUE        FALSE        FALSE
+##   income.bracketincome.between.40.60k income.bracketincome.between.60.80k
+## 1                               FALSE                               FALSE
+## 2                               FALSE                               FALSE
+## 3                               FALSE                               FALSE
+## 4                               FALSE                               FALSE
+## 5                               FALSE                               FALSE
+## 6                               FALSE                               FALSE
+## 7                               FALSE                               FALSE
+## 8                               FALSE                               FALSE
+##   income.bracketincome.between.80.100k income.bracketincome.less.than.20k
+## 1                                FALSE                               TRUE
+## 2                                FALSE                               TRUE
+## 3                                FALSE                               TRUE
+## 4                                 TRUE                               TRUE
+## 5                                 TRUE                               TRUE
+## 6                                 TRUE                               TRUE
+## 7                                 TRUE                               TRUE
+## 8                                 TRUE                               TRUE
+##   income.bracketincome.more.than.100k
+## 1                               FALSE
+## 2                               FALSE
+## 3                                TRUE
+## 4                                TRUE
+## 5                                TRUE
+## 6                                TRUE
+## 7                                TRUE
+## 8                                TRUE</code></pre>
+<pre class="r"><code>summary(bs)$cp</code></pre>
+<pre><code>## [1] 5234.185 4580.536 3973.688 3684.671 3423.945 3186.098 2983.449 2772.465</code></pre>
+<p>Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model from the output since it has the lowest Mallow’s CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores.</p>
+<p>```</p>

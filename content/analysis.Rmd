@@ -103,19 +103,7 @@ summary(lm(incomescore ~ income, lm2))
 
 We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.
 
-```{r model 3}
-# boxplot of all states and their average SAT scores
-# reorder later
-schooldata3 <- schooldata %>% 
-  filter(State.Code %in% sixstates) %>%
-  mutate(Total.Score = Total.Math + Total.Verbal) %>% 
-  select("State.Code", "Total.Score") %>% 
-  group_by(State.Code)
 
-ggplot(schooldata3, aes(x = Total.Score, y = State.Code)) + 
-  geom_boxplot(x = Total.Score) + 
-  labs(x = "SAT Score", y = "State")
-```
 
 This model is a more in-depth look at the differences in SAT scores across different states. 
 
@@ -196,5 +184,6 @@ summary(bs)$cp
 
 ```
 
-Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model here since it has the lowest Mallow's CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores. 
+Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model from the output since it has the lowest Mallow's CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores. 
+
 ```
