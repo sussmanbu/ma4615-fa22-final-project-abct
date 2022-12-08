@@ -44,7 +44,6 @@ schooldatacleaned_math <- schooldatacleaned %>%
                values_to = "average.math.score.of.bracket", 
                values_drop_na = TRUE) %>%
   mutate(income.bracket = str_remove(income.bracket.math, ".math")) %>%
- # mutate_at("income.bracket", str_replace, "income.less.than.20k.math", "income.less.than.20k") %>%
   select("state.code", "income.bracket","average.math.score.of.bracket") 
 schooldatacleaned_math
 
@@ -58,9 +57,10 @@ schooldatacleaned_verbal <- schooldatacleaned %>%
   select("state.code", "income.bracket", "average.verbal.score.of.bracket")
 schooldatacleaned_verbal
 
-schooldatacleaned <- schooldatacleaned_math %>%
-  left_join(schooldatacleaned_verbal, by = c("income.bracket" = "income.bracket",
-                                             "state.code" = "state.code"))
+schooldatacleaned_math$average.verbal.score.of.bracket <- schooldatacleaned_verbal$average.verbal.score.of.bracket
+schooldatacleaned <- schooldatacleaned_math %>% 
+  bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %>%
+  select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
 schooldatacleaned
 ```
 
@@ -81,17 +81,16 @@ ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fi
 ```{r model 2}
 schooldatacleaned <- schooldatacleaned %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
-  select("state.code", "income.bracket.math", "average.total.score.of.bracket") %>% 
-  group_by(income.bracket.math) 
+  select("state.code", "income.bracket", "average.total.score.of.bracket") %>% 
+  group_by(income.bracket) 
 schooldatacleaned
 
 ggplot(data = schooldatacleaned, 
-       mapping = aes(x = income.bracket.math, 
+       mapping = aes(x = income.bracket, 
                      y = average.total.score.of.bracket, 
-                     fill = income.bracket.math)) + 
-  geom_col(aes(color = income.bracket.math)) + 
+                     fill = income.bracket)) + 
+  geom_col(aes(color = income.bracket)) + 
   labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
-#ggplot(schooldatacleaned, fill = income.bracket.math) + geom_col(aes(x = income.bracket.math, y = average.total.score.of.bracket, color = income.bracket.math))
 ```
 
 ```{r model 3}
