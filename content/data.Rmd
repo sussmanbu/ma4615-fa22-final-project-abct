@@ -3,12 +3,9 @@ title: Data
 description:
 toc: true
 featuredVideo:
-featuredImage: images/data-import-cheatsheet-thumbs.png
+featuredImage: https://www.techrepublic.com/wp-content/uploads/2022/09/tr-data-migration-vs-data-integration-770x513.jpeg
 draft: false
 ---
-
-This comes from the file `content/data.Rmd`.
-
 Section 1:
 
 The main dataset used within this project can be found at https://corgis-edu.github.io/corgis/csv/school_scores/.
@@ -23,11 +20,11 @@ Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cl
 cleandatafile <- load(here::here("static", "load_and_clean_data.R"))
 ```
 
-In order to better organize the dataset, we changed the column names to more manageable titles. 
+In order to better organize the dataset, we changed the column names to more readable titles. 
 These titles include: year, state code, state name, average gpa per subject, average years per subject, income levels, gender, and SAT Scores. 
 Subjects include: Arts/Music, English, 'Foreign Languages, Mathematics, Natural Sciences, Social Sciences/History.
 Income levels per year include: less than 20k, 20 to 40k, 40 to 60k, 60 to 80k, 80 to 100k, more than 100k.
-Moreover, we mutated the total score column to include both the math score and the verbal score. We also mutated the income columns to do the same thing.
+Moreover, we mutated the total score column to combine the math score and the verbal scores. We also mutated the income columns to do the same thing.
 
 ```{r, message=FALSE}
 
@@ -46,15 +43,52 @@ schooldata <- school_scores_data_clean %>% mutate(total.score = total.math + tot
   
 ```
 
-To save some time and space, we loaded all changes from the chunk above into a new csv file, titles "schooldataclean.csv"
+To save some time and space, we loaded all changes from the chunk above into a new csv file, titled "schooldataclean.csv"
+We did this by using the write_csv function in the console. 
+
+Next, we decided to use pivot_longer on the income brackets so that we could create a singular, comprehensive income bracket column to use in our analysis later.
+```{r pivot_longer on schooldatacleaned}
+schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
+schooldatacleaned_math <- schooldatacleaned %>% 
+  select(year,"state.code","state.name","income.less.than.20k.math", "income.between.20.40k.math", "income.between.40.60k.math", "income.between.60.80k.math", "income.between.80.100k.math", "income.more.than.100k.math") %>%
+  pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.40.60k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
+               names_to = "income.bracket.math", 
+               values_to = "average.math.score.of.bracket", 
+               values_drop_na = TRUE) %>%
+  mutate(income.bracket = str_remove(income.bracket.math, ".math")) %>%
+  select("state.code", "state.name", "income.bracket","average.math.score.of.bracket") 
+schooldatacleaned_math
+
+schooldatacleaned_verbal <- schooldatacleaned %>% 
+  select(year,"state.code","state.name", "income.less.than.20k.verbal", "income.between.20.40k.verbal", "income.between.40.60k.verbal", "income.between.60.80k.verbal", "income.between.80.100k.verbal", "income.more.than.100k.verbal") %>%
+  pivot_longer(c(income.less.than.20k.verbal, income.between.20.40k.verbal, income.between.40.60k.verbal, income.between.60.80k.verbal, income.between.80.100k.verbal, income.more.than.100k.verbal), 
+               names_to = "income.bracket.verbal", 
+               values_to = "average.verbal.score.of.bracket", 
+               values_drop_na = TRUE) %>%
+  mutate(income.bracket = str_remove(income.bracket.verbal, ".verbal")) %>%
+  select("state.code", "state.name", "income.bracket", "average.verbal.score.of.bracket")
+
+schooldatacleaned_math$average.verbal.score.of.bracket <- schooldatacleaned_verbal$average.verbal.score.of.bracket
+schooldatacleaned_pivoted <- schooldatacleaned_math %>% 
+  bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %>%
+  select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
+schooldatacleaned_pivoted
+```
+We then loaded this into a new csv file as well, titled "schooldatacleaned_pivot.csv"
+
+The most important columns in this dataset are listed below:
+
+* state.code: the abbreviation for the state the observation is pulled from
+* income.bracket: the bracket from which the observation is pulled from
+* average.math.score.of.bracket: the average math score of the particular income bracket in the particular state
+* average.verbal.score.of.bracket: the average verbal score of the particular income bracket in the particular state
 
 Section 2:
 
-Additionally, We decided to include information from the US Census demographic data from 2017 that we found on kaggle. 
+Additionally, We decided to include information from the US Census demographic data from 2017 that we found on Kaggle. 
+This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with our schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.
 
-This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with out schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.
-
-Firstly, we loaded and cleaned the data using the file:
+First, we loaded and cleaned the data using the file:
 `[load_and_clean_data.R](/load_and_clean_data.R)`
 
 One comparison to note is that the State.Name column in the original dataset is equal to the State column in the new dataset.
@@ -80,7 +114,8 @@ incomedata <- newdata_1 %>% select(state.name, total.score, income.between.20.40
                                    income.more.than.100k)
 
 
-newdata_inc <- incomedata %>% crossing(censusdata)
+newdata_inc <- incomedata %>% left_join(censusdata,
+                                        by = c("state.name" = "State.Name"))
 newdata_inc
 ```
 
@@ -88,7 +123,8 @@ This dataset that is found at https://www.kaggle.com/datasets/muonneutrino/us-ce
 
 The data here were collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.
 
-Section 3:
+In summary, the primary datasets we will be using for our analysis are:
 
-We hope to combine these two datasets by using the merge() function since both datasets have a column dedicated to the 50 states, but we are concerned about the fact that this new dataset has 74000 rows, whereas our original one only has 578. To overcome this we may need to create new columns in the census dataset.
-
+* school_scores_data_clean.csv
+* schooldatacleaned.csv
+* newdata_inc.csv
