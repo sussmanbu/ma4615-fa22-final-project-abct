@@ -2,7 +2,7 @@
 title: Big Picture
 description:
 toc: true
-featuredImage: /images/The_Big_Picture_2.jpeg
+featuredImage: https://www.nicepng.com/png/detail/833-8335883_thinking-woman-silhouette-woman-thinking-png.png
 featuredVideo:
 draft: false
 ---
