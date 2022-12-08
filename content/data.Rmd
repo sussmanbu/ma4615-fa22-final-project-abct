@@ -74,7 +74,7 @@ schooldatacleaned_pivoted <- schooldatacleaned_math %>%
   select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
 schooldatacleaned_pivoted
 ```
-We then loaded this into a new csv file as well, titled "schooldatacleaned_pivot.csv"
+We then loaded this into a new csv file as well, titled "schooldatacleaned_pivoted.csv"
 
 The most important columns in this dataset are listed below:
 

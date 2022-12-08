@@ -27,39 +27,9 @@ Some questions we would like to answer are:
 4. Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)?
 5. Is GPA more affected by family income than SAT scores?
 
-```{r new data}
-library(stringr)
-schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
-schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
-schooldatacleaned_math <- schooldatacleaned %>% 
-  select(year,"state.code","income.less.than.20k.math", "income.between.20.40k.math", "income.between.40.60k.math", "income.between.60.80k.math", "income.between.80.100k.math", "income.more.than.100k.math") %>%
-  pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.40.60k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
-               names_to = "income.bracket.math", 
-               values_to = "average.math.score.of.bracket", 
-               values_drop_na = TRUE) %>%
-  mutate(income.bracket = str_remove(income.bracket.math, ".math")) %>%
-  select("state.code", "income.bracket","average.math.score.of.bracket") 
-schooldatacleaned_math
-
-schooldatacleaned_verbal <- schooldatacleaned %>% 
-  select(year,"state.code","income.less.than.20k.verbal", "income.between.20.40k.verbal", "income.between.40.60k.verbal", "income.between.60.80k.verbal", "income.between.80.100k.verbal", "income.more.than.100k.verbal") %>%
-  pivot_longer(c(income.less.than.20k.verbal, income.between.20.40k.verbal, income.between.40.60k.verbal, income.between.60.80k.verbal, income.between.80.100k.verbal, income.more.than.100k.verbal), 
-               names_to = "income.bracket.verbal", 
-               values_to = "average.verbal.score.of.bracket", 
-               values_drop_na = TRUE) %>%
-  mutate(income.bracket = str_remove(income.bracket.verbal, ".verbal")) %>%
-  select("state.code", "income.bracket", "average.verbal.score.of.bracket")
-schooldatacleaned_verbal
-
-schooldatacleaned_math$average.verbal.score.of.bracket <- schooldatacleaned_verbal$average.verbal.score.of.bracket
-schooldatacleaned <- schooldatacleaned_math %>% 
-  bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %>%
-  select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
-schooldatacleaned
-```
-
 ```{r model 1}
 # this needs to be fixed — use something other than geom_col
+schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 schooldata6 <- schooldata %>% 
   filter(State.Code %in% sixstates) %>% 
@@ -78,13 +48,13 @@ Our first model takes the three U.S. states with the highest median household in
 ```{r model 2}
 # this needs to be fixed — use something other than geom_col
 # Big Picture page idea: put the lowest and highest brackets
-schooldatacleaned <- schooldatacleaned %>% 
+schooldatacleaned_pivoted <- read_csv(here::here("dataset/schooldatacleaned_pivoted.csv"))
+schooldatacleaned_pivoted <- schooldatacleaned_pivoted %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
   select("state.code", "income.bracket", "average.total.score.of.bracket") %>% 
   group_by(income.bracket) 
-schooldatacleaned
 
-ggplot(data = schooldatacleaned, 
+ggplot(data = schooldatacleaned_pivoted, 
        mapping = aes(x = income.bracket, 
                      y = average.total.score.of.bracket, 
                      fill = income.bracket)) + 
