@@ -2,7 +2,7 @@
 title: Big Picture
 description:
 toc: true
-featuredImage: https://www.nicepng.com/png/detail/833-8335883_thinking-woman-silhouette-woman-thinking-png.png
+featuredImage: https://media.istockphoto.com/id/649750856/vector/two-women-in-the-discussion.jpg?s=612x612&w=0&k=20&c=7t00YuJDJAuvH6tqBfYh3McAzl-2uV4GFWFtWZMfpi4=
 featuredVideo:
 draft: false
 ---
@@ -24,7 +24,7 @@ You will
 * Creativity
   * Do your best to make things interesting. Think of a story. Think of how each part of your analysis supports the previous part or provides a different perspective.
   
-**Note**: This page should have no code visible, i.e. use `echo=FALSE`.  
+**Note**: This page should have no code visible, i.e. use `echo=FALSE`.   
 
 ---
 
