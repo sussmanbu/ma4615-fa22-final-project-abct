@@ -114,28 +114,12 @@ northeast <- c("MA", "MD", "DE", "NJ", "ME", "VT", "NH", "PA", "NY", "CT", "RI")
 continental_us <- c(west, southwest, midwest, southeast, northeast)
 state_codes <- schooldata %>% select(State.Code) %>% unique() %>% filter(State.Code %in% continental_us)
 
-schooldata5 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score", "Year") %>% add_column(region = NA) %>% mutate(region = ifelse(State.Code %in% west, "west", region)) %>% mutate(region = ifelse(State.Code %in% southwest, "southwest", region)) %>% mutate(region = ifelse(State.Code %in% midwest, "midwest", region)) %>% mutate(region = ifelse(State.Code %in% southeast, "southeast", region)) %>% mutate(region = ifelse(State.Code %in% northeast, "northeast", region)) %>% group_by(region)
+schooldata5 <- schooldata %>% mutate(Total.Score = Total.Math + Total.Verbal) %>% select("State.Code", "Total.Score", "Year") %>% add_column(region = NA) %>% mutate(region = ifelse(State.Code %in% west, "West", region)) %>% mutate(region = ifelse(State.Code %in% southwest, "Southwest", region)) %>% mutate(region = ifelse(State.Code %in% midwest, "Midwest", region)) %>% mutate(region = ifelse(State.Code %in% southeast, "Southeast", region)) %>% mutate(region = ifelse(State.Code %in% northeast, "Northeast", region)) %>% group_by(region) %>% mutate(region = ifelse(!State.Code %in% continental_us, "Noncontiguous", region))
 
 continental_us <- schooldata$State.Code %>% unique()
 #continental_us
 
-facet_grid(Total.Score ~ State.Code, facets = "region")
-par(mfrow = c(2,3))
-
-schooldata5 %>% filter(region == "west") %>%
-  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
-
-schooldata5 %>% filter(region == "southwest") %>%
-  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
-
-schooldata5 %>% filter(region == "midwest") %>%
-  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
-
-schooldata5 %>% filter(region == "southeast") %>%
-  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
-
-schooldata5 %>% filter(region == "northeast") %>%
-  ggplot(aes(x = State.Code , y = Total.Score)) + geom_point()
+schooldata5 %>% ggplot(aes(Total.Score, State.Code, col = region)) + facet_wrap(~region, scales = "free") + geom_point()
 ```
 
 This is a matrix of average SAT scores by state, split into the 5 regions of the continental United States. Just as in Model 4, we see that the Midwest generally have higher average scores. 
