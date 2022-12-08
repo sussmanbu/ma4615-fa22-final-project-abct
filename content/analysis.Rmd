@@ -146,7 +146,7 @@ library(leaps)
 bs <- leaps::regsubsets(
   average.total.score.of.bracket ~ .,
   method = "backward",
-  data = schooldatacleaned
+  data = schooldatacleaned_pivoted
 )
 
 summary(bs)$which
