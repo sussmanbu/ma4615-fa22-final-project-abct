@@ -37,7 +37,12 @@ draft: false
 print(ls())</code></pre>
 <pre><code>## [1] &quot;data&quot;                     &quot;school_scores_data_clean&quot;</code></pre>
 <hr />
+<div id="data-description" class="section level2">
+<h2>Data Description:</h2>
 <p>The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relationships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top.</p>
+</div>
+<div id="important-questions" class="section level2">
+<h2>Important Questions:</h2>
 <p>Some questions we would like to answer are:</p>
 <ol style="list-style-type: decimal">
 <li>What is the nature of the relationship between family income and SAT scores?</li>
@@ -46,6 +51,8 @@ print(ls())</code></pre>
 <li>Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)?</li>
 <li>Is GPA more affected by family income than SAT scores?</li>
 </ol>
+<div id="model-1-six-states-comparison" class="section level3">
+<h3>Model 1: Six States Comparison</h3>
 <pre class="r"><code># this needs to be fixed — use something other than geom_col
 schooldata &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
 <pre><code>## Rows: 577 Columns: 99
@@ -83,6 +90,9 @@ schooldata6</code></pre>
   geom_col(aes(color = State.Code))</code></pre>
 <p><img src="/analysis_files/figure-html/model%201-1.png" width="672" /></p>
 <p>Our first model takes the three U.S. states with the highest median household income and the three with the lowest and plots them against their average SAT scores. We can see that this plot does not support our conjecture that higher family incomes lead to higher SAT scores, as the scores for Arkansas and Mississippi, two of the states with the lowest median household income in the country, have higher average SAT scores than all three states with the highest median household incomes.</p>
+</div>
+<div id="model-2-income-bracket-and-average-sat-scores" class="section level3">
+<h3>Model 2: Income Bracket and Average SAT Scores</h3>
 <pre class="r"><code># this needs to be fixed — use something other than geom_col
 # Big Picture page idea: put the lowest and highest brackets
 schooldatacleaned_pivoted &lt;- read_csv(here::here(&quot;dataset/schooldatacleaned_pivoted.csv&quot;))</code></pre>
@@ -107,6 +117,9 @@ ggplot(data = schooldatacleaned_pivoted,
   labs(x = &quot;Income Bracket&quot;, y = &quot;Average SAT Score of Bracket&quot;) </code></pre>
 <p><img src="/analysis_files/figure-html/model%202-1.png" width="672" /></p>
 <p>Model 2 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, which could indicate that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
+</div>
+<div id="model-2-inference" class="section level3">
+<h3>Model 2 Inference:</h3>
 <pre class="r"><code>income &lt;- c(20000, 40000, 60000, 80000, 100000)
 incomescore &lt;- c(936, 1040, 1090, 1114, 1143)
 lm2 &lt;- data.frame(cbind(income, incomescore))
@@ -130,6 +143,9 @@ summary(lm(incomescore ~ income, lm2))</code></pre>
 ## Multiple R-squared:  0.9029, Adjusted R-squared:  0.8705 
 ## F-statistic:  27.9 on 1 and 3 DF,  p-value: 0.01323</code></pre>
 <p>We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.</p>
+</div>
+<div id="model-3-all-states-and-their-average-sat-scores" class="section level3">
+<h3>Model 3: All States and their Average SAT Scores</h3>
 <pre class="r"><code># boxplot of all states and their average SAT scores
 # reorder later
 schooldata3 &lt;- schooldata %&gt;% 
@@ -159,6 +175,9 @@ schooldata3</code></pre>
   labs(x = &quot;SAT Score&quot;, y = &quot;State&quot;)</code></pre>
 <p><img src="/analysis_files/figure-html/model%203-1.png" width="672" /></p>
 <p>This model is a more in-depth look at the differences in SAT scores across different states.</p>
+</div>
+<div id="model-4-map-of-average-total-score-by-state" class="section level3">
+<h3>Model 4: Map of Average Total Score by State</h3>
 <pre class="r"><code># map of average total score by state
 library(maps)</code></pre>
 <pre><code>## 
@@ -186,6 +205,9 @@ ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = grou
   labs(title = &quot;Average SAT Score by State&quot;)</code></pre>
 <p><img src="/analysis_files/figure-html/model%204-1.png" width="672" /></p>
 <p>Similarly to Model 3, Model 4 takes a look at the average SAT score in every state, but in a more digestible and aesthetically pleasing map form. We see that states in the midwest tend to have higher average SAT score.</p>
+</div>
+<div id="model-5-breakdown-of-average-sat-scores-by-region" class="section level3">
+<h3>Model 5: Breakdown of Average SAT Scores by Region</h3>
 <pre class="r"><code># use facet_grid later to put all plots into a matrix
 west &lt;- c(&quot;WA&quot;,&quot;OR&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;UT&quot;, &quot;CO&quot;)
 southwest &lt;- c(&quot;AZ&quot;, &quot;NM&quot;, &quot;OK&quot;, &quot;TX&quot;)
@@ -203,6 +225,9 @@ continental_us &lt;- schooldata$State.Code %&gt;% unique()
 schooldata5 %&gt;% ggplot(aes(Total.Score, State.Code, col = region)) + facet_wrap(~region, scales = &quot;free&quot;) + geom_point()</code></pre>
 <p><img src="/analysis_files/figure-html/model%205-1.png" width="672" /></p>
 <p>This is a matrix of average SAT scores by state, split into the 5 regions of the continental United States. Just as in Model 4, we see that the Midwest generally have higher average scores.</p>
+</div>
+<div id="backwards-selection" class="section level3">
+<h3>Backwards Selection</h3>
 <pre class="r"><code>library(leaps)
 
 bs &lt;- leaps::regsubsets(
@@ -324,3 +349,5 @@ summary(bs)$which</code></pre>
 <pre><code>## [1] 5234.185 4580.536 3973.688 3684.671 3423.945 3186.098 2983.449 2772.465</code></pre>
 <p>Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model from the output since it has the lowest Mallow’s CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores.</p>
 <p>```</p>
+</div>
+</div>
