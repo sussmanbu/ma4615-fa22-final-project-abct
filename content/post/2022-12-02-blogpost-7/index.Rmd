@@ -1,11 +1,11 @@
 ---
-title: Blogpost 7
+title: Blogpost 7 and 8
 author: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
 date: '2022-12-02'
 slug: []
 categories: []
 tags: []
-description: ~
+description: Plans for further analysis
 toc: yes
 authors: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
 series: []
@@ -14,15 +14,9 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-How are you continuing your exploratory data analysis? Remember all the ways we visualized the COVID data in just a couple days. Make sure you’ve done a thorough exploration for your project. Lots of ideas will be dead ends but keep looking and think about attaching more data.
+One of the things we discussed when we talked about the insights we could draw from our original dataset is whether or not the relationship between family income and SAT scores could potentially change as time goes on; every 4 years, CollegeBoard adjusts the scoring and format of the questions according to feedback, so it is possible that family income becomes less or more significant in predicting SAT score. Another important factor in both family income and SAT score is the differences among demographic variables — historically, Black and Hispanic students performed most poorly on the SAT and have the lowest incomes due to a myriad of factors out of their control. 
 
-We plan on continuing our exploratory data analysis by making more plots surrounding our data. Thinking back to when we originally explored visualizing the COVID data, we have a lot of areas that we can explore that we have yet to. Our data consists of many factors that we can plot against SAT scores and family income. 
+Our tentative thesis is that the higher the family income of a student, the higher their SAT score. We see from our analysis models that income bracket is highly correlated with SAT score, which can be explained by the fact that students who come from families with higher incomes have access to expensive SAT tutoring courses and the time to practice. Students from lower income brackets are generally more stressed as well, which is not conducive to performing well on one of the most important exams in a student’s life. 
 
-What is your tentative thesis? Note that a thesis is not a hypothesis or a question. It should in some ways answer a question. (Eg. rather than, “What are the patterns of housing prices in Boston?“, something like, “Housing prices in Boston are rising rapidly, especially near T stations and along the water.“) The rest of the project should work to support that thesis. That doesn’t mean there won’t be any caveats or uncertainty, but you should try to accurately  provide details that provide evidence for your thesis.
-
-Our tentative thesis is that the a higher family income is correlated to a higher sat score. 
-
-How do you plan to polish your visualizations and tables? Think about titles, captions, annotations, highlights. Look into ggpubr for tools to improve your figures and look into some of the options for displaying tables using https://gallery.htmlwidgets.org/.
-
-We plan on polishing our visualizations and tables by making sure to title our figures, icluding captions and annotations. We also intend to incorporate the use of ggpubr to amplify our ggplot2 figures. 
+To polish our visualizations and tables, we took a look at the tools available in ggpubr and https://gallery.htmlwidgets.org/. Our ggplots will be updated to have clearer axes and titles. Any column and bar charts will also be fixed so that the bars are either increasing or decreasing, depending on the exact variables in the plot. Along the same lines, any graph involving multiple boxplots will be reordered for clarity and ease of viewing. The HTML widgets has a good number of options as well for making our visualizations look their best. We plan to try using the leaflet and leaflet.minicharts packages to create an interactive map for the Big Picture page, or tmap for simple maps. Lastly, the DT package can be used to make our tables have a more aesthetically pleasing interface. 
 
