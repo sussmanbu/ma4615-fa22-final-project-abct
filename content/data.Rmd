@@ -17,7 +17,9 @@ The data was collected by Austin Cory Bart, and he can be reached at acbart@vt.e
 Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cleaned our data. You can find it attached within the code below.
 
 ```{r cleaned data}
-cleandatafile <- load(here::here("static", "load_and_clean_data.R"))
+
+cleandatafile <- here::here("static", "load_and_clean_data.R")
+
 ```
 
 In order to better organize the dataset, we changed the column names to more readable titles. 
