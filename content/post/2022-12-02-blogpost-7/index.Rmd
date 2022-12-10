@@ -5,7 +5,7 @@ date: '2022-12-02'
 slug: []
 categories: []
 tags: []
-description: Plans for further analysis
+description: Our plans for further analysis
 toc: yes
 authors: Arlo Ramoutar, Cleo Ulisse, Tessa Wu, Bridget Zhang
 series: []
