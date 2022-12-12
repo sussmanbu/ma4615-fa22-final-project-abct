@@ -39,12 +39,15 @@ We started our exploratory data analysis by examining the average SAT score acro
 # this needs to be fixed — use summarize, not geom_col or geom_bar
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
+
 schooldata6 <- schooldata %>% 
   filter(State.Code %in% sixstates) %>% 
   mutate(Total.Score = Total.Math + Total.Verbal) %>% 
   select("State.Code", "Total.Score") %>% 
   group_by(State.Code) %>% 
-  transmute(avg.total.score = mean(Total.Score))
+  transmute(avg.total.score = mean(Total.Score)) %>%
+  group_by(State.Code, avg.total.score) %>%
+  summarise(avg.total.score = mean(avg.total.score))
 schooldata6
 
 ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + 
@@ -60,7 +63,7 @@ Our second figure shows the avergae SAT score across the six income brackets in 
 ```{r figure 2}
 # this needs to be fixed — use something other than geom_col
 # Big Picture page idea: put the lowest and highest brackets
-incomescore <- read_csv(here::here("dataset/schooldatacleaned_pivoted.csv"))
+incomescore <- read_csv(here::here("dataset/incomescore.csv"))
 incomescore <- incomescore %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
   mutate(income.bracket = str_remove(income.bracket, "income.between.")) %>%
@@ -68,8 +71,15 @@ incomescore <- incomescore %>%
   mutate(income.bracket = str_remove(income.bracket, "income.more.than.")) %>%
   select("state.code", "income.bracket", "average.total.score.of.bracket") %>% 
   group_by(income.bracket) 
+incomescore
 
-ggplot(data = incomescore, 
+incomescore_pivoted <- incomescore %>%
+  select("income.bracket", "average.total.score.of.bracket") %>%
+  group_by(income.bracket) %>%
+  summarise(average.total.score.of.bracket = mean(average.total.score.of.bracket))
+incomescore_pivoted
+
+ggplot(data = incomescore_pivoted, 
        mapping = aes(x = income.bracket, 
                      y = average.total.score.of.bracket, 
                      fill = income.bracket)) + 
@@ -177,8 +187,37 @@ This is a matrix of average SAT scores by state, split into the 5 regions of the
 ```{r}
 # gender vs. sat score
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
+
+# genderscore <- genderscore %>%
+#   pivot_longer(c(female.total.score, male.total.score), 
+#                names_to = "gender", 
+#                values_to = "average.SAT.score", 
+#                values_drop_na = TRUE) %>%
+#   mutate(gender = str_remove(gender, ".total.score"))
+
+genderscore <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score = mean(female.total.score), avg.male.SAT.score = mean(male.total.score))
+
+ggplot(genderscore) + geom_point(aes(x = year, y = avg.female.SAT.score, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score, col = "male")) + labs(x = "Year", y = "Average SAT Score", col = "Gender", title = "Average SAT Score By Gender from 2005-2015")
 ```
 
+```{r}
+#checking if gender is a significant predictor of SAT score — yes!
+genderscore_pivoted <- genderscore %>%
+  pivot_longer(c(female.total.score, male.total.score), 
+                names_to = "gender", 
+                values_to = "average.SAT.score", 
+                values_drop_na = TRUE) %>%
+  mutate(gender = str_remove(gender, ".total.score")) %>%
+  select("year", "state.code", "gender", "average.SAT.score")
+
+genderdummies <- genderscore_pivoted %>%
+  add_column(gdummy = NA) %>%
+  mutate(gdummy = ifelse(gender == "female", 1, 0)) %>%
+  select("year", "gdummy", "average.SAT.score")
+
+summary(lm(average.SAT.score ~ gdummy, data = genderdummies))
+
+```
 
 ### Backwards Selection
 
