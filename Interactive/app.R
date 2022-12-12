@@ -1,19 +1,20 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-# Load packages ----
+INTERACTIVE CODE SO FAR:
+  #
+  # This is a Shiny web application. You can run the application by clicking
+  # the 'Run App' button above.
+  #
+  # Find out more about building applications with Shiny here:
+  #
+  #    http://shiny.rstudio.com/
+  #
+  
+  # Load packages ----
 library(shiny)
 library(maps)
 library(mapproj)
 
 # Load data ----
-counties <- read.csv(here::here("dataset/schooldataclean.csv"))
+income <- read.csv(here::here("dataset/schooldatacleaned.csv"))
 
 # Source helper functions -----
 source("helpers.R")
@@ -29,9 +30,11 @@ ui <- fluidPage(
       
       selectInput("var", 
                   label = "Choose a variable to display",
-                  choices = c("Percent White", "Percent Black",
-                              "Percent Hispanic", "Percent Asian"),
-                  selected = "Percent White"),
+                  choices = c("Income 20k or less", "Income between 20k and 40k",
+                              "Income between 40k and 60k", "Income between 40k and 60k", 
+                              "Income between 60k and 80k", "Income between 80k and 100k",
+                              "Income 100k or more"),
+                  selected = "Income 20k or less"),
       
       sliderInput("range", 
                   label = "Range of interest:",
@@ -45,23 +48,30 @@ ui <- fluidPage(
 # Server logic ----
 server <- function(input, output) {
   output$map <- renderPlot({
-    data <- switch(input$var, 
-                   "Percent White" = counties$white,
-                   "Percent Black" = counties$black,
-                   "Percent Hispanic" = counties$hispanic,
-                   "Percent Asian" = counties$asian)
+    data <- switch(input$var,
+                   "Income 20k or less" = income$income.less.than.20k , 
+                   "Income between 20k and 40k" = income$income.between.20k.and.40k,
+                   "Income between 40k and 60k" = income$income.between.40k.and.60k, 
+                   "Income between 60k and 80k" = income$income.between.60k.and.80k, 
+                   "Income between 80k and 100k" = income$income.between.80k.and.100k,
+                   "Income 100k or more" = income$income.more.than.100k)
     
     color <- switch(input$var, 
-                    "Percent White" = "darkgreen",
-                    "Percent Black" = "black",
-                    "Percent Hispanic" = "darkorange",
-                    "Percent Asian" = "darkviolet")
+                    "Income 20k or less" = "darkgreen", 
+                    "Income between 20k and 40k" = "black" ,
+                    "Income between 40k and 60k" = "darkblue" , 
+                    "Income between 40k and 60k" = "darkorange" , 
+                    "Income between 60k and 80k" = "red" , 
+                    "Income between 80k and 100k" = "darkviolet",
+                    "Income 100k or more" = "yellow")
     
     legend <- switch(input$var, 
-                     "Percent White" = "% White",
-                     "Percent Black" = "% Black",
-                     "Percent Hispanic" = "% Hispanic",
-                     "Percent Asian" = "% Asian")
+                     "Income 20k or less" = "% 20k or less", 
+                     "Income between 20k and 40k" = "% between 20k and 40k" ,
+                     "Income between 40k and 60k" = "% between 40k and 60k" , 
+                     "Income between 40k and 60k" = "% between 60 and 80k" , 
+                     "Income between 60k and 80k" = "% between 80k and 100k" , 
+                     "Income between 80k and 100k" = "% 100k or more")
     
     percent_map(data, color, legend, input$range[1], input$range[2])
   })

@@ -71,10 +71,10 @@ schooldatacleaned_verbal <- schooldatacleaned %>%
   select("state.code", "state.name", "income.bracket", "average.verbal.score.of.bracket")
 
 schooldatacleaned_math$average.verbal.score.of.bracket <- schooldatacleaned_verbal$average.verbal.score.of.bracket
-schooldatacleaned_pivoted <- schooldatacleaned_math %>% 
+incomescore <- schooldatacleaned_math %>% 
   bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %>%
   select("state.code", "income.bracket", "average.math.score.of.bracket", "average.verbal.score.of.bracket")
-schooldatacleaned_pivoted
+incomescore
 ```
 We then loaded this into a new csv file as well, titled "schooldatacleaned_pivoted.csv"
 
@@ -84,6 +84,19 @@ The most important columns in this dataset are listed below:
 * income.bracket: the bracket from which the observation is pulled from
 * average.math.score.of.bracket: the average math score of the particular income bracket in the particular state
 * average.verbal.score.of.bracket: the average verbal score of the particular income bracket in the particular state
+
+Next, we filtered the dataset to only look at the scores between females and males.
+```{r}
+schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
+genderscore <- schooldatacleaned %>% 
+  select(year,"state.code","state.name", "gender.female.math", "gender.female.verbal", "gender.male.math", "gender.male.verbal") %>%
+  mutate(female.total.score = gender.female.math + gender.female.verbal) %>%
+  mutate(male.total.score = gender.male.math + gender.male.verbal) %>%
+  select("year", "state.code", "state.name", "female.total.score", "male.total.score") 
+genderscore
+```
+
+This was then loaded into a new csv file as well, titled "genderscore.csv"
 
 Section 2:
 
@@ -128,5 +141,7 @@ The data here were collected by the US Census Bureau. As a product of the US fed
 In summary, the primary datasets we will be using for our analysis are:
 
 * school_scores_data_clean.csv
-* schooldatacleaned.csv
+* incomescore.csv
+* genderscore
 * newdata_inc.csv
+
