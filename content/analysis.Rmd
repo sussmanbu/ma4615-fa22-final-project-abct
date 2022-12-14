@@ -81,26 +81,24 @@ To further confirm that the Midwest has the highest SAT scores, we created a gri
 
 ```{r figure 3}
 # map of average total score by state
-library(maps)
+library(tmap)
+library(sf)
 
-schooldata4 <- schooldata %>% 
-  mutate(Total.Score = Total.Math + Total.Verbal) %>% 
-  select("State.Name", "Total.Score") %>% 
-  group_by(State.Name) %>% 
+schooldata4 <- schooldata %>%
+  mutate(Total.Score = Total.Math + Total.Verbal) %>%
+  select("State.Name", "Total.Score") %>%
+  group_by(State.Name) %>%
   transmute(avg.total.score = mean(Total.Score), State.Name)
 schooldata4 <- unique(schooldata4)
+schooldata4 <- schooldata4 %>% transmute(NAME = State.Name, avg.total.score)
 
-MainStates <- map_data("state")
-states <- MainStates %>% transmute(region) %>% unique()
-schooldata4 <- schooldata4 %>% transmute(region = str_to_lower(State.Name), avg.total.score) %>% 
-  filter(region %in% states$region)
+state_data <- st_read(here::here("dataset/state_data/state_data.shp"))
 
-MergedStates <- inner_join(MainStates, schooldata4, by = "region")
+schooldata_tm <- inner_join(state_data, schooldata4, by =
+                              "NAME")
 
-ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
-                                                 fill = avg.total.score), color = "white") +
-  scale_fill_continuous(low = "springgreen", high = "springgreen4", name = "Average SAT Score") + 
-  labs(title = "Average SAT Score by State")
+tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT Score") + tm_layout(title = "Average SAT Score by State", title.position = c("center", "top"))
+
 ```
 
 ### Figure 4: Breakdown of Average SAT Scores by Region
