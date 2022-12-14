@@ -6,13 +6,15 @@ featuredVideo:
 featuredImage: https://www.techrepublic.com/wp-content/uploads/2022/09/tr-data-migration-vs-data-integration-770x513.jpeg
 draft: false
 ---
-Section 1:
+## Data Description:
 
 The main dataset used within this project can be found at https://corgis-edu.github.io/corgis/csv/school_scores/.
 
 We focused on a data set from the CORGIS Dataset Project that presents students’ academic scoring along with family income, GPA, and gender. his data set comes from the CORGIS Datasets Project and has 578 rows and 99 columns. The data reports SAT scores from the Common Core of Data (CCD), which is the Department of Education’s primary comprehensive database on public primary and secondary education data. The Department of Education collects data on students in hopes of using analysis results to assess teacher performance and improve classroom experiences. 
 
 The data was collected by Austin Cory Bart, and he can be reached at acbart@vt.edu. He worked alongside Dennis Kafura, Clifford A. Shaffer, Javier Tibau, Luke Gusukuma, and Eli Tilevich.
+
+## Cleaned Data File:
 
 Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cleaned our data. You can find it attached within the code below.
 
@@ -21,6 +23,8 @@ Our [load_and_clean_data.R](/load_and_clean_data.R) file is how we loaded and cl
 cleandatafile <- here::here("static", "load_and_clean_data.R")
 
 ```
+
+## Organizing our Data:
 
 In order to better organize the dataset, we changed the column names to more readable titles. 
 These titles include: year, state code, state name, average gpa per subject, average years per subject, income levels, gender, and SAT Scores. 
@@ -49,6 +53,9 @@ To save some time and space, we loaded all changes from the chunk above into a n
 We did this by using the write_csv function in the console. 
 
 Next, we decided to use pivot_longer on the income brackets so that we could create a singular, comprehensive income bracket column to use in our analysis later.
+
+## Pivoted Data:
+
 ```{r pivot_longer on schooldatacleaned}
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
 schooldatacleaned_math <- schooldatacleaned %>% 
@@ -85,6 +92,8 @@ The most important columns in this dataset are listed below:
 * average.math.score.of.bracket: the average math score of the particular income bracket in the particular state
 * average.verbal.score.of.bracket: the average verbal score of the particular income bracket in the particular state
 
+## Filtered Gender Data:
+
 Next, we filtered the dataset to only look at the scores between females and males.
 ```{r}
 schooldatacleaned <- read_csv(here::here("dataset/schooldatacleaned.csv"))
@@ -98,7 +107,7 @@ genderscore
 
 This was then loaded into a new csv file as well, titled "genderscore.csv"
 
-Section 2:
+## Census Data:
 
 Additionally, We decided to include information from the US Census demographic data from 2017 that we found on Kaggle. 
 This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with our schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.
@@ -137,6 +146,8 @@ newdata_inc
 This dataset that is found at https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests. 
 
 The data here were collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.
+
+## Summary: 
 
 In summary, the primary datasets we will be using for our analysis are:
 

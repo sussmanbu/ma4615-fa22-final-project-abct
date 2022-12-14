@@ -3,7 +3,7 @@ title: Data
 description:
 toc: true
 featuredVideo:
-featuredImage: images/data-import-cheatsheet-thumbs.png
+featuredImage: https://www.techrepublic.com/wp-content/uploads/2022/09/tr-data-migration-vs-data-integration-770x513.jpeg
 draft: false
 ---
 
@@ -12,84 +12,155 @@ draft: false
 
 </div>
 
-<p>This comes from the file <code>content/data.Rmd</code>.</p>
-<p>Section 1:</p>
+<div id="data-description" class="section level2">
+<h2>Data Description:</h2>
 <p>The main dataset used within this project can be found at <a href="https://corgis-edu.github.io/corgis/csv/school_scores/" class="uri">https://corgis-edu.github.io/corgis/csv/school_scores/</a>.</p>
 <p>We focused on a data set from the CORGIS Dataset Project that presents students’ academic scoring along with family income, GPA, and gender. his data set comes from the CORGIS Datasets Project and has 578 rows and 99 columns. The data reports SAT scores from the Common Core of Data (CCD), which is the Department of Education’s primary comprehensive database on public primary and secondary education data. The Department of Education collects data on students in hopes of using analysis results to assess teacher performance and improve classroom experiences.</p>
 <p>The data was collected by Austin Cory Bart, and he can be reached at <a href="mailto:acbart@vt.edu" class="email">acbart@vt.edu</a>. He worked alongside Dennis Kafura, Clifford A. Shaffer, Javier Tibau, Luke Gusukuma, and Eli Tilevich.</p>
+</div>
+<div id="cleaned-data-file" class="section level2">
+<h2>Cleaned Data File:</h2>
 <p>Our <a href="/load_and_clean_data.R">load_and_clean_data.R</a> file is how we loaded and cleaned our data. You can find it attached within the code below.</p>
-<pre class="r"><code>source(
-  here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-)</code></pre>
-<pre><code>## 
-## &gt; library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre><code>## 
-## &gt; school_scores_data &lt;- read_csv(here::here(&quot;dataset&quot;, 
-## +     &quot;school_scores.csv&quot;))</code></pre>
-<pre><code>## Rows: 577 Columns: 99
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): State.Code, State.Name
-## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>## 
-## &gt; school_scores_data_clean &lt;- school_scores_data
-## 
-## &gt; write_csv(school_scores_data_clean, file = here::here(&quot;dataset&quot;, 
-## +     &quot;school_scores_data_clean.csv&quot;))
-## 
-## &gt; save(school_scores_data_clean, file = here::here(&quot;dataset/school_scores.RData&quot;))
-## 
-## &gt; library(tidyverse)
-## 
-## &gt; census_data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;acs2017_census_tract_data.csv&quot;))</code></pre>
-<pre><code>## Rows: 74001 Columns: 37
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): State, County
-## dbl (35): TractId, TotalPop, Men, Women, Hispanic, White, Black, Native, Asi...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>## 
-## &gt; census_data_clean &lt;- census_data
-## 
-## &gt; write_csv(census_data_clean, file = here::here(&quot;dataset&quot;, 
-## +     &quot;acs2017_census_tract_data.csv&quot;))
-## 
-## &gt; save(census_data_clean, file = here::here(&quot;dataset/census_data.RData&quot;))</code></pre>
-<p>In order to better organize the dataset, we changed the column names to more manageable titles.
+<pre class="r"><code>cleandatafile &lt;- here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;)</code></pre>
+</div>
+<div id="organizing-our-data" class="section level2">
+<h2>Organizing our Data:</h2>
+<p>In order to better organize the dataset, we changed the column names to more readable titles.
 These titles include: year, state code, state name, average gpa per subject, average years per subject, income levels, gender, and SAT Scores.
 Subjects include: Arts/Music, English, ’Foreign Languages, Mathematics, Natural Sciences, Social Sciences/History.
 Income levels per year include: less than 20k, 20 to 40k, 40 to 60k, 60 to 80k, 80 to 100k, more than 100k.
-Moreover, we mutated the total score column to include both the math score and the verbal score. We also mutated the income columns to do the same thing.</p>
+Moreover, we mutated the total score column to combine the math score and the verbal scores. We also mutated the income columns to do the same thing.</p>
 <pre class="r"><code>library(tidyverse)
 school_scores_data_clean &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))
 
 colnames(school_scores_data_clean) &lt;- c(&#39;year&#39;, &#39;state.code&#39;, &#39;state.name&#39;, &#39;total.math&#39;, &#39;total.testtakers&#39;, &#39;total.verbal&#39;, &#39;arts.music.avggpa&#39;, &#39;arts.music.avgyears&#39;, &#39;english.avggpa&#39;, &#39;english.avgyears&#39;, &#39;foreign.languages.avggpa&#39;, &#39;foreign.languages.avgyears&#39;, &#39;mathematics.avggpa&#39;, &#39;mathematics.avgyears&#39;, &#39;natural.sciences.avggpa&#39;, &#39;natural.sciences.avgyears&#39;, &#39;social.sciences.history.avggpa&#39;, &#39;social.sciences.history.avgyears&#39;, &#39;income.between.20.40k.math&#39;, &#39;income.between.20.40k.testtakers&#39;,&#39;income.between.20.40k.verbal&#39;, &#39;income.between.40.60k.math&#39;, &#39;income.between.40.60k.testtakers&#39;, &#39;income.between.40.60k.verbal&#39;, &#39;income.between.60.80k.math&#39;, &#39;income.between.60.80k.testtakers&#39;,&#39;income.between.60.80k.verbal&#39;, &#39;income.between.80.100k.math&#39;,&#39;income.between.80.100k.testtakers&#39;, &#39;income.between.80.100k.verbal&#39;, &#39;income.less.than.20k.math&#39;, &#39;income.less.than.20k.testtakers&#39;, &#39;income.less.than.20k.verbal&#39;, &#39;income.more.than.100k.math&#39;, &#39;income.more.than.100k.testtakers&#39;, &#39;income.more.than.100k.verbal&#39;, &#39;gpa.aminus.math&#39;, &#39;gpa.aminus.testtakers&#39;, &#39;gpa.aminus.verbal&#39;, &#39;gpa.aplus.math&#39;, &#39;gpa.aplus.testtakers&#39;, &#39;gpa.aplus.verbal&#39;, &#39;gpa.a.math&#39;, &#39;gpa.a.testtakers&#39;, &#39;gpa.a.verbal&#39;, &#39;gpa.b.math&#39;, &#39;gpa.b.testtakers&#39;, &#39;gpa.b.verbal&#39;, &#39;gpa.c.math&#39;, &#39;gpa.c.testtakers&#39;, &#39;gpa.c.verbal&#39;, &#39;gpa.d.or.lower.math&#39;, &#39;gpa.d.or.lower.testtakers&#39;, &#39;gpa.d.or.lower.verbal&#39;, &#39;gpa.no.response.math&#39;, &#39;gpa.no.response.testtakers&#39;, &#39;gpa.no.response.verbal&#39;, &#39;gender.female.math&#39;,&#39;gender.female.testtakers&#39;, &#39;gender.female.verbal&#39;, &#39;gender.male.math&#39;, &#39;gender.male.testtakers&#39;, &#39;gender.male.verbal&#39;, &#39;score.between.200.to.300.math.females&#39;, &#39;score.between.200.to.300.math.males&#39;, &#39;score.between.200.to.300.math.total&#39;, &#39;score.between.200.to.300.verbal.females&#39;, &#39;score.between.200.to.300.verbal.males&#39;, &#39;score.between.200.to.300.verbal.total&#39;, &#39;score.between.300.to.400.math.females&#39;, &#39;score.between.300.to.400.math.males&#39;, &#39;score.between.300.to.400.math.total&#39;, &#39;score.between.300.to.400.verbal.females&#39;, &#39;score.between.300.to.400.verbal.males&#39;, &#39;score.between.300.to.400.verbal.total&#39;, &#39;score.between.400.to.500.math.females&#39;, &#39;score.between.400.to.500.math.males&#39;, &#39;score.between.400.to.500.math.total&#39;, &#39;score.between.400.to.500.verbal.females&#39;, &#39;score.between.400.to.500.verbal.males&#39;, &#39;score.between.400.to.500.verbal.total&#39;, &#39;score.between.500.to.600.math.females&#39;, &#39;score.between.500.to.600.math.males&#39;, &#39;score.between.500.to.600.math.total&#39;, &#39;score.between.500.to.600.verbal.females&#39;, &#39;score.between.500.to.600.verbal.males&#39;, &#39;score.between.500.to.600.verbal.total&#39;, &#39;score.between.600.to.700.math.females&#39;, &#39;score.between.600.to.700.math.males&#39;, &#39;score.between.600.to.700.math.total&#39;, &#39;score.between.600.to.700.verbal.females&#39;, &#39;score.between.600.to.700.verbal.males&#39;, &#39;score.between.600.to.700.verbal.total&#39;, &#39;score.between.700.to.800.math.females&#39;, &#39;score.between.700.to.800.math.males&#39;, &#39;score.between.700.to.800.math.total&#39;, &#39;score.between.700.to.800.verbal.females&#39;, &#39;score.between.700.to.800.verbal.males&#39;, &#39;score.between.700.to.800.verbal.total&#39;)
 
-newdata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
+schooldata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
   mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %&gt;%
   mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %&gt;%
   mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %&gt;%
   mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %&gt;%
   mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %&gt;%
   mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal)</code></pre>
-<p>Section 2:</p>
-<p>Additionally, We decided to include information from the US Census demographic data from 2017 that we found on kaggle.</p>
-<p>This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with out schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.</p>
-<p>Firstly, we loaded and cleaned the data using the file:
+<p>To save some time and space, we loaded all changes from the chunk above into a new csv file, titled “schooldataclean.csv”
+We did this by using the write_csv function in the console.</p>
+<p>Next, we decided to use pivot_longer on the income brackets so that we could create a singular, comprehensive income bracket column to use in our analysis later.</p>
+</div>
+<div id="pivoted-data" class="section level2">
+<h2>Pivoted Data:</h2>
+<pre class="r"><code>schooldatacleaned &lt;- read_csv(here::here(&quot;dataset/schooldatacleaned.csv&quot;))</code></pre>
+<pre><code>## New names:
+## Rows: 577 Columns: 107
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (2): state.code, state.name dbl (105): ...1, year, total.math,
+## total.testtakers, total.verbal, arts.musi...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>schooldatacleaned_math &lt;- schooldatacleaned %&gt;% 
+  select(year,&quot;state.code&quot;,&quot;state.name&quot;,&quot;income.less.than.20k.math&quot;, &quot;income.between.20.40k.math&quot;, &quot;income.between.40.60k.math&quot;, &quot;income.between.60.80k.math&quot;, &quot;income.between.80.100k.math&quot;, &quot;income.more.than.100k.math&quot;) %&gt;%
+  pivot_longer(c(income.less.than.20k.math, income.between.20.40k.math, income.between.40.60k.math, income.between.60.80k.math, income.between.80.100k.math, income.more.than.100k.math), 
+               names_to = &quot;income.bracket.math&quot;, 
+               values_to = &quot;average.math.score.of.bracket&quot;, 
+               values_drop_na = TRUE) %&gt;%
+  mutate(income.bracket = str_remove(income.bracket.math, &quot;.math&quot;)) %&gt;%
+  select(&quot;state.code&quot;, &quot;state.name&quot;, &quot;income.bracket&quot;,&quot;average.math.score.of.bracket&quot;) 
+schooldatacleaned_math</code></pre>
+<pre><code>## # A tibble: 3,462 × 4
+##    state.code state.name income.bracket         average.math.score.of.bracket
+##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 AL         Alabama    income.less.than.20k                             462
+##  2 AL         Alabama    income.between.20.40k                            513
+##  3 AL         Alabama    income.between.40.60k                            539
+##  4 AL         Alabama    income.between.60.80k                            550
+##  5 AL         Alabama    income.between.80.100k                           566
+##  6 AL         Alabama    income.more.than.100k                            588
+##  7 AK         Alaska     income.less.than.20k                             464
+##  8 AK         Alaska     income.between.20.40k                            492
+##  9 AK         Alaska     income.between.40.60k                            517
+## 10 AK         Alaska     income.between.60.80k                            513
+## # … with 3,452 more rows</code></pre>
+<pre class="r"><code>schooldatacleaned_verbal &lt;- schooldatacleaned %&gt;% 
+  select(year,&quot;state.code&quot;,&quot;state.name&quot;, &quot;income.less.than.20k.verbal&quot;, &quot;income.between.20.40k.verbal&quot;, &quot;income.between.40.60k.verbal&quot;, &quot;income.between.60.80k.verbal&quot;, &quot;income.between.80.100k.verbal&quot;, &quot;income.more.than.100k.verbal&quot;) %&gt;%
+  pivot_longer(c(income.less.than.20k.verbal, income.between.20.40k.verbal, income.between.40.60k.verbal, income.between.60.80k.verbal, income.between.80.100k.verbal, income.more.than.100k.verbal), 
+               names_to = &quot;income.bracket.verbal&quot;, 
+               values_to = &quot;average.verbal.score.of.bracket&quot;, 
+               values_drop_na = TRUE) %&gt;%
+  mutate(income.bracket = str_remove(income.bracket.verbal, &quot;.verbal&quot;)) %&gt;%
+  select(&quot;state.code&quot;, &quot;state.name&quot;, &quot;income.bracket&quot;, &quot;average.verbal.score.of.bracket&quot;)
+
+schooldatacleaned_math$average.verbal.score.of.bracket &lt;- schooldatacleaned_verbal$average.verbal.score.of.bracket
+incomescore &lt;- schooldatacleaned_math %&gt;% 
+  bind_cols(schooldatacleaned_verbal$average.verbal.score.of.bracket) %&gt;%
+  select(&quot;state.code&quot;, &quot;income.bracket&quot;, &quot;average.math.score.of.bracket&quot;, &quot;average.verbal.score.of.bracket&quot;)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...6`</code></pre>
+<pre class="r"><code>incomescore</code></pre>
+<pre><code>## # A tibble: 3,462 × 4
+##    state.code income.bracket         average.math.score.of.bracket average.ver…¹
+##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;         &lt;dbl&gt;
+##  1 AL         income.less.than.20k                             462           474
+##  2 AL         income.between.20.40k                            513           527
+##  3 AL         income.between.40.60k                            539           551
+##  4 AL         income.between.60.80k                            550           564
+##  5 AL         income.between.80.100k                           566           577
+##  6 AL         income.more.than.100k                            588           590
+##  7 AK         income.less.than.20k                             464           467
+##  8 AK         income.between.20.40k                            492           500
+##  9 AK         income.between.40.60k                            517           522
+## 10 AK         income.between.60.80k                            513           519
+## # … with 3,452 more rows, and abbreviated variable name
+## #   ¹​average.verbal.score.of.bracket</code></pre>
+<p>We then loaded this into a new csv file as well, titled “schooldatacleaned_pivoted.csv”</p>
+<p>The most important columns in this dataset are listed below:</p>
+<ul>
+<li>state.code: the abbreviation for the state the observation is pulled from</li>
+<li>income.bracket: the bracket from which the observation is pulled from</li>
+<li>average.math.score.of.bracket: the average math score of the particular income bracket in the particular state</li>
+<li>average.verbal.score.of.bracket: the average verbal score of the particular income bracket in the particular state</li>
+</ul>
+</div>
+<div id="filtered-gender-data" class="section level2">
+<h2>Filtered Gender Data:</h2>
+<p>Next, we filtered the dataset to only look at the scores between females and males.</p>
+<pre class="r"><code>schooldatacleaned &lt;- read_csv(here::here(&quot;dataset/schooldatacleaned.csv&quot;))</code></pre>
+<pre><code>## New names:
+## Rows: 577 Columns: 107
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (2): state.code, state.name dbl (105): ...1, year, total.math,
+## total.testtakers, total.verbal, arts.musi...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>genderscore &lt;- schooldatacleaned %&gt;% 
+  select(year,&quot;state.code&quot;,&quot;state.name&quot;, &quot;gender.female.math&quot;, &quot;gender.female.verbal&quot;, &quot;gender.male.math&quot;, &quot;gender.male.verbal&quot;) %&gt;%
+  mutate(female.total.score = gender.female.math + gender.female.verbal) %&gt;%
+  mutate(male.total.score = gender.male.math + gender.male.verbal) %&gt;%
+  select(&quot;year&quot;, &quot;state.code&quot;, &quot;state.name&quot;, &quot;female.total.score&quot;, &quot;male.total.score&quot;) 
+genderscore</code></pre>
+<pre><code>## # A tibble: 577 × 5
+##     year state.code state.name           female.total.score male.total.score
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;                             &lt;dbl&gt;            &lt;dbl&gt;
+##  1  2005 AL         Alabama                            1099             1156
+##  2  2005 AK         Alaska                             1026             1061
+##  3  2005 AZ         Arizona                            1035             1080
+##  4  2005 AR         Arkansas                           1094             1140
+##  5  2005 CA         California                         1003             1053
+##  6  2005 CO         Colorado                           1104             1138
+##  7  2005 CT         Connecticut                        1015             1054
+##  8  2005 DE         Delaware                            984             1029
+##  9  2005 DC         District Of Columbia                926             1017
+## 10  2005 FL         Florida                             980             1018
+## # … with 567 more rows</code></pre>
+<p>This was then loaded into a new csv file as well, titled “genderscore.csv”</p>
+</div>
+<div id="census-data" class="section level2">
+<h2>Census Data:</h2>
+<p>Additionally, We decided to include information from the US Census demographic data from 2017 that we found on Kaggle.
+This dataset contains demographic data of the U.S. population from 2017, with 37 columns and 74000 rows. By combining this dataset with our schools scores data, we can use this information to find other factors that might contribute to deviations in SAT scores, e.g. gender ratios, racial demographics.</p>
+<p>First, we loaded and cleaned the data using the file:
 <code>[load_and_clean_data.R](/load_and_clean_data.R)</code></p>
 <p>One comparison to note is that the State.Name column in the original dataset is equal to the State column in the new dataset.</p>
 <pre class="r"><code>library(tidyverse)
@@ -119,27 +190,36 @@ incomedata &lt;- newdata_1 %&gt;% select(state.name, total.score, income.between
                                    income.more.than.100k)
 
 
-newdata_inc &lt;- incomedata %&gt;% crossing(censusdata)
+newdata_inc &lt;- incomedata %&gt;% left_join(censusdata,
+                                        by = c(&quot;state.name&quot; = &quot;State.Name&quot;))
 newdata_inc</code></pre>
-<pre><code>## # A tibble: 41,595,930 × 14
-##    state…¹ total…² incom…³ incom…⁴ incom…⁵ incom…⁶ incom…⁷ incom…⁸ State…⁹ White
-##    &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
-##  1 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  2 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  3 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  4 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  5 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  6 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  7 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  8 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0  
-##  9 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0.2
-## 10 Alabama    1073     932    1019    1041    1064     864    1141 Alabama   0.3
-## # … with 41,595,920 more rows, 4 more variables: Black &lt;dbl&gt;, Asian &lt;dbl&gt;,
-## #   Native &lt;dbl&gt;, Pacific &lt;dbl&gt;, and abbreviated variable names ¹​state.name,
-## #   ²​total.score, ³​income.between.20.40k, ⁴​income.between.40.60k,
-## #   ⁵​income.between.60.80k, ⁶​income.between.80.100k, ⁷​income.less.than.20k,
-## #   ⁸​income.more.than.100k, ⁹​State.Name</code></pre>
+<pre><code>## # A tibble: 809,204 × 13
+##    state.n…¹ total…² incom…³ incom…⁴ incom…⁵ incom…⁶ incom…⁷ incom…⁸ White Black
+##    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Alabama      1126    1040    1090    1114    1143     936    1178  86.3   5.2
+##  2 Alabama      1126    1040    1090    1114    1143     936    1178  41.6  54.5
+##  3 Alabama      1126    1040    1090    1114    1143     936    1178  61.4  26.5
+##  4 Alabama      1126    1040    1090    1114    1143     936    1178  80.3   7.1
+##  5 Alabama      1126    1040    1090    1114    1143     936    1178  77.5  16.4
+##  6 Alabama      1126    1040    1090    1114    1143     936    1178  70.7  25.1
+##  7 Alabama      1126    1040    1090    1114    1143     936    1178  78    13.7
+##  8 Alabama      1126    1040    1090    1114    1143     936    1178  86.3   7.1
+##  9 Alabama      1126    1040    1090    1114    1143     936    1178  81.8  15.3
+## 10 Alabama      1126    1040    1090    1114    1143     936    1178  86.2   9.7
+## # … with 809,194 more rows, 3 more variables: Asian &lt;dbl&gt;, Native &lt;dbl&gt;,
+## #   Pacific &lt;dbl&gt;, and abbreviated variable names ¹​state.name, ²​total.score,
+## #   ³​income.between.20.40k, ⁴​income.between.40.60k, ⁵​income.between.60.80k,
+## #   ⁶​income.between.80.100k, ⁷​income.less.than.20k, ⁸​income.more.than.100k</code></pre>
 <p>This dataset that is found at <a href="https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data" class="uri">https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data</a> contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests.</p>
 <p>The data here were collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.</p>
-<p>Section 3:</p>
-<p>We hope to combine these two datasets by using the merge() function since both datasets have a column dedicated to the 50 states, but we are concerned about the fact that this new dataset has 74000 rows, whereas our original one only has 578. To overcome this we may need to create new columns in the census dataset.</p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary:</h2>
+<p>In summary, the primary datasets we will be using for our analysis are:</p>
+<ul>
+<li>school_scores_data_clean.csv</li>
+<li>incomescore.csv</li>
+<li>genderscore</li>
+<li>newdata_inc.csv</li>
+</ul>
+</div>
