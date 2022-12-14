@@ -133,7 +133,7 @@ schooldata5 %>% ggplot(aes(Total.Score, State.Code, col = region)) +
   facet_wrap(~region, scales = "free") + geom_point()
 ```
 
-From both figures we see that the Midwest indisputedly has the highest SAT scores overall. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very "best" students; that is, students who want to attend the most presitigious colleges, most of whose applications require an SAT score, so the overall scores are higher. 
+From both figures we see that the Midwest indisputedly has the highest SAT scores overall. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a Forbes article (https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37), we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very "best" students; that is, students who want to attend the most presitigious colleges, most of whose applications require an SAT score, so the overall scores are higher. 
 
 ### Figure 5: Income Bracket and Average SAT Scores
 
