@@ -9,28 +9,30 @@
 
 library(tidyverse)
 library(shiny)
+library(bslib)
+
 df <- read_csv("incomegenderdata.csv") %>% 
   pivot_longer(cols = c(total.score, female.total.score, male.total.score), names_to = "gender", values_to = "score") %>%
   pivot_longer(cols = income.between.20.40k:income.more.than.100k, names_to = "income.bracket", values_to = "scores")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  
+  theme = bs_theme(version = 4, bootswatch = "minty"),
   # Application title
-  titlePanel("Income Bracket and Gender Scores"),
+  titlePanel("Income Bracket and Gender Scores Based on State"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
       checkboxGroupInput(
         "income.bracket",
-        "Select bracket",
+        "Select bracket:",
         unique(df$income.bracket),
         selected = unique(df$income.bracket)[1]
       ),
       checkboxGroupInput(
         "gender",
-        "Select gender",
+        "Select gender:",
         unique(df$gender),
         selected = unique(df$gender)[2]
       )
