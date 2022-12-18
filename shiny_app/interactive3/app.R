@@ -17,7 +17,7 @@ df <- read_csv("incomegenderdata.csv") %>%
 ui <- fluidPage(
   
   # Application title
-  titlePanel("Income Scores"),
+  titlePanel("Income Bracket and Gender Scores"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
