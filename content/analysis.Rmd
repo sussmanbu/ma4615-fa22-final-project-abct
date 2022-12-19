@@ -243,6 +243,14 @@ summary(bs)$cp
 
 ```
 
-Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model from the output since it has the lowest Mallow's CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores. 
+Out of the 8 models produced, model 5 has the lowest Mallow's CP value and thus would be the best model. In this one, the predictor variables are:
+* income between 20-40k
+* income between 80-100k
+* female total score
+* male total score
+* year
+
+Thus, income and gender are the best predictors for SAT score according to our dataset.
+
 
 ```
