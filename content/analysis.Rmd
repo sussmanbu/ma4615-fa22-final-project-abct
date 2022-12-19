@@ -36,7 +36,7 @@ Some questions we would like to answer are:
 
 We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.
 
-```{r figure 1, echo=FALSE, message=FALSE}
+```{r figure 1, echo=FALSE, message=FALSE, results=FALSE}
 # this needs to be fixed — use summarize, not geom_col or geom_bar
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
@@ -61,7 +61,7 @@ We can see that this plot does not support our conjecture that higher family inc
 
 To further see if there are significant differences in SAT scores across states, we decided to make a plot with boxplots of all states. 
 
-```{r figure 2, echo=FALSE, message=FALSE}
+```{r figure 2, echo=FALSE, message=FALSE, results=FALSE}
 schooldata3 <- schooldata %>% 
   mutate(Total.Score = Total.Math + Total.Verbal) %>% 
   select("State.Code", "Total.Score") %>% 
@@ -77,7 +77,7 @@ Here we can see that across all U.S. territories there are notable differences i
 
 ### Figure 3: Breakdown of Average SAT Scores by Region
 
-```{r figure 3, echo=FALSE, message=FALSE}
+```{r figure 3, echo=FALSE, message=FALSE, results=FALSE}
 west <- c("WA","OR", "ID", "MT", "WY", "CA", "NV", "UT", "CO")
 southwest <- c("AZ", "NM", "OK", "TX")
 midwest <- c("ND", "SD", "NE", "KS", "MN", "IA", "MO", "WI", "IL", "MI", "IN", "OH")
@@ -111,7 +111,7 @@ From both figures we see that the Midwest indisputably has the highest SAT score
 
 Our fourth figure shows the average SAT score across the six income brackets in our dataset. 
 
-```{r figure 4, echo=FALSE, message=FALSE}
+```{r figure 4, echo=FALSE, message=FALSE, results=FALSE}
 # this needs to be fixed — use something other than geom_col
 # Big Picture page idea: put the lowest and highest brackets
 incomescore <- read_csv(here::here("dataset/incomescore.csv"))

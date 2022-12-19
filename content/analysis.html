@@ -34,37 +34,12 @@ draft: false
 <div id="figure-1-six-states-comparison" class="section level3">
 <h3>Figure 1: Six States Comparison</h3>
 <p>We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.</p>
-<pre><code>## # A tibble: 6 × 2
-## # Groups:   State.Code [6]
-##   State.Code avg.total.score
-##   &lt;chr&gt;                &lt;dbl&gt;
-## 1 AR                   1139.
-## 2 MA                   1042.
-## 3 MD                   1002 
-## 4 MS                   1123.
-## 5 NJ                   1014.
-## 6 WV                   1018</code></pre>
 <p><img src="/analysis_files/figure-html/figure%201-1.png" width="672" /></p>
 <p>We can see that this plot does not support our conjecture that higher family incomes lead to higher SAT scores, as the scores for Arkansas and Mississippi, two of the states with the lowest median household income in the country, have higher average SAT scores than all three states with the highest median household incomes. We then wanted to see if any states in particular had higher SAT scores, so we decided to create some figures that examine all 50 states as well as D.C., Puerto Rico, and the Virgin Islands.</p>
 </div>
 <div id="figure-2-all-states-and-their-average-sat-scores" class="section level3">
 <h3>Figure 2: All States and their Average SAT Scores</h3>
 <p>To further see if there are significant differences in SAT scores across states, we decided to make a plot with boxplots of all states.</p>
-<pre><code>## # A tibble: 577 × 2
-## # Groups:   State.Code [53]
-##    State.Code Total.Score
-##    &lt;chr&gt;            &lt;dbl&gt;
-##  1 AL                1126
-##  2 AK                1042
-##  3 AZ                1056
-##  4 AR                1115
-##  5 CA                1026
-##  6 CO                1120
-##  7 CT                1034
-##  8 DE                1005
-##  9 DC                 968
-## 10 FL                 996
-## # … with 567 more rows</code></pre>
 <p><img src="/analysis_files/figure-html/figure%202-1.png" width="672" />
 Here we can see that across all U.S. territories there are notable differences in median SAT scores between them. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.</p>
 </div>
@@ -76,30 +51,6 @@ Here we can see that across all U.S. territories there are notable differences i
 <div id="figure-4-income-bracket-and-average-sat-scores" class="section level3">
 <h3>Figure 4: Income Bracket and Average SAT Scores</h3>
 <p>Our fourth figure shows the average SAT score across the six income brackets in our dataset.</p>
-<pre><code>## # A tibble: 3,462 × 3
-## # Groups:   income.bracket [6]
-##    state.code income.bracket average.total.score.of.bracket
-##    &lt;chr&gt;      &lt;chr&gt;                                   &lt;dbl&gt;
-##  1 AL         20k                                       936
-##  2 AL         20.40k                                   1040
-##  3 AL         40.60k                                   1090
-##  4 AL         60.80k                                   1114
-##  5 AL         80.100k                                  1143
-##  6 AL         100k                                     1178
-##  7 AK         20k                                       931
-##  8 AK         20.40k                                    992
-##  9 AK         40.60k                                   1039
-## 10 AK         60.80k                                   1032
-## # … with 3,452 more rows</code></pre>
-<pre><code>## # A tibble: 6 × 2
-##   income.bracket average.total.score.of.bracket
-##   &lt;chr&gt;                                   &lt;dbl&gt;
-## 1 100k                                    1126.
-## 2 20.40k                                  1002.
-## 3 20k                                      920.
-## 4 40.60k                                  1046.
-## 5 60.80k                                  1067.
-## 6 80.100k                                 1092.</code></pre>
 <p><img src="/analysis_files/figure-html/figure%204-1.png" width="672" /></p>
 <p>Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, indicating that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
 </div>

@@ -30,7 +30,7 @@ Some questions we would like to answer are:
 
 In order to determine where differences in income lead to different SAT scores across states, we created a grid of SAT scores by regions and created a heat map of the United States below.
 
-```{r figure 3, echo = FALSE, message=FALSE}
+```{r figure 3, echo = FALSE, message=FALSE, results=FALSE}
 # map of average total score by state
 library(tmap)
 library(tidyverse)
