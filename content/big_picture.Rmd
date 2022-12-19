@@ -14,7 +14,8 @@ Welcome! Our project site aims to provide some insight into how and why family i
 
 As you explore our website, you will see that through various modeling and inference techniques performed in RStudio, we found a number of significant relationships between family income and SAT scores in the United States. On this page, you can see some of our most basic and significant findings.
 
-## Journey:
+## Journey: 
+### Questions to Explore:
 
 Some questions we would like to answer are:
 
@@ -55,7 +56,7 @@ tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT 
 
 ```
 
-## Figure 2
+## Average SAT Score of Lowest and Highest Income Brackets
 
 ```{r, echo = FALSE, message=FALSE}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
@@ -79,6 +80,8 @@ incomescore6
 ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + labs(x = "State", y = "Average SAT Score", color = "Income Bracket", title = "Average SAT Score of Lowest and Highest Income Brackets") + facet_wrap(~income.bracket) 
 ```
 
+## Average SAT Score by Gender and State
+
 ```{r}
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
 
@@ -89,7 +92,12 @@ genderscore_pivoted <- genderscore %>%
                values_to = "score",
                ) %>%
   mutate(gender = str_remove(total.score, ".total.score")) %>%
+  filter(state.code %in% sixstates) %>%
   select(state.code, gender, score)
+
+genderscore_pivoted
+
+ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = score, fill = gender)) + geom_col() + labs(x = "Gender", y = "Average SAT Score", color = "State Code", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
 
 ```
 
