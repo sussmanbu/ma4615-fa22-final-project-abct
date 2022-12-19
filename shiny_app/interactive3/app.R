@@ -12,8 +12,10 @@ library(shiny)
 library(bslib)
 
 df <- read_csv("incomegenderdata.csv") %>% 
-  pivot_longer(cols = c(total.score, female.total.score, male.total.score), names_to = "gender", values_to = "score") %>%
-  pivot_longer(cols = income.between.20.40k:income.more.than.100k, names_to = "income.bracket", values_to = "scores")
+  pivot_longer(cols = c(total.score, female.total.score, male.total.score), 
+               names_to = "gender", values_to = "score") %>%
+  pivot_longer(cols = income.between.20.40k:income.more.than.100k, 
+               names_to = "income.bracket", values_to = "scores")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
