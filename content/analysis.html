@@ -13,23 +13,7 @@ draft: false
 </div>
 
 <p>We describe here our detailed data analysis.</p>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre><code>## [1] &quot;C:/Users/alyss/OneDrive/Desktop/ma415/ma4615-fa22-final-project-abct/content&quot;</code></pre>
-<pre><code>## Rows: 577 Columns: 99
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): State.Code, State.Name
-## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre><code>## [1] &quot;data&quot;                     &quot;school_scores_data_clean&quot;</code></pre>
 <hr />
 <div id="data-description" class="section level2">
@@ -50,15 +34,6 @@ draft: false
 <div id="figure-1-six-states-comparison" class="section level3">
 <h3>Figure 1: Six States Comparison</h3>
 <p>We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.</p>
-<pre><code>## Rows: 577 Columns: 99
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): State.Code, State.Name
-## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## `summarise()` has grouped output by &#39;State.Code&#39;. You can override using the `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 6 × 2
 ## # Groups:   State.Code [6]
 ##   State.Code avg.total.score
@@ -101,14 +76,6 @@ Here we can see that across all U.S. territories there are notable differences i
 <div id="figure-4-income-bracket-and-average-sat-scores" class="section level3">
 <h3>Figure 4: Income Bracket and Average SAT Scores</h3>
 <p>Our fourth figure shows the average SAT score across the six income brackets in our dataset.</p>
-<pre><code>## Rows: 3462 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): state.code, income.bracket
-## dbl (2): average.math.score.of.bracket, average.verbal.score.of.bracket
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre><code>## # A tibble: 3,462 × 3
 ## # Groups:   income.bracket [6]
 ##    state.code income.bracket average.total.score.of.bracket
@@ -163,14 +130,6 @@ Here we can see that across all U.S. territories there are notable differences i
 <div id="figure-5-sat-scores-by-gender-2005-2015" class="section level3">
 <h3>Figure 5: SAT Scores by Gender, 2005-2015</h3>
 <p>To look at whether or not there is a significant difference in SAT scores between genders, we took the yearly average SAT scores of males and females and plotted them.</p>
-<pre><code>## Rows: 577 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): state.code, state.name
-## dbl (7): year, gender.female.math, gender.female.verbal, female.total.score,...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p><img src="/analysis_files/figure-html/figure%205-1.png" width="672" /></p>
 <p>We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.</p>
 <p><img src="/analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
@@ -199,14 +158,6 @@ Here we can see that across all U.S. territories there are notable differences i
 </div>
 <div id="figure-6-average-sat-score-by-year" class="section level3">
 <h3>Figure 6: Average SAT Score by Year</h3>
-<pre><code>## Rows: 577 Columns: 99
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): State.Code, State.Name
-## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre><code>## # A tibble: 577 × 3
 ## # Groups:   Year [11]
 ##     Year total.SAT.score avg.total.score
@@ -228,15 +179,6 @@ Here we can see that across all U.S. territories there are notable differences i
 <div id="backwards-selection-model" class="section level3">
 <h3>Backwards Selection Model</h3>
 <p>To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.</p>
-<pre><code>## New names:
-## Rows: 577 Columns: 12
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (1): state.name dbl (11): ...1, total.score, income.between.20.40k,
-## income.between.40.60k, i...
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`</code></pre>
 <pre><code>##   (Intercept) income.between.20.40k income.between.40.60k income.between.60.80k
 ## 1        TRUE                 FALSE                 FALSE                 FALSE
 ## 2        TRUE                 FALSE                 FALSE                 FALSE
