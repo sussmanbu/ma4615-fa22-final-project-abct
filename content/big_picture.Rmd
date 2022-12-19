@@ -14,7 +14,7 @@ Welcome! Our project site aims to provide some insight into how and why family i
 
 As you explore our website, you will see that through various modeling and inference techniques performed in RStudio, we found a number of significant relationships between family income and SAT scores in the United States. On this page, you can see some of our most basic and significant findings.
 
-### Journey:
+## Journey:
 
 Some questions we would like to answer are:
 
@@ -24,9 +24,9 @@ Some questions we would like to answer are:
 4. Are other factors, like gender, better predictors of SAT scores?
 5. Do any of these relationships change over time?
 
-### More Figures:
+## More Figures:
 
-## Map of Average Total Score by State
+### Map of Average Total Score by State
 
 In order to determine where differences in income lead to different SAT scores across states, we created a grid of SAT scores by regions and created a heat map of the United States below.
 
@@ -56,7 +56,9 @@ tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT 
 ```
 
 
-```{r}
+## Figure 2
+
+```{r, echo = FALSE, message=FALSE}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 incomerange <- c("income.less.than.20k", "income.more.than.100k")
@@ -73,9 +75,9 @@ incomescore6 <- incomescore %>%
   select("state.code", "income.bracket", "average.total.score.of.bracket") %>%
   group_by(income.bracket, state.code) %>%
   summarise(average.total.score.of.bracket = mean(average.total.score.of.bracket))
-incomescore
+incomescore6
 
-ggplot(incomescore6, aes(x = income.bracket, y = average.total.score.of.bracket, color = state.code)) + geom_col() + labs(title="Average SAT Score By State", x = "State", y = "SAT Score", color="State.Code")
+ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + facet_wrap(~income.bracket)
 ```
 
 
