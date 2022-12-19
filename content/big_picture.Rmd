@@ -69,7 +69,6 @@ This tool is designed by ShinyApp. It shows the variation of SAT scores across s
 
 When the income.less.than.20k bracket and the income.more.than.100k bracket are plotted together together, you can see that the nature of the relationship between family income and SAT scores is that the higher the family income, the higher the SAT scores across the United States. 
 
-
  > Are there differences in income and SAT scores between states? 
  
 When plotting the average total.score within the gender graph, you can see that the Midwest indisputably has the highest SAT scores overall. 
@@ -81,7 +80,7 @@ When female.total.score is plotted alongside male.total.score, you can see that 
 ### Conclusion & Discussion:
 This interactive tool strongly supports our conclusion in our analysis and big picture:
 
-* point 1
-* point 2
-* idk
+* Generally, income bracket and SAT score have a statistically significant relationship; as income increases, so does SAT score
+* However, gender can also be a valuable predictor for SAT score
+* Collegeboard should revisit their exam to reduce the things that contribute to differences in scores among income brackets and genders; alternatively, colleges can put less emphasis on SAT scores as a measure of a student's intelligence and potential.
 

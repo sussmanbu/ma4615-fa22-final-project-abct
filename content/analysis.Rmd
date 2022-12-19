@@ -37,7 +37,6 @@ Some questions we would like to answer are:
 We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.
 
 ```{r figure 1, echo=FALSE, message=FALSE, results=FALSE}
-# this needs to be fixed — use summarize, not geom_col or geom_bar
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 
@@ -99,7 +98,6 @@ schooldata5 <- schooldata %>%
   mutate(region = ifelse(!State.Code %in% continental_us, "Noncontiguous", region))
 
 continental_us <- schooldata$State.Code %>% unique()
-#continental_us
 
 schooldata5 %>% ggplot(aes(Total.Score, State.Code, col = region)) + 
   facet_wrap(~region, scales = "free") + geom_point()
@@ -112,8 +110,6 @@ From both figures we see that the Midwest indisputably has the highest SAT score
 Our fourth figure shows the average SAT score across the six income brackets in our dataset. 
 
 ```{r figure 4, echo=FALSE, message=FALSE, results=FALSE}
-# this needs to be fixed — use something other than geom_col
-# Big Picture page idea: put the lowest and highest brackets
 incomescore <- read_csv(here::here("dataset/incomescore.csv"))
 incomescore <- incomescore %>% 
   mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
@@ -187,7 +183,6 @@ As we can clearly see, there is a much bigger difference between genders for the
 We wondered why this was the case and found a Forbes article (https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35) that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students' minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores. 
 
 ```{r figure 5 inference, echo=FALSE, message=FALSE}
-#checking if gender is a significant predictor of SAT score 
 genderscore_pivoted <- genderscore %>%
   pivot_longer(c(female.total.score, male.total.score), 
                 names_to = "gender", 
@@ -225,7 +220,6 @@ Across all 10 years in the dataset, the overall average SAT score remained withi
 To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.
 
 ```{r backwards selection, echo=FALSE, message=FALSE}
-# fix this
 incomegenderdata <- read_csv(here::here("dataset/incomegenderdata.csv"))
 
 library(leaps)
