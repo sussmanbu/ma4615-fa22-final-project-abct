@@ -55,6 +55,30 @@ tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT 
 
 ```
 
+
+```{r}
+schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
+incomerange <- c("income.less.than.20k", "income.more.than.100k")
+
+incomescore <- read_csv(here::here("dataset/incomescore.csv"))
+incomescore <- incomescore %>% 
+  filter(state.code %in% sixstates) %>%
+  filter(income.bracket %in% incomerange) %>%
+  mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %>% 
+  select("state.code", "income.bracket", "average.total.score.of.bracket") 
+
+incomescore6 <- incomescore %>%
+  filter(state.code %in% sixstates) %>%
+  select("state.code", "income.bracket", "average.total.score.of.bracket") %>%
+  group_by(income.bracket, state.code) %>%
+  summarise(average.total.score.of.bracket = mean(average.total.score.of.bracket))
+incomescore
+
+ggplot(incomescore6, aes(x = income.bracket, y = average.total.score.of.bracket, color = state.code)) + geom_col() + labs(title="Average SAT Score By State", x = "State", y = "SAT Score", color="State.Code")
+```
+
+
 The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
 
 ### Interactive:
