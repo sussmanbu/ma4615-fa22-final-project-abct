@@ -14,7 +14,7 @@ Welcome! Our project site aims to provide some insight into how and why family i
 
 As you explore our website, you will see that through various modeling and inference techniques performed in RStudio, we found a number of significant relationships between family income and SAT scores in the United States. On this page, you can see some of our most basic and significant findings.
 
-## Journey:
+### Journey:
 
 Some questions we would like to answer are:
 
@@ -24,7 +24,36 @@ Some questions we would like to answer are:
 4. Are other factors, like gender, better predictors of SAT scores?
 5. Do any of these relationships change over time?
 
-## More Figures:
+### More Figures:
+
+## Map of Average Total Score by State
+
+In order to determine where differences in income lead to different SAT scores across states, we created a grid of SAT scores by regions and created a heat map of the United States below.
+
+```{r figure 3}
+# map of average total score by state
+library(tmap)
+library(tidyverse)
+library(sf)
+
+schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+
+schooldata4 <- schooldata %>%
+  mutate(Total.Score = Total.Math + Total.Verbal) %>%
+  select("State.Name", "Total.Score") %>%
+  group_by(State.Name) %>%
+  transmute(avg.total.score = mean(Total.Score), State.Name)
+schooldata4 <- unique(schooldata4)
+schooldata4 <- schooldata4 %>% transmute(NAME = State.Name, avg.total.score)
+
+state_data <- st_read(here::here("dataset/state_data/state_data.shp"))
+
+schooldata_tm <- inner_join(state_data, schooldata4, by =
+                              "NAME")
+
+tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT Score") + tm_layout(title = "Average SAT Score by State", title.position = c("center", "top"))
+
+```
 
 The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
 
