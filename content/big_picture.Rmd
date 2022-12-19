@@ -55,7 +55,6 @@ tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT 
 
 ```
 
-
 ## Figure 2
 
 ```{r, echo = FALSE, message=FALSE}
@@ -77,7 +76,36 @@ incomescore6 <- incomescore %>%
   summarise(average.total.score.of.bracket = mean(average.total.score.of.bracket))
 incomescore6
 
-ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + facet_wrap(~income.bracket)
+ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + labs(x = "State", y = "Average SAT Score", color = "Income Bracket", title = "Average SAT Score of Lowest and Highest Income Brackets") + facet_wrap(~income.bracket) 
+```
+
+```{r}
+genderscore <- read_csv(here::here("dataset/genderscore.csv"))
+
+femalescore_pivoted <- genderscore %>%
+  select("state.code", "female.total.score") %>%
+  pivot_longer(female.total.score,
+               names_to = "female.total.score", 
+               values_to = "score",
+               ) %>%
+  mutate(gender = str_remove(female.total.score, ".total.score")) %>%
+  select(state.code, gender, score)
+femalescore_pivoted
+
+malescore_pivoted <- genderscore %>%
+  select("state.code", "male.total.score") %>%
+  pivot_longer(male.total.score,
+               names_to = "male.total.score", 
+               values_to = "score",
+               ) %>%
+  mutate(gender = str_remove(male.total.score, ".total.score")) %>%
+  select(state.code, gender, score)
+malescore_pivoted
+
+genderscore_pivoted <- femalescore_pivoted %>% 
+  bind_cols(malescore_pivoted$score) %>%
+  select("state.code", "gender", "score")
+genderscore_pivoted
 ```
 
 
