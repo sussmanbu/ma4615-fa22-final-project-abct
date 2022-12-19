@@ -14,11 +14,22 @@ Welcome! Our project site aims to provide some insight into how and why family i
 
 As you explore our website, you will see that through various modeling and inference techniques performed in RStudio, we found a number of significant relationships between family income and SAT scores in the United States. On this page, you can see some of our most basic and significant findings.
 
-The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us at:
+## Journey:
+
+Some questions we would like to answer are:
+
+1. What is the nature of the relationship between family income and SAT scores?
+2. Is this relationship statistically significant?
+3. Are there differences in income and SAT scores between states? 
+4. Is GPA more affected by family income than SAT scores?
+5. Are other factors, like gender and GPA, better predictors of SAT scores?
+6. Do any of these relationships change over time?
 
 ## Interactive:
 
-[Income and Gender Scores based on State](http://127.0.0.1:5418)
+The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/) 
+
+[Income and Gender Scores based on State](http://127.0.0.1:5418/)
 
 Within this interactive, these graphs help us further prove the conclusions from our analysis and big picture pages. This tool is designed by ShinyApp. It shows the variation of SAT scores across states, based on gender and income brackets by looking at two scatter-plots. In these side by side scatter-plots, one can assess the effect of gender, income bracket, or both factors on SAT scores to see if there is any difference in scores between male and female students and their family income. 
 
