@@ -37,9 +37,6 @@ draft: false
 <div id="map-of-average-total-score-by-state" class="section level2">
 <h2>Map of Average Total Score by State</h2>
 <p>In order to determine where differences in income lead to different SAT scores across states, we created a grid of SAT scores by regions and created a heat map of the United States below.</p>
-<pre class="r"><code># map of average total score by state
-library(tmap)
-library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
@@ -47,11 +44,10 @@ library(tidyverse)</code></pre>
 ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(sf)</code></pre>
-<pre><code>## Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE</code></pre>
-<pre class="r"><code>schooldata &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
-<pre><code>## Rows: 577 Columns: 99
+## ✖ dplyr::lag()    masks stats::lag()
+## Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
+## 
+## Rows: 577 Columns: 99
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr  (2): State.Code, State.Name
@@ -59,15 +55,6 @@ library(tidyverse)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>schooldata4 &lt;- schooldata %&gt;%
-  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;%
-  select(&quot;State.Name&quot;, &quot;Total.Score&quot;) %&gt;%
-  group_by(State.Name) %&gt;%
-  transmute(avg.total.score = mean(Total.Score), State.Name)
-schooldata4 &lt;- unique(schooldata4)
-schooldata4 &lt;- schooldata4 %&gt;% transmute(NAME = State.Name, avg.total.score)
-
-state_data &lt;- st_read(here::here(&quot;dataset/state_data/state_data.shp&quot;))</code></pre>
 <pre><code>## Reading layer `state_data&#39; from data source 
 ##   `C:\Users\alyss\OneDrive\Desktop\ma415\ma4615-fa22-final-project-abct\dataset\state_data\state_data.shp&#39; 
 ##   using driver `ESRI Shapefile&#39;
@@ -76,10 +63,6 @@ state_data &lt;- st_read(here::here(&quot;dataset/state_data/state_data.shp&quot
 ## Dimension:     XY
 ## Bounding box:  xmin: -2036903 ymin: -2112499 xmax: 2523583 ymax: 731405.7
 ## Projected CRS: NAD27_US_National_Atlas_Equal_Area</code></pre>
-<pre class="r"><code>schooldata_tm &lt;- inner_join(state_data, schooldata4, by =
-                              &quot;NAME&quot;)
-
-tm_shape(schooldata_tm) + tm_polygons(col = &quot;avg.total.score&quot;, title = &quot;Avg SAT Score&quot;) + tm_layout(title = &quot;Average SAT Score by State&quot;, title.position = c(&quot;center&quot;, &quot;top&quot;))</code></pre>
 <p><img src="/big_picture_files/figure-html/figure%203-1.png" width="672" /></p>
 <p>The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our <a href="https://abctma415f22.netlify.app/about/">github pages</a>.</p>
 <div id="interactive" class="section level3">

@@ -138,22 +138,24 @@ incomescore &lt;- schooldatacleaned_math %&gt;%
   select(year,&quot;state.code&quot;,&quot;state.name&quot;, &quot;gender.female.math&quot;, &quot;gender.female.verbal&quot;, &quot;gender.male.math&quot;, &quot;gender.male.verbal&quot;) %&gt;%
   mutate(female.total.score = gender.female.math + gender.female.verbal) %&gt;%
   mutate(male.total.score = gender.male.math + gender.male.verbal) %&gt;%
-  select(&quot;year&quot;, &quot;state.code&quot;, &quot;state.name&quot;, &quot;female.total.score&quot;, &quot;male.total.score&quot;) 
+  select(&quot;year&quot;, &quot;state.code&quot;, &quot;state.name&quot;, &quot;gender.female.math&quot;,&quot;gender.female.verbal&quot;, &quot;female.total.score&quot;,&quot;gender.male.math&quot;, &quot;gender.male.verbal&quot;, &quot;male.total.score&quot;) 
 genderscore</code></pre>
-<pre><code>## # A tibble: 577 × 5
-##     year state.code state.name           female.total.score male.total.score
-##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;                             &lt;dbl&gt;            &lt;dbl&gt;
-##  1  2005 AL         Alabama                            1099             1156
-##  2  2005 AK         Alaska                             1026             1061
-##  3  2005 AZ         Arizona                            1035             1080
-##  4  2005 AR         Arkansas                           1094             1140
-##  5  2005 CA         California                         1003             1053
-##  6  2005 CO         Colorado                           1104             1138
-##  7  2005 CT         Connecticut                        1015             1054
-##  8  2005 DE         Delaware                            984             1029
-##  9  2005 DC         District Of Columbia                926             1017
-## 10  2005 FL         Florida                             980             1018
-## # … with 567 more rows</code></pre>
+<pre><code>## # A tibble: 577 × 9
+##     year state.code state.name   gende…¹ gende…² femal…³ gende…⁴ gende…⁵ male.…⁶
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1  2005 AL         Alabama          538     561    1099     582     574    1156
+##  2  2005 AK         Alaska           505     521    1026     535     526    1061
+##  3  2005 AZ         Arizona          513     522    1035     549     531    1080
+##  4  2005 AR         Arkansas         536     558    1094     570     570    1140
+##  5  2005 CA         California       504     499    1003     543     510    1053
+##  6  2005 CO         Colorado         546     558    1104     577     561    1138
+##  7  2005 CT         Connecticut      502     513    1015     534     520    1054
+##  8  2005 DE         Delaware         486     498     984     521     508    1029
+##  9  2005 DC         District Of…     451     475     926     509     508    1017
+## 10  2005 FL         Florida          484     496     980     516     502    1018
+## # … with 567 more rows, and abbreviated variable names ¹​gender.female.math,
+## #   ²​gender.female.verbal, ³​female.total.score, ⁴​gender.male.math,
+## #   ⁵​gender.male.verbal, ⁶​male.total.score</code></pre>
 <p>This was then loaded into a new csv file as well, titled “genderscore.csv”</p>
 </div>
 <div id="census-data" class="section level2">
@@ -210,8 +212,8 @@ newdata_inc</code></pre>
 ## #   Pacific &lt;dbl&gt;, and abbreviated variable names ¹​state.name, ²​total.score,
 ## #   ³​income.between.20.40k, ⁴​income.between.40.60k, ⁵​income.between.60.80k,
 ## #   ⁶​income.between.80.100k, ⁷​income.less.than.20k, ⁸​income.more.than.100k</code></pre>
-<p>This dataset that is found at <a href="https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data" class="uri">https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data</a> contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests.</p>
-<p>The data here were collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.</p>
+<p>This dataset can be found at <a href="https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data" class="uri">https://www.kaggle.com/datasets/muonneutrino/us-census-demographic-data</a> contains demographic data of the U.S. population from 2017 with 37 columns and 740000 rows total. We chose this dataset to combine with our original one because we want to see if we can find other factors that could contribute to or explain the differences in SAT scores between states and different income levels — for example, certain states may have racial and gender demographics that historically perform more poorly on standardized tests.</p>
+<p>The data here was collected by the US Census Bureau. As a product of the US federal government, this is not subject to copyright within the US.</p>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary:</h2>
@@ -219,7 +221,62 @@ newdata_inc</code></pre>
 <ul>
 <li>school_scores_data_clean.csv</li>
 <li>incomescore.csv</li>
-<li>genderscore</li>
+<li>genderscore.csv</li>
 <li>newdata_inc.csv</li>
 </ul>
+</div>
+<div id="interactive-code" class="section level2">
+<h2>Interactive Code:</h2>
+<pre class="r"><code>incomegenderdata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
+  mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %&gt;%
+  mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %&gt;%
+  mutate(income.between.60.80k = income.between.60.80k.math + income.between.60.80k.verbal) %&gt;%
+  mutate(income.between.80.100k = income.between.80.100k.math + income.between.80.100k.verbal) %&gt;%
+  mutate(income.less.than.20k = income.less.than.20k.math + income.less.than.20k.verbal) %&gt;%
+  mutate(income.more.than.100k = income.more.than.100k.math + income.more.than.100k.verbal) %&gt;%
+  ungroup()
+
+incomegenderdata &lt;- incomegenderdata %&gt;% select(state.name, total.score, income.between.20.40k, income.between.40.60k, income.between.60.80k, income.between.80.100k, income.less.than.20k, income.more.than.100k) %&gt;% bind_cols(genderscore$female.total.score, genderscore$male.total.score, genderscore$year) </code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...9`
+## • `` -&gt; `...10`
+## • `` -&gt; `...11`</code></pre>
+<pre class="r"><code>incomegenderdata</code></pre>
+<pre><code>## # A tibble: 577 × 11
+##    state.n…¹ total…² incom…³ incom…⁴ incom…⁵ incom…⁶ incom…⁷ incom…⁸  ...9 ...10
+##    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Alabama      1126    1040    1090    1114    1143     936    1178  1099  1156
+##  2 Alaska       1042     992    1039    1032    1062     931    1085  1026  1061
+##  3 Arizona      1056     993    1038    1047    1067     959    1100  1035  1080
+##  4 Arkansas     1115    1039    1098    1123    1150     975    1161  1094  1140
+##  5 Californ…    1026     935    1000    1032    1060     872    1117  1003  1053
+##  6 Colorado     1120    1068    1091    1105    1122    1019    1142  1104  1138
+##  7 Connecti…    1034     930     992    1018    1046     860    1124  1015  1054
+##  8 Delaware     1005     903     968     998    1022     821    1104   984  1029
+##  9 District…     968     795     887     952    1088     751    1230   926  1017
+## 10 Florida       996     944     988    1009    1033     864    1082   980  1018
+## # … with 567 more rows, 1 more variable: ...11 &lt;dbl&gt;, and abbreviated variable
+## #   names ¹​state.name, ²​total.score, ³​income.between.20.40k,
+## #   ⁴​income.between.40.60k, ⁵​income.between.60.80k, ⁶​income.between.80.100k,
+## #   ⁷​income.less.than.20k, ⁸​income.more.than.100k</code></pre>
+<pre class="r"><code>colnames(incomegenderdata) &lt;- c(&quot;state.name&quot;, &quot;total.score&quot;, &quot;income.between.20.40k&quot;, &quot;income.between.40.60k&quot;, &quot;income.between.60.80k&quot;, &quot;income.between.80.100k&quot;, &quot;income.less.than.20k&quot;, &quot;income.more.than.100k&quot;, &quot;female.total.score&quot;, &quot;male.total.score&quot;, &quot;year&quot;)
+
+incomegenderdata</code></pre>
+<pre><code>## # A tibble: 577 × 11
+##    state.name    total…¹ incom…² incom…³ incom…⁴ incom…⁵ incom…⁶ incom…⁷ femal…⁸
+##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Alabama          1126    1040    1090    1114    1143     936    1178    1099
+##  2 Alaska           1042     992    1039    1032    1062     931    1085    1026
+##  3 Arizona          1056     993    1038    1047    1067     959    1100    1035
+##  4 Arkansas         1115    1039    1098    1123    1150     975    1161    1094
+##  5 California       1026     935    1000    1032    1060     872    1117    1003
+##  6 Colorado         1120    1068    1091    1105    1122    1019    1142    1104
+##  7 Connecticut      1034     930     992    1018    1046     860    1124    1015
+##  8 Delaware         1005     903     968     998    1022     821    1104     984
+##  9 District Of …     968     795     887     952    1088     751    1230     926
+## 10 Florida           996     944     988    1009    1033     864    1082     980
+## # … with 567 more rows, 2 more variables: male.total.score &lt;dbl&gt;, year &lt;dbl&gt;,
+## #   and abbreviated variable names ¹​total.score, ²​income.between.20.40k,
+## #   ³​income.between.40.60k, ⁴​income.between.60.80k, ⁵​income.between.80.100k,
+## #   ⁶​income.less.than.20k, ⁷​income.more.than.100k, ⁸​female.total.score</code></pre>
 </div>

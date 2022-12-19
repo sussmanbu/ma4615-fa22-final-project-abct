@@ -6,7 +6,7 @@ featuredVideo:
 featuredImage: https://www.techrepublic.com/wp-content/uploads/2022/09/tr-data-migration-vs-data-integration-770x513.jpeg
 draft: false
 ---
-## Data Description:
+## Data Description: 
 
 The main dataset used within this project can be found at https://corgis-edu.github.io/corgis/csv/school_scores/.
 

@@ -13,7 +13,6 @@ draft: false
 </div>
 
 <p>We describe here our detailed data analysis.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
@@ -22,9 +21,7 @@ draft: false
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>print(getwd())</code></pre>
 <pre><code>## [1] &quot;C:/Users/alyss/OneDrive/Desktop/ma415/ma4615-fa22-final-project-abct/content&quot;</code></pre>
-<pre class="r"><code>data &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
 <pre><code>## Rows: 577 Columns: 99
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -33,8 +30,6 @@ draft: false
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>load(here::here(&quot;dataset/school_scores.RData&quot;))
-print(ls())</code></pre>
 <pre><code>## [1] &quot;data&quot;                     &quot;school_scores_data_clean&quot;</code></pre>
 <hr />
 <div id="data-description" class="section level2">
@@ -48,13 +43,13 @@ print(ls())</code></pre>
 <li>What is the nature of the relationship between family income and SAT scores?</li>
 <li>Is this relationship statistically significant?</li>
 <li>Are there differences in income and SAT scores between states?</li>
-<li>Is performance in certain subjects more sensitive to changes in family income than others (e.g., math vs. English)?</li>
 <li>Is GPA more affected by family income than SAT scores?</li>
+<li>Are other factors, like gender and year, better predictors of SAT scores?</li>
+<li>Do any of these relationships change over time?</li>
 </ol>
-<div id="model-1-six-states-comparison" class="section level3">
-<h3>Model 1: Six States Comparison</h3>
-<pre class="r"><code># this needs to be fixed — use something other than geom_col
-schooldata &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&quot;))</code></pre>
+<div id="figure-1-six-states-comparison" class="section level3">
+<h3>Figure 1: Six States Comparison</h3>
+<p>We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.</p>
 <pre><code>## Rows: 577 Columns: 99
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -62,40 +57,50 @@ schooldata &lt;- read_csv(here::here(&quot;dataset/school_scores_data_clean.csv&
 ## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>sixstates &lt;- c(&quot;MD&quot;, &quot;NJ&quot;, &quot;MA&quot;, &quot;AR&quot;, &quot;WV&quot;, &quot;MS&quot;)
-schooldata6 &lt;- schooldata %&gt;% 
-  filter(State.Code %in% sixstates) %&gt;% 
-  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% 
-  select(&quot;State.Code&quot;, &quot;Total.Score&quot;) %&gt;% 
-  group_by(State.Code) %&gt;% 
-  transmute(avg.total.score = mean(Total.Score))
-schooldata6</code></pre>
-<pre><code>## # A tibble: 64 × 2
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## `summarise()` has grouped output by &#39;State.Code&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 6 × 2
 ## # Groups:   State.Code [6]
-##    State.Code avg.total.score
-##    &lt;chr&gt;                &lt;dbl&gt;
-##  1 AR                   1139.
-##  2 MD                   1002 
-##  3 MA                   1042.
-##  4 MS                   1123.
-##  5 NJ                   1014.
-##  6 AR                   1139.
-##  7 MD                   1002 
-##  8 MA                   1042.
-##  9 MS                   1123.
-## 10 NJ                   1014.
-## # … with 54 more rows</code></pre>
-<pre class="r"><code>ggplot(data = schooldata6, mapping = aes(x = State.Code, y = avg.total.score, fill = State.Code)) + 
-  geom_col(aes(color = State.Code))</code></pre>
-<p><img src="/analysis_files/figure-html/model%201-1.png" width="672" /></p>
-<p>Our first model takes the three U.S. states with the highest median household income and the three with the lowest and plots them against their average SAT scores. We can see that this plot does not support our conjecture that higher family incomes lead to higher SAT scores, as the scores for Arkansas and Mississippi, two of the states with the lowest median household income in the country, have higher average SAT scores than all three states with the highest median household incomes.</p>
+##   State.Code avg.total.score
+##   &lt;chr&gt;                &lt;dbl&gt;
+## 1 AR                   1139.
+## 2 MA                   1042.
+## 3 MD                   1002 
+## 4 MS                   1123.
+## 5 NJ                   1014.
+## 6 WV                   1018</code></pre>
+<p><img src="/analysis_files/figure-html/figure%201-1.png" width="672" /></p>
+<p>We can see that this plot does not support our conjecture that higher family incomes lead to higher SAT scores, as the scores for Arkansas and Mississippi, two of the states with the lowest median household income in the country, have higher average SAT scores than all three states with the highest median household incomes. We then wanted to see if any states in particular had higher SAT scores, so we decided to create some figures that examine all 50 states as well as D.C., Puerto Rico, and the Virgin Islands.</p>
 </div>
-<div id="model-2-income-bracket-and-average-sat-scores" class="section level3">
-<h3>Model 2: Income Bracket and Average SAT Scores</h3>
-<pre class="r"><code># this needs to be fixed — use something other than geom_col
-# Big Picture page idea: put the lowest and highest brackets
-schooldatacleaned_pivoted &lt;- read_csv(here::here(&quot;dataset/schooldatacleaned_pivoted.csv&quot;))</code></pre>
+<div id="figure-2-all-states-and-their-average-sat-scores" class="section level3">
+<h3>Figure 2: All States and their Average SAT Scores</h3>
+<p>To further see if there are significant differences in SAT scores across states, we decided to make a plot with boxplots of all states.</p>
+<pre><code>## # A tibble: 577 × 2
+## # Groups:   State.Code [53]
+##    State.Code Total.Score
+##    &lt;chr&gt;            &lt;dbl&gt;
+##  1 AL                1126
+##  2 AK                1042
+##  3 AZ                1056
+##  4 AR                1115
+##  5 CA                1026
+##  6 CO                1120
+##  7 CT                1034
+##  8 DE                1005
+##  9 DC                 968
+## 10 FL                 996
+## # … with 567 more rows</code></pre>
+<p><img src="/analysis_files/figure-html/figure%202-1.png" width="672" />
+Here we can see that across all U.S. territories there are notable differences in median SAT scores between them. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.</p>
+</div>
+<div id="figure-3-breakdown-of-average-sat-scores-by-region" class="section level3">
+<h3>Figure 3: Breakdown of Average SAT Scores by Region</h3>
+<p><img src="/analysis_files/figure-html/figure%203-1.png" width="672" /></p>
+<p>From both figures we see that the Midwest indisputably has the highest SAT scores overall. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a Forbes article (<a href="https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37" class="uri">https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37</a>), we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very “best” students; that is, students who want to attend the most presitigious colleges, most of whose applications require an SAT score, so the overall scores are higher.</p>
+</div>
+<div id="figure-4-income-bracket-and-average-sat-scores" class="section level3">
+<h3>Figure 4: Income Bracket and Average SAT Scores</h3>
+<p>Our fourth figure shows the average SAT score across the six income brackets in our dataset.</p>
 <pre><code>## Rows: 3462 Columns: 4
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -104,26 +109,36 @@ schooldatacleaned_pivoted &lt;- read_csv(here::here(&quot;dataset/schooldataclea
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>schooldatacleaned_pivoted &lt;- schooldatacleaned_pivoted %&gt;% 
-  mutate(average.total.score.of.bracket = average.math.score.of.bracket + average.verbal.score.of.bracket) %&gt;% 
-  select(&quot;state.code&quot;, &quot;income.bracket&quot;, &quot;average.total.score.of.bracket&quot;) %&gt;% 
-  group_by(income.bracket) 
-
-ggplot(data = schooldatacleaned_pivoted, 
-       mapping = aes(x = income.bracket, 
-                     y = average.total.score.of.bracket, 
-                     fill = income.bracket)) + 
-  geom_col(aes(color = income.bracket)) + 
-  labs(x = &quot;Income Bracket&quot;, y = &quot;Average SAT Score of Bracket&quot;) </code></pre>
-<p><img src="/analysis_files/figure-html/model%202-1.png" width="672" /></p>
-<p>Model 2 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, which could indicate that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
+<pre><code>## # A tibble: 3,462 × 3
+## # Groups:   income.bracket [6]
+##    state.code income.bracket average.total.score.of.bracket
+##    &lt;chr&gt;      &lt;chr&gt;                                   &lt;dbl&gt;
+##  1 AL         20k                                       936
+##  2 AL         20.40k                                   1040
+##  3 AL         40.60k                                   1090
+##  4 AL         60.80k                                   1114
+##  5 AL         80.100k                                  1143
+##  6 AL         100k                                     1178
+##  7 AK         20k                                       931
+##  8 AK         20.40k                                    992
+##  9 AK         40.60k                                   1039
+## 10 AK         60.80k                                   1032
+## # … with 3,452 more rows</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   income.bracket average.total.score.of.bracket
+##   &lt;chr&gt;                                   &lt;dbl&gt;
+## 1 100k                                    1126.
+## 2 20.40k                                  1002.
+## 3 20k                                      920.
+## 4 40.60k                                  1046.
+## 5 60.80k                                  1067.
+## 6 80.100k                                 1092.</code></pre>
+<p><img src="/analysis_files/figure-html/figure%204-1.png" width="672" /></p>
+<p>Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, indicating that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
 </div>
-<div id="model-2-inference" class="section level3">
-<h3>Model 2 Inference:</h3>
-<pre class="r"><code>income &lt;- c(20000, 40000, 60000, 80000, 100000)
-incomescore &lt;- c(936, 1040, 1090, 1114, 1143)
-lm2 &lt;- data.frame(cbind(income, incomescore))
-summary(lm(incomescore ~ income, lm2))</code></pre>
+<div id="figure-4-inference" class="section level3">
+<h3>Figure 4 Inference:</h3>
+<p>To get an idea of how strong the relationship between income bracket and average SAT score is, we decided to summarize a linear model of the figure 4.</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = incomescore ~ income, data = lm2)
@@ -143,211 +158,121 @@ summary(lm(incomescore ~ income, lm2))</code></pre>
 ## Multiple R-squared:  0.9029, Adjusted R-squared:  0.8705 
 ## F-statistic:  27.9 on 1 and 3 DF,  p-value: 0.01323</code></pre>
 <p>We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.</p>
+<p>Now that we have evidence suggesting that income bracket is a good predictor for SAT score, we decided to look at some other potential predictors.</p>
 </div>
-<div id="model-3-all-states-and-their-average-sat-scores" class="section level3">
-<h3>Model 3: All States and their Average SAT Scores</h3>
-<pre class="r"><code># boxplot of all states and their average SAT scores
-# reorder later
-schooldata3 &lt;- schooldata %&gt;% 
-  filter(State.Code %in% sixstates) %&gt;%
-  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% 
-  select(&quot;State.Code&quot;, &quot;Total.Score&quot;) %&gt;% 
-  group_by(State.Code)
-
-schooldata3</code></pre>
-<pre><code>## # A tibble: 64 × 2
-## # Groups:   State.Code [6]
-##    State.Code Total.Score
-##    &lt;chr&gt;            &lt;dbl&gt;
-##  1 AR                1115
-##  2 MD                1026
-##  3 MA                1047
-##  4 MS                1118
-##  5 NJ                1020
-##  6 AR                1142
-##  7 MD                1013
-##  8 MA                1037
-##  9 MS                1103
-## 10 NJ                1011
-## # … with 54 more rows</code></pre>
-<pre class="r"><code>schooldata3 %&gt;% ggplot(aes(x = Total.Score, y = State.Code), outlier.colour = NULL) + 
-  geom_boxplot() + 
-  labs(x = &quot;SAT Score&quot;, y = &quot;State&quot;)</code></pre>
-<p><img src="/analysis_files/figure-html/model%203-1.png" width="672" /></p>
-<p>This model is a more in-depth look at the differences in SAT scores across different states.</p>
-</div>
-<div id="model-4-map-of-average-total-score-by-state" class="section level3">
-<h3>Model 4: Map of Average Total Score by State</h3>
-<pre class="r"><code># map of average total score by state
-library(maps)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;maps&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+<div id="figure-5-sat-scores-by-gender-2005-2015" class="section level3">
+<h3>Figure 5: SAT Scores by Gender, 2005-2015</h3>
+<p>To look at whether or not there is a significant difference in SAT scores between genders, we took the yearly average SAT scores of males and females and plotted them.</p>
+<pre><code>## Rows: 577 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): state.code, state.name
+## dbl (7): year, gender.female.math, gender.female.verbal, female.total.score,...
 ## 
-##     map</code></pre>
-<pre class="r"><code>schooldata4 &lt;- schooldata %&gt;% 
-  mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% 
-  select(&quot;State.Name&quot;, &quot;Total.Score&quot;) %&gt;% 
-  group_by(State.Name) %&gt;% 
-  transmute(avg.total.score = mean(Total.Score), State.Name)
-schooldata4 &lt;- unique(schooldata4)
-
-MainStates &lt;- map_data(&quot;state&quot;)
-states &lt;- MainStates %&gt;% transmute(region) %&gt;% unique()
-schooldata4 &lt;- schooldata4 %&gt;% transmute(region = str_to_lower(State.Name), avg.total.score) %&gt;% 
-  filter(region %in% states$region)
-
-MergedStates &lt;- inner_join(MainStates, schooldata4, by = &quot;region&quot;)
-
-ggplot() + geom_polygon(data = MergedStates, aes(x = long, y = lat, group = group, 
-                                                 fill = avg.total.score), color = &quot;white&quot;) +
-  scale_fill_continuous(low = &quot;springgreen&quot;, high = &quot;springgreen4&quot;, name = &quot;Average SAT Score&quot;) + 
-  labs(title = &quot;Average SAT Score by State&quot;)</code></pre>
-<p><img src="/analysis_files/figure-html/model%204-1.png" width="672" /></p>
-<p>Similarly to Model 3, Model 4 takes a look at the average SAT score in every state, but in a more digestible and aesthetically pleasing map form. We see that states in the midwest tend to have higher average SAT score.</p>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p><img src="/analysis_files/figure-html/figure%205-1.png" width="672" /></p>
+<p>We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.</p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>As we can clearly see, there is a much bigger difference between genders for the math section of the SAT compared to the verbal, and that the differences sometime differ in different years.</p>
+<p>We wondered why this was the case and found a Forbes article (<a href="https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35" class="uri">https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35</a>) that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students’ minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores.</p>
+<pre><code>## 
+## Call:
+## lm(formula = average.SAT.score ~ gdummy, data = genderdummies)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -285.80  -66.80  -19.28   75.24  180.21 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 1088.795      3.758 289.724  &lt; 2e-16 ***
+## gdummy       -42.031      5.315  -7.909 6.07e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 90.27 on 1152 degrees of freedom
+## Multiple R-squared:  0.0515, Adjusted R-squared:  0.05067 
+## F-statistic: 62.54 on 1 and 1152 DF,  p-value: 6.068e-15</code></pre>
+<p>Summarizing the linear regression model for gender and SAT score required a slightly different process than income brakcet, since gender is a categorical variable. To account for this, we created a dummy variable “female,” where “1” represents female and “0” represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.</p>
 </div>
-<div id="model-5-breakdown-of-average-sat-scores-by-region" class="section level3">
-<h3>Model 5: Breakdown of Average SAT Scores by Region</h3>
-<pre class="r"><code># use facet_grid later to put all plots into a matrix
-west &lt;- c(&quot;WA&quot;,&quot;OR&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;UT&quot;, &quot;CO&quot;)
-southwest &lt;- c(&quot;AZ&quot;, &quot;NM&quot;, &quot;OK&quot;, &quot;TX&quot;)
-midwest &lt;- c(&quot;ND&quot;, &quot;SD&quot;, &quot;NE&quot;, &quot;KS&quot;, &quot;MN&quot;, &quot;IA&quot;, &quot;MO&quot;, &quot;WI&quot;, &quot;IL&quot;, &quot;MI&quot;, &quot;IN&quot;, &quot;OH&quot;)
-southeast &lt;- c(&quot;LA&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;KY&quot;, &quot;WV&quot;, &quot;VA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;AL&quot;, &quot;GA&quot;, &quot;FL&quot;, &quot;AR&quot;)
-northeast &lt;- c(&quot;MA&quot;, &quot;MD&quot;, &quot;DE&quot;, &quot;NJ&quot;, &quot;ME&quot;, &quot;VT&quot;, &quot;NH&quot;, &quot;PA&quot;, &quot;NY&quot;, &quot;CT&quot;, &quot;RI&quot;)
-continental_us &lt;- c(west, southwest, midwest, southeast, northeast)
-state_codes &lt;- schooldata %&gt;% select(State.Code) %&gt;% unique() %&gt;% filter(State.Code %in% continental_us)
-
-schooldata5 &lt;- schooldata %&gt;% mutate(Total.Score = Total.Math + Total.Verbal) %&gt;% select(&quot;State.Code&quot;, &quot;Total.Score&quot;, &quot;Year&quot;) %&gt;% add_column(region = NA) %&gt;% mutate(region = ifelse(State.Code %in% west, &quot;West&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% southwest, &quot;Southwest&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% midwest, &quot;Midwest&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% southeast, &quot;Southeast&quot;, region)) %&gt;% mutate(region = ifelse(State.Code %in% northeast, &quot;Northeast&quot;, region)) %&gt;% group_by(region) %&gt;% mutate(region = ifelse(!State.Code %in% continental_us, &quot;Noncontiguous&quot;, region))
-
-continental_us &lt;- schooldata$State.Code %&gt;% unique()
-#continental_us
-
-schooldata5 %&gt;% ggplot(aes(Total.Score, State.Code, col = region)) + facet_wrap(~region, scales = &quot;free&quot;) + geom_point()</code></pre>
-<p><img src="/analysis_files/figure-html/model%205-1.png" width="672" /></p>
-<p>This is a matrix of average SAT scores by state, split into the 5 regions of the continental United States. Just as in Model 4, we see that the Midwest generally have higher average scores.</p>
+<div id="figure-6-average-sat-score-by-year" class="section level3">
+<h3>Figure 6: Average SAT Score by Year</h3>
+<pre><code>## Rows: 577 Columns: 99
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): State.Code, State.Name
+## dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## # A tibble: 577 × 3
+## # Groups:   Year [11]
+##     Year total.SAT.score avg.total.score
+##    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+##  1  2005            1126           1070.
+##  2  2005            1042           1070.
+##  3  2005            1056           1070.
+##  4  2005            1115           1070.
+##  5  2005            1026           1070.
+##  6  2005            1120           1070.
+##  7  2005            1034           1070.
+##  8  2005            1005           1070.
+##  9  2005             968           1070.
+## 10  2005             996           1070.
+## # … with 567 more rows</code></pre>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Across all 10 years in the dataset, the overall average SAT score remained within a 20-point range, which indicates that time itself is not the best predictor for SAT score.</p>
 </div>
-<div id="backwards-selection" class="section level3">
-<h3>Backwards Selection</h3>
-<pre class="r"><code>library(leaps)
-
-bs &lt;- leaps::regsubsets(
-  average.total.score.of.bracket ~ .,
-  method = &quot;backward&quot;,
-  data = schooldatacleaned_pivoted
-)
-
-summary(bs)$which</code></pre>
-<pre><code>##   (Intercept) state.codeAL state.codeAR state.codeAZ state.codeCA state.codeCO
-## 1        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8        TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-##   state.codeCT state.codeDC state.codeDE state.codeFL state.codeGA state.codeHI
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-##   state.codeIA state.codeID state.codeIL state.codeIN state.codeKS state.codeKY
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8         TRUE        FALSE        FALSE        FALSE        FALSE        FALSE
-##   state.codeLA state.codeMA state.codeMD state.codeME state.codeMI state.codeMN
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-##   state.codeMO state.codeMS state.codeMT state.codeNC state.codeND state.codeNE
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-##   state.codeNH state.codeNJ state.codeNM state.codeNV state.codeNY state.codeOH
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 8        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-##   state.codeOK state.codeOR state.codePA state.codePR state.codeRI state.codeSC
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
-## 7        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
-## 8        FALSE        FALSE        FALSE         TRUE        FALSE        FALSE
-##   state.codeSD state.codeTN state.codeTX state.codeUT state.codeVA state.codeVI
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 7        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-## 8        FALSE        FALSE        FALSE        FALSE        FALSE         TRUE
-##   state.codeVT state.codeWA state.codeWI state.codeWV state.codeWY
-## 1        FALSE        FALSE        FALSE        FALSE        FALSE
-## 2        FALSE        FALSE        FALSE        FALSE        FALSE
-## 3        FALSE        FALSE        FALSE        FALSE        FALSE
-## 4        FALSE        FALSE        FALSE        FALSE        FALSE
-## 5        FALSE        FALSE        FALSE        FALSE        FALSE
-## 6        FALSE        FALSE        FALSE        FALSE        FALSE
-## 7        FALSE        FALSE         TRUE        FALSE        FALSE
-## 8        FALSE        FALSE         TRUE        FALSE        FALSE
-##   income.bracketincome.between.40.60k income.bracketincome.between.60.80k
-## 1                               FALSE                               FALSE
-## 2                               FALSE                               FALSE
-## 3                               FALSE                               FALSE
-## 4                               FALSE                               FALSE
-## 5                               FALSE                               FALSE
-## 6                               FALSE                               FALSE
-## 7                               FALSE                               FALSE
-## 8                               FALSE                               FALSE
-##   income.bracketincome.between.80.100k income.bracketincome.less.than.20k
-## 1                                FALSE                               TRUE
-## 2                                FALSE                               TRUE
-## 3                                FALSE                               TRUE
-## 4                                 TRUE                               TRUE
-## 5                                 TRUE                               TRUE
-## 6                                 TRUE                               TRUE
-## 7                                 TRUE                               TRUE
-## 8                                 TRUE                               TRUE
-##   income.bracketincome.more.than.100k
-## 1                               FALSE
-## 2                               FALSE
-## 3                                TRUE
-## 4                                TRUE
-## 5                                TRUE
-## 6                                TRUE
-## 7                                TRUE
-## 8                                TRUE</code></pre>
-<pre class="r"><code>summary(bs)$cp</code></pre>
-<pre><code>## [1] 5234.185 4580.536 3973.688 3684.671 3423.945 3186.098 2983.449 2772.465</code></pre>
-<p>Lastly, we decided to use backward selection to drop any predictor variables that made our model less precise. Our model 8 is the best model from the output since it has the lowest Mallow’s CP value, and contains all the income bracket variables, indicating that income is indeed a good predictor of SAT scores.</p>
+<div id="backwards-selection-model" class="section level3">
+<h3>Backwards Selection Model</h3>
+<p>To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.</p>
+<pre><code>## New names:
+## Rows: 577 Columns: 12
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (1): state.name dbl (11): ...1, total.score, income.between.20.40k,
+## income.between.40.60k, i...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`</code></pre>
+<pre><code>##   (Intercept) income.between.20.40k income.between.40.60k income.between.60.80k
+## 1        TRUE                 FALSE                 FALSE                 FALSE
+## 2        TRUE                 FALSE                 FALSE                 FALSE
+## 3        TRUE                 FALSE                 FALSE                 FALSE
+## 4        TRUE                 FALSE                 FALSE                 FALSE
+## 5        TRUE                  TRUE                 FALSE                 FALSE
+## 6        TRUE                  TRUE                  TRUE                 FALSE
+## 7        TRUE                  TRUE                  TRUE                  TRUE
+## 8        TRUE                  TRUE                  TRUE                  TRUE
+##   income.between.80.100k income.less.than.20k income.more.than.100k
+## 1                  FALSE                FALSE                 FALSE
+## 2                  FALSE                FALSE                 FALSE
+## 3                  FALSE                FALSE                 FALSE
+## 4                   TRUE                FALSE                 FALSE
+## 5                   TRUE                FALSE                 FALSE
+## 6                   TRUE                FALSE                 FALSE
+## 7                   TRUE                FALSE                 FALSE
+## 8                   TRUE                 TRUE                 FALSE
+##   female.total.score male.total.score  year
+## 1              FALSE             TRUE FALSE
+## 2               TRUE             TRUE FALSE
+## 3               TRUE             TRUE  TRUE
+## 4               TRUE             TRUE  TRUE
+## 5               TRUE             TRUE  TRUE
+## 6               TRUE             TRUE  TRUE
+## 7               TRUE             TRUE  TRUE
+## 8               TRUE             TRUE  TRUE</code></pre>
+<pre><code>## [1] 20047.563612    36.057809    15.379587     6.175273     4.260576
+## [6]     5.308721     6.099692     8.030843</code></pre>
+<p>Out of the 8 models produced, model 5 has the lowest Mallow’s CP value and thus would be the best model. In this one, the predictor variables are:
+* income between 20-40k
+* income between 80-100k
+* female total score
+* male total score
+* year</p>
+<p>Thus, income and gender are the best predictors for SAT score according to our dataset.</p>
 <p>```</p>
 </div>
 </div>

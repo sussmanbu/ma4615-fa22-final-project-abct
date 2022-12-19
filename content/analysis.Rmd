@@ -6,9 +6,9 @@ featuredVideo:
 featuredImage: https://s.marketwatch.com/public/resources/images/MW-BV988_sat_te_MG_20140305143435.jpg
 draft: false
 ---
-We describe here our detailed data analysis.
+We describe here our detailed data analysis. 
 
-```{r}
+```{r, echo=FALSE}
 library(tidyverse)
 print(getwd())
 data <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
@@ -36,7 +36,7 @@ Some questions we would like to answer are:
 
 We began our exploratory data analysis by examining the average SAT score across six different states: the three states with the highest median household incomes, and the three states with the lowest median household incomes.
 
-```{r figure 1}
+```{r figure 1, echo=FALSE}
 # this needs to be fixed — use summarize, not geom_col or geom_bar
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
@@ -61,7 +61,7 @@ We can see that this plot does not support our conjecture that higher family inc
 
 To further see if there are significant differences in SAT scores across states, we decided to make a plot with boxplots of all states. 
 
-```{r figure 2}
+```{r figure 2, echo=FALSE}
 schooldata3 <- schooldata %>% 
   mutate(Total.Score = Total.Math + Total.Verbal) %>% 
   select("State.Code", "Total.Score") %>% 
@@ -77,7 +77,7 @@ Here we can see that across all U.S. territories there are notable differences i
 
 ### Figure 3: Breakdown of Average SAT Scores by Region
 
-```{r figure 3}
+```{r figure 3, echo=FALSE}
 west <- c("WA","OR", "ID", "MT", "WY", "CA", "NV", "UT", "CO")
 southwest <- c("AZ", "NM", "OK", "TX")
 midwest <- c("ND", "SD", "NE", "KS", "MN", "IA", "MO", "WI", "IL", "MI", "IN", "OH")
@@ -111,7 +111,7 @@ From both figures we see that the Midwest indisputably has the highest SAT score
 
 Our fourth figure shows the average SAT score across the six income brackets in our dataset. 
 
-```{r figure 4}
+```{r figure 4, echo=FALSE}
 # this needs to be fixed — use something other than geom_col
 # Big Picture page idea: put the lowest and highest brackets
 incomescore <- read_csv(here::here("dataset/incomescore.csv"))
@@ -144,7 +144,7 @@ Figure 4 examines the relationship between income bracket and average SAT score.
 
 To get an idea of how strong the relationship between income bracket and average SAT score is, we decided to summarize a linear model of the figure 4.
 
-```{r figure 4 inference}
+```{r figure 4 inference, echo=FALSE}
 income <- c(20000, 40000, 60000, 80000, 100000)
 incomescore <- c(936, 1040, 1090, 1114, 1143)
 lm2 <- data.frame(cbind(income, incomescore))
@@ -159,7 +159,7 @@ Now that we have evidence suggesting that income bracket is a good predictor for
 
 To look at whether or not there is a significant difference in SAT scores between genders, we took the yearly average SAT scores of males and females and plotted them. 
 
-```{r figure 5}
+```{r figure 5, echo=FALSE}
 # gender vs. sat score
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
 
@@ -170,13 +170,13 @@ ggplot(genderscore) + geom_point(aes(x = year, y = avg.female.SAT.score, col = "
 
 We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.
 
-```{r}
+```{r, echo=FALSE}
 genderscore_math <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score.math = mean(gender.female.math), avg.male.SAT.score.math = mean(gender.male.math))
 
 ggplot(genderscore_math) + geom_point(aes(x = year, y = avg.female.SAT.score.math, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score.math, col = "male")) + labs(x = "Year", y = "Average SAT Math Score", col = "Gender", title = "Average SAT Math Section Score By Gender from 2005-2015")
 ```
 
-```{r}
+```{r, echo=FALSE}
 genderscore_verbal <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score.verbal = mean(gender.female.verbal), avg.male.SAT.score.verbal = mean(gender.male.verbal))
 
 ggplot(genderscore_verbal) + geom_point(aes(x = year, y = avg.female.SAT.score.verbal, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score.verbal, col = "male")) + labs(x = "Year", y = "Average SAT Verbal Score", col = "Gender", title = "Average SAT Verbal Section Score By Gender from 2005-2015")
@@ -186,7 +186,7 @@ As we can clearly see, there is a much bigger difference between genders for the
 
 We wondered why this was the case and found a Forbes article (https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35) that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students' minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores. 
 
-```{r figure 5 inference}
+```{r figure 5 inference, echo=FALSE}
 #checking if gender is a significant predictor of SAT score 
 genderscore_pivoted <- genderscore %>%
   pivot_longer(c(female.total.score, male.total.score), 
@@ -209,7 +209,7 @@ Summarizing the linear regression model for gender and SAT score required a slig
 
 ### Figure 6: Average SAT Score by Year
 
-```{r}
+```{r, echo=FALSE}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 
 schooldata_year <- schooldata %>% group_by(Year) %>% transmute(total.SAT.score = Total.Math + Total.Verbal) %>% mutate(avg.total.score = mean(total.SAT.score))
@@ -226,7 +226,7 @@ Across all 10 years in the dataset, the overall average SAT score remained withi
 
 To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.
 
-```{r backwards selection}
+```{r backwards selection, echo=FALSE}
 # fix this
 incomegenderdata <- read_csv(here::here("dataset/incomegenderdata.csv"))
 
