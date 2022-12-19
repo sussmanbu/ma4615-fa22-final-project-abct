@@ -228,12 +228,14 @@ To consolidate all of our figures above, we created a model using backwards sele
 
 ```{r backwards selection}
 # fix this
+incomegenderdata <- read_csv(here::here("dataset/incomegenderdata.csv"))
+
 library(leaps)
 
 bs <- leaps::regsubsets(
-  average.total.score.of.bracket ~ .,
+  total.score ~ income.between.20.40k + income.between.40.60k + income.between.60.80k + income.between.80.100k + income.less.than.20k + income.more.than.100k + female.total.score + male.total.score + year,
   method = "backward",
-  data = incomescore
+  data = incomegenderdata
 )
 
 summary(bs)$which
