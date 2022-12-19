@@ -205,7 +205,7 @@ summary(lm(average.SAT.score ~ gdummy, data = genderdummies))
 
 ```
 
-Summarizing the linear regression model for gender and SAT score required a slightly different process than income brakcet, since gender is a categorical variable. To account for this, we created a dummy variable "female," where "1" represents female and "0" represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.
+Summarizing the linear regression model for gender and SAT score required a slightly different process than income bracket, since gender is a categorical variable. To account for this, we created a dummy variable "female," where "1" represents female and "0" represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.
 
 ### Figure 6: Average SAT Score by Year
 
@@ -213,8 +213,6 @@ Summarizing the linear regression model for gender and SAT score required a slig
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 
 schooldata_year <- schooldata %>% group_by(Year) %>% transmute(total.SAT.score = Total.Math + Total.Verbal) %>% mutate(avg.total.score = mean(total.SAT.score))
-
-schooldata_year
 
 ggplot(schooldata_year) + geom_point(aes(x = Year, y = avg.total.score)) + labs(x = "Year", y = "Average SAT score", title = "Average SAT score by year")
 

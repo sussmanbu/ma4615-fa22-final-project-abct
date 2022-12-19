@@ -105,25 +105,10 @@ Here we can see that across all U.S. territories there are notable differences i
 ## Residual standard error: 90.27 on 1152 degrees of freedom
 ## Multiple R-squared:  0.0515, Adjusted R-squared:  0.05067 
 ## F-statistic: 62.54 on 1 and 1152 DF,  p-value: 6.068e-15</code></pre>
-<p>Summarizing the linear regression model for gender and SAT score required a slightly different process than income brakcet, since gender is a categorical variable. To account for this, we created a dummy variable “female,” where “1” represents female and “0” represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.</p>
+<p>Summarizing the linear regression model for gender and SAT score required a slightly different process than income bracket, since gender is a categorical variable. To account for this, we created a dummy variable “female,” where “1” represents female and “0” represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.</p>
 </div>
 <div id="figure-6-average-sat-score-by-year" class="section level3">
 <h3>Figure 6: Average SAT Score by Year</h3>
-<pre><code>## # A tibble: 577 × 3
-## # Groups:   Year [11]
-##     Year total.SAT.score avg.total.score
-##    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
-##  1  2005            1126           1070.
-##  2  2005            1042           1070.
-##  3  2005            1056           1070.
-##  4  2005            1115           1070.
-##  5  2005            1026           1070.
-##  6  2005            1120           1070.
-##  7  2005            1034           1070.
-##  8  2005            1005           1070.
-##  9  2005             968           1070.
-## 10  2005             996           1070.
-## # … with 567 more rows</code></pre>
 <p><img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Across all 10 years in the dataset, the overall average SAT score remained within a 20-point range, which indicates that time itself is not the best predictor for SAT score.</p>
 </div>
