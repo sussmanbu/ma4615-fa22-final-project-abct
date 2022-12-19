@@ -101,7 +101,7 @@ genderscore <- schooldatacleaned %>%
   select(year,"state.code","state.name", "gender.female.math", "gender.female.verbal", "gender.male.math", "gender.male.verbal") %>%
   mutate(female.total.score = gender.female.math + gender.female.verbal) %>%
   mutate(male.total.score = gender.male.math + gender.male.verbal) %>%
-  select("year", "state.code", "state.name", "female.total.score", "male.total.score") 
+  select("year", "state.code", "state.name", "gender.female.math","gender.female.verbal", "female.total.score","gender.male.math", "gender.male.verbal", "male.total.score") 
 genderscore
 ```
 

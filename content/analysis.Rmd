@@ -29,7 +29,7 @@ Some questions we would like to answer are:
 2. Is this relationship statistically significant?
 3. Are there differences in income and SAT scores between states? 
 4. Is GPA more affected by family income than SAT scores?
-5. Are other factors, like gender and GPA, better predictors of SAT scores?
+5. Are other factors, like gender and year, better predictors of SAT scores?
 6. Do any of these relationships change over time?
 
 ### Figure 1: Six States Comparison
@@ -109,7 +109,7 @@ From both figures we see that the Midwest indisputably has the highest SAT score
 
 ### Figure 4: Income Bracket and Average SAT Scores
 
-Our second figure shows the average SAT score across the six income brackets in our dataset. 
+Our fourth figure shows the average SAT score across the six income brackets in our dataset. 
 
 ```{r figure 4}
 # this needs to be fixed — use something other than geom_col
@@ -138,11 +138,13 @@ ggplot(data = incomescore_pivoted,
   labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
 ```
 
-Figure 5 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the "income under 20k" and the "income between 20 and 40k" brackets, which could indicate that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one's brain functions. 
+Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the "income under 20k" and the "income between 20 and 40k" brackets, indicating that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one's brain functions. 
 
-### Figure 5 Inference:
+### Figure 4 Inference:
 
-```{r figure 5 inference}
+To get an idea of how strong the relationship between income bracket and average SAT score is, we decided to summarize a linear model of the figure 4.
+
+```{r figure 4 inference}
 income <- c(20000, 40000, 60000, 80000, 100000)
 incomescore <- c(936, 1040, 1090, 1114, 1143)
 lm2 <- data.frame(cbind(income, incomescore))
@@ -151,26 +153,41 @@ summary(lm(incomescore ~ income, lm2))
 
 We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.
 
-### Figure 6: SAT Scores by Gender, 2005-2015
+Now that we have evidence suggesting that income bracket is a good predictor for SAT score, we decided to look at some other potential predictors.
 
-```{r figure 6}
+### Figure 5: SAT Scores by Gender, 2005-2015
+
+To look at whether or not there is a significant difference in SAT scores between genders, we took the yearly average SAT scores of males and females and plotted them. 
+
+```{r figure 5}
 # gender vs. sat score
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
-
-# genderscore <- genderscore %>%
-#   pivot_longer(c(female.total.score, male.total.score), 
-#                names_to = "gender", 
-#                values_to = "average.SAT.score", 
-#                values_drop_na = TRUE) %>%
-#   mutate(gender = str_remove(gender, ".total.score"))
 
 genderscore <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score = mean(female.total.score), avg.male.SAT.score = mean(male.total.score))
 
 ggplot(genderscore) + geom_point(aes(x = year, y = avg.female.SAT.score, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score, col = "male")) + labs(x = "Year", y = "Average SAT Score", col = "Gender", title = "Average SAT Score By Gender from 2005-2015")
 ```
 
-```{r figure 6 inference}
-#checking if gender is a significant predictor of SAT score — yes!
+We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.
+
+```{r}
+genderscore_math <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score.math = mean(gender.female.math), avg.male.SAT.score.math = mean(gender.male.math))
+
+ggplot(genderscore_math) + geom_point(aes(x = year, y = avg.female.SAT.score.math, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score.math, col = "male")) + labs(x = "Year", y = "Average SAT Math Score", col = "Gender", title = "Average SAT Math Section Score By Gender from 2005-2015")
+```
+
+```{r}
+genderscore_verbal <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score.verbal = mean(gender.female.verbal), avg.male.SAT.score.verbal = mean(gender.male.verbal))
+
+ggplot(genderscore_verbal) + geom_point(aes(x = year, y = avg.female.SAT.score.verbal, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score.verbal, col = "male")) + labs(x = "Year", y = "Average SAT Verbal Score", col = "Gender", title = "Average SAT Verbal Section Score By Gender from 2005-2015")
+```
+
+As we can clearly see, there is a much bigger difference between genders for the math section of the SAT compared to the verbal, and that the differences sometime differ in different years. 
+
+We wondered why this was the case and found a Forbes article (https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35) that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students' minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores. 
+
+```{r figure 5 inference}
+#checking if gender is a significant predictor of SAT score 
 genderscore_pivoted <- genderscore %>%
   pivot_longer(c(female.total.score, male.total.score), 
                 names_to = "gender", 
@@ -188,9 +205,29 @@ summary(lm(average.SAT.score ~ gdummy, data = genderdummies))
 
 ```
 
+Summarizing the linear regression model for gender and SAT score required a slightly different process than income brakcet, since gender is a categorical variable. To account for this, we created a dummy variable "female," where "1" represents female and "0" represents male, then ran a linear regression on this variable and SAT score. We found that the gender dummy variable has a t-stat of -7.9, indicating that there is a statistically significant relationship between gender and SAT score.
+
+### Figure 6: Average SAT Score by Year
+
+```{r}
+schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
+
+schooldata_year <- schooldata %>% group_by(Year) %>% transmute(total.SAT.score = Total.Math + Total.Verbal) %>% mutate(avg.total.score = mean(total.SAT.score))
+
+schooldata_year
+
+ggplot(schooldata_year) + geom_point(aes(x = Year, y = avg.total.score)) + labs(x = "Year", y = "Average SAT score", title = "Average SAT score by year")
+
+```
+
+Across all 10 years in the dataset, the overall average SAT score remained within a 20-point range, which indicates that time itself is not the best predictor for SAT score. 
+
 ### Backwards Selection Model
 
+To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.
+
 ```{r backwards selection}
+# fix this
 library(leaps)
 
 bs <- leaps::regsubsets(
