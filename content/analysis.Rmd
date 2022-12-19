@@ -217,7 +217,7 @@ Across all 10 years in the dataset, the overall average SAT score remained withi
 
 ### Backwards Selection Model
 
-To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score.
+To consolidate all of our figures above, we created a model using backwards selection to find the most significant predictors of SAT score. 
 
 ```{r backwards selection, echo=FALSE, message=FALSE}
 incomegenderdata <- read_csv(here::here("dataset/incomegenderdata.csv"))
@@ -236,6 +236,7 @@ summary(bs)$cp
 ```
 
 Out of the 8 models produced, model 5 has the lowest Mallow's CP value and thus would be the best model. In this one, the predictor variables are:
+
 * income between 20-40k
 * income between 80-100k
 * female total score

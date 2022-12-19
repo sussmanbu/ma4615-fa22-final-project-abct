@@ -82,5 +82,5 @@ This interactive tool strongly supports our conclusion in our analysis and big p
 
 * Generally, income bracket and SAT score have a statistically significant relationship; as income increases, so does SAT score
 * However, gender can also be a valuable predictor for SAT score
-* Collegeboard should revisit their exam to reduce the things that contribute to differences in scores among income brackets and genders; alternatively, colleges can put less emphasis on SAT scores as a measure of a student's intelligence and potential.
+* Collegeboard should revisit their exam to reduce the things that contribute to differences in scores among income brackets and genders; alternatively, colleges can put less emphasis on SAT scores as a measure of a student's intelligence and potential. 
 
