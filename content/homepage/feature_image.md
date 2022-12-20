@@ -16,7 +16,7 @@ widget:
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
     color: secondary
-    image: images/data-science.png
+    image: https://media.istockphoto.com/id/1354826805/vector/data-science.jpg?s=612x612&w=0&k=20&c=FKYxpsaWX7H5_DEX4t0dV2o837_aqgoavlIRdIz1jwE=
     # Options: auto, cover and contain. Default is auto.
     size: contain
     # Options: center, top, right, bottom, left.
