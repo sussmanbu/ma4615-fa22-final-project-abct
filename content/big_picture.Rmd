@@ -81,7 +81,7 @@ incomescore6 <- incomescore %>%
   summarise(average.total.score.of.bracket = mean(average.total.score.of.bracket))
 incomescore6
 
-ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + labs(x = "State", y = "Average SAT Score", color = "Income Bracket", title = "Average SAT Score of Lowest and Highest Income Brackets") + facet_wrap(~income.bracket) 
+ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + labs(x = "State", y = "Average SAT Score", fill = "Income Bracket", title = "Average SAT Score of Lowest and Highest Income Brackets") + facet_wrap(~income.bracket) 
 ```
 
 The figure above shows a significant difference in SAT scores between the two income brackets for all six states; on average, across these six states, scores increase by 24% between these two income brackets. This means that students coming from families making more than 100,000 dollars a year have scores nearly 400 points higher than their counterparts coming from families making less than 20,000 dollars a year. This supports our working hypothesis that higher family incomes lead to higher SAT scores, and we discuss the factors behind such a relationship in more depth on our analysis page. 
@@ -105,7 +105,7 @@ genderscore_pivoted <- genderscore %>%
   summarise(gender.score = mean(score)) %>%
   select(state.code, gender, gender.score)
 
-ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = gender.score, fill = gender)) + geom_col() + labs(x = "Gender", y = "Average SAT Score", color = "State Code", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
+ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = gender.score, fill = gender)) + geom_col() + labs(x = "State", y = "Average SAT Score", fill = "Gender", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
 
 ```
 
@@ -115,7 +115,7 @@ The dashboard below is an interactive figure that we hope our visitors find enjo
 
 ## Interactive:
 
-To get started using this interactive, you can find instructions on how to use it [here](https://photos.google.com/share/AF1QipPklnf4x3KzSFGAmso8MMI7WPcWwKVKCUuUhl1MxNDzjjSPCwk5nHDcShPNnOKWIQ?key=ZVJnMW5NYnNEbW9KRFpSYXRLREZkREVHUnV4cW9n)
+To get started using this interactive, you can find instructions on how to use it [here](https://photos.google.com/share/AF1QipPklnf4x3KzSFGAmso8MMI7WPcWwKVKCUuUhl1MxNDzjjSPCwk5nHDcShPNnOKWIQ?key=ZVJnMW5NYnNEbW9KRFpSYXRLREZkREVHUnV4cW9n).
 
 [Income and Gender Scores based on State](https://avramoutar.shinyapps.io/incomegenderinteractive/)
 

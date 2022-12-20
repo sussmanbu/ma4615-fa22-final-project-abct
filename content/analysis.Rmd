@@ -246,5 +246,3 @@ Out of the 8 models produced, model 5 has the lowest Mallow's CP value at 4.2605
 
 Thus, income and gender are the best predictors for SAT score according to our dataset.
 
-
-```
