@@ -72,7 +72,7 @@ schooldata3 %>% ggplot(aes(x = reorder(State.Code, Total.Score), y = Total.Score
   geom_boxplot() + scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
   labs(x = "SAT Score", y = "State")
 ```
-Here we can see that across all U.S. territories there are notable differences in median SAT scores between them. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.
+Here we can see that across all U.S. territories, there are notable differences in median SAT scores. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. The region with the lowest SAT median SAT score is the Virgin Islands, followed by Puerto Rico, the only other U.S. Territory not considered a state. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.
 
 ### Figure 3: Breakdown of Average SAT Scores by Region
 
@@ -103,7 +103,10 @@ schooldata5 %>% ggplot(aes(Total.Score, State.Code, col = region)) +
   facet_wrap(~region, scales = "free") + geom_point()
 ```
 
-From both figures we see that the Midwest indisputably has the highest SAT scores overall. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a Forbes article (https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37), we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very "best" students; that is, students who want to attend the most presitigious colleges, most of whose applications require an SAT score, so the overall scores are higher. 
+From both figures we see that the Midwest indisputably has the highest SAT scores overall with most of the states in the region's data showing scores exceeding 1175 while the other regions had SAT scores lower than 1175. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a [Forbes article](https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37), we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very "best" students; that is, students who want to attend the most prestigious colleges, most of whose applications require an SAT score, so the overall scores are higher. 
+
+Additionally, the noncontiguous U.S. territories have the lowest scores, with all of the data for SAT scores falling below 850 in the Virgin Islands and below 950 in Puerto Rico. We hypothesized that household income may impact SAT scores, so we looked into the median hosuehold income in these regions with the lowest SAT scores. According to the [Department of Justice](https://www.justice.gov/ust/eo/bapcpa/20101101/bci_data/median_income_table.htm), both of these territories had significantly lower median household incomes in 2010. To further explore this pattern we noticed, we decided to look into relationships between income bracket and average SAT scores.
+
 
 ### Figure 4: Income Bracket and Average SAT Scores
 
@@ -134,7 +137,7 @@ ggplot(data = incomescore_pivoted,
   labs(x = "Income Bracket", y = "Average SAT Score of Bracket") 
 ```
 
-Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the "income under 20k" and the "income between 20 and 40k" brackets, indicating that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one's brain functions. 
+Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, with the average SAT score for students with household income of 20k or less is about 920 while the average SAT score for students with household income of 100k and over is about 1126. This supports our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the brackets "income under 20k", which has an average SAT score of 920, and "income between 20 and 40k", which has an average SAT score of 1002. This indicates that those in the lowest income bracket faces the most difficulty in doing well on the exam, which makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one's brain functions. 
 
 ### Figure 4 Inference:
 
@@ -164,7 +167,7 @@ genderscore <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score = 
 ggplot(genderscore) + geom_point(aes(x = year, y = avg.female.SAT.score, col = "female")) + geom_point(aes(x = year, y = avg.male.SAT.score, col = "male")) + labs(x = "Year", y = "Average SAT Score", col = "Gender", title = "Average SAT Score By Gender from 2005-2015")
 ```
 
-We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.
+We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. All of the data for average SAT score of females are below 1060 while all the data for males falls between 1080 and 1100. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.
 
 ```{r, echo=FALSE, message=FALSE}
 genderscore_math <- genderscore %>% group_by(year) %>% mutate(avg.female.SAT.score.math = mean(gender.female.math), avg.male.SAT.score.math = mean(gender.male.math))
