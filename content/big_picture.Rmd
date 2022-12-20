@@ -105,8 +105,6 @@ genderscore_pivoted <- genderscore %>%
   summarise(gender.score = mean(score)) %>%
   select(state.code, gender, gender.score)
 
-genderscore_pivoted
-
 ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = gender.score, fill = gender)) + geom_col() + labs(x = "Gender", y = "Average SAT Score", color = "State Code", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
 
 ```

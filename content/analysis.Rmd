@@ -10,10 +10,8 @@ We describe here our detailed data analysis.
 
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
-print(getwd())
 data <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 load(here::here("dataset/school_scores.RData"))
-print(ls())
 ```
 
 -------
