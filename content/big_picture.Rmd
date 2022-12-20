@@ -25,7 +25,7 @@ Some questions we would like to answer are:
 4. Are other factors, like gender, better predictors of SAT scores?
 5. Do any of these relationships change over time?
 
-## More Figures:
+## More Figures: 
 
 ### Map of Average Total Score by State
 
@@ -62,7 +62,7 @@ We see here that the highest average SAT scores are clustered in the Midwest. Th
 
 Now, we look at the overarching question of our entire project: is income a good predictor of SAT scores? Before getting into the nitty-gritty of every income bracket, we decided to single out just the lowest and highest brackets and look at their average SAT scores among six states: three with the highest median household incomes, and three with the lowest. 
 
-```{r, echo = FALSE, message=FALSE}
+```{r, echo = FALSE, message=FALSE, results=FALSE}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
 sixstates <- c("MD", "NJ", "MA", "AR", "WV", "MS")
 incomerange <- c("income.less.than.20k", "income.more.than.100k")

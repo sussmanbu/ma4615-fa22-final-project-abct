@@ -19,7 +19,7 @@ load(here::here("dataset/school_scores.RData"))
 
 The variables we are most interested in are total math and verbal SAT scores as well as family income — namely, we want to examine whether or not there exists a statistically significant relationship between family income and SAT scores, and the form of these relationships (i.e., linear, logistic, etc.). Over the past several years, more and more questions have arose regarding whether or not colleges (and the rest of the world) should be looking at SAT scores as a credible measure of aptitude and intelligence, or if they are simply another tool for the privileged to remain at the top. 
 
-## Important Questions:
+## Important Questions: 
 
 As a reminder, some questions we would like to answer in our analysis are:
 
