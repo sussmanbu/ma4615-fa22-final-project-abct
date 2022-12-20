@@ -22,7 +22,7 @@ draft: false
 </div>
 <div id="important-questions" class="section level2">
 <h2>Important Questions:</h2>
-<p>Some questions we would like to answer are:</p>
+<p>As a reminder, some questions we would like to answer in our analysis are:</p>
 <ol style="list-style-type: decimal">
 <li>What is the nature of the relationship between family income and SAT scores?</li>
 <li>Is this relationship statistically significant?</li>
@@ -41,18 +41,19 @@ draft: false
 <h3>Figure 2: All States and their Average SAT Scores</h3>
 <p>To further see if there are significant differences in SAT scores across states, we decided to make a plot with boxplots of all states.</p>
 <p><img src="/analysis_files/figure-html/figure%202-1.png" width="672" />
-Here we can see that across all U.S. territories there are notable differences in median SAT scores between them. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.</p>
+Here we can see that across all U.S. territories, there are notable differences in median SAT scores. This plot shows Iowa with the highest median SAT score, which could be explained by the fact that the Midwest dominates the SAT according to a Forbes article. The region with the lowest SAT median SAT score is the Virgin Islands, followed by Puerto Rico, the only other U.S. Territory not considered a state. This will be further discussed in our next figure, as we opted to look at the SAT scores across different regions of the continental U.S.</p>
 </div>
 <div id="figure-3-breakdown-of-average-sat-scores-by-region" class="section level3">
 <h3>Figure 3: Breakdown of Average SAT Scores by Region</h3>
 <p><img src="/analysis_files/figure-html/figure%203-1.png" width="672" /></p>
-<p>From both figures we see that the Midwest indisputably has the highest SAT scores overall. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a Forbes article (<a href="https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37" class="uri">https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37</a>), we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very “best” students; that is, students who want to attend the most presitigious colleges, most of whose applications require an SAT score, so the overall scores are higher.</p>
+<p>From both figures we see that the Midwest indisputably has the highest SAT scores overall with most of the states in the region’s data showing scores exceeding 1175 while the other regions had SAT scores lower than 1175. This seemed odd to us, so we did a bit of research and found that it has been a repeating pattern for students in the Midwest to dominate the exam. As it turns out, from a <a href="https://www.forbes.com/sites/bentaylor/2014/07/17/why-the-midwest-dominates-the-sat/?sh=15c87cf72f37">Forbes article</a>, we learned that most students in the Midwest opt to not take any standardized college entrance exams, and if they do, most choose to only take the ACT. Thus, the majority of the students taking the SAT in the Midwest are the very “best” students; that is, students who want to attend the most prestigious colleges, most of whose applications require an SAT score, so the overall scores are higher.</p>
+<p>Additionally, the noncontiguous U.S. territories have the lowest scores, with all of the data for SAT scores falling below 850 in the Virgin Islands and below 950 in Puerto Rico. We hypothesized that household income may impact SAT scores, so we looked into the median hosuehold income in these regions with the lowest SAT scores. According to the <a href="https://www.justice.gov/ust/eo/bapcpa/20101101/bci_data/median_income_table.htm">Department of Justice</a>, both of these territories had significantly lower median household incomes in 2010. To further explore this pattern we noticed, we decided to look into relationships between income bracket and average SAT scores.</p>
 </div>
 <div id="figure-4-income-bracket-and-average-sat-scores" class="section level3">
 <h3>Figure 4: Income Bracket and Average SAT Scores</h3>
 <p>Our fourth figure shows the average SAT score across the six income brackets in our dataset.</p>
 <p><img src="/analysis_files/figure-html/figure%204-1.png" width="672" /></p>
-<p>Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, which does support our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the “income under 20k” and the “income between 20 and 40k” brackets, indicating that those in the lowest income bracket faces the most difficulty in doing well on the exam. This makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
+<p>Figure 4 examines the relationship between income bracket and average SAT score. Clearly, we see a steady rise in SAT score as the income bracket increases, with the average SAT score for students with household income of 20k or less is about 920 while the average SAT score for students with household income of 100k and over is about 1126. This supports our hypothesis that income is the best predictor of SAT score. Interestingly, the biggest gap in SAT scores seems to be in between the brackets “income under 20k”, which has an average SAT score of 920, and “income between 20 and 40k”, which has an average SAT score of 1002. This indicates that those in the lowest income bracket faces the most difficulty in doing well on the exam, which makes sense, as there have been many studies showing that the stress of living in poverty negatively affects how one’s brain functions.</p>
 </div>
 <div id="figure-4-inference" class="section level3">
 <h3>Figure 4 Inference:</h3>
@@ -75,18 +76,18 @@ Here we can see that across all U.S. territories there are notable differences i
 ## Residual standard error: 29.22 on 3 degrees of freedom
 ## Multiple R-squared:  0.9029, Adjusted R-squared:  0.8705 
 ## F-statistic:  27.9 on 1 and 3 DF,  p-value: 0.01323</code></pre>
-<p>We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.</p>
+<p>We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high at 0.8705 and the absolute value of the t-stat for income is greater than 2.</p>
 <p>Now that we have evidence suggesting that income bracket is a good predictor for SAT score, we decided to look at some other potential predictors.</p>
 </div>
 <div id="figure-5-sat-scores-by-gender-2005-2015" class="section level3">
 <h3>Figure 5: SAT Scores by Gender, 2005-2015</h3>
 <p>To look at whether or not there is a significant difference in SAT scores between genders, we took the yearly average SAT scores of males and females and plotted them.</p>
 <p><img src="/analysis_files/figure-html/figure%205-1.png" width="672" /></p>
-<p>We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.</p>
+<p>We can see here that throughout all 10 years of data in the dataset, there is a notable difference between genders for average SAT score. All of the data for average SAT score of females are below 1060 while all the data for males falls between 1080 and 1100. In order to look at this in more detail, we decided to create plots for the two sections of the SAT.</p>
 <p><img src="/analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>As we can clearly see, there is a much bigger difference between genders for the math section of the SAT compared to the verbal, and that the differences sometime differ in different years.</p>
-<p>We wondered why this was the case and found a Forbes article (<a href="https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35" class="uri">https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35</a>) that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students’ minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores.</p>
+<p>As we can clearly see in these plots, there is a much bigger difference between genders for the math section of the SAT compared to the verbal, and that the differences sometime differ in different years. For math SAT scores, there was at least a 25 point difference but for the verbal section there was at most about a 10 point difference.</p>
+<p>We wondered why this was the case and found a <a href="https://www.forbes.com/sites/kimelsesser/2016/07/01/is-the-college-board-making-the-sat-more-difficult-for-women/?sh=19d2eb3a5f35">Forbes article</a> that explains a possible reason behind the gender difference in SAT scores: stereotype threat. Certain questions on the SAT, such as one asking test-takers to look at a graph showing more boys than girls in math classes, can wreak psychological havoc on female students’ minds during the exam, in turn worsening their performance. Until CollegeBoard takes significant action to overhaul the gender bias within their exams, it is possible that gender will be a good predictor of SAT scores.</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = average.SAT.score ~ gdummy, data = genderdummies)
@@ -144,7 +145,7 @@ Here we can see that across all U.S. territories there are notable differences i
 ## 8               TRUE             TRUE  TRUE</code></pre>
 <pre><code>## [1] 20047.563612    36.057809    15.379587     6.175273     4.260576
 ## [6]     5.308721     6.099692     8.030843</code></pre>
-<p>Out of the 8 models produced, model 5 has the lowest Mallow’s CP value and thus would be the best model. In this one, the predictor variables are:</p>
+<p>Out of the 8 models produced, model 5 has the lowest Mallow’s CP value at 4.260576 and thus would be the best model. In this one, the predictor variables are:</p>
 <ul>
 <li>income between 20-40k</li>
 <li>income between 80-100k</li>

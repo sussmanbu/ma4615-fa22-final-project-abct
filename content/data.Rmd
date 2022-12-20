@@ -158,6 +158,8 @@ In summary, the primary datasets we will be using for our analysis are:
 
 ## Interactive Code:
 
+Here we created a new dataset that created columns for each of the income brackets, the average total score for each gender, and year based on each of the United States. This dataset is specifically used for our interactive site located on our [Big Picture](https://abctma415f22.netlify.app/big_picture/) page. 
+
 ```{r}
 
 incomegenderdata <- school_scores_data_clean %>% mutate(total.score = total.math + total.verbal) %>% 

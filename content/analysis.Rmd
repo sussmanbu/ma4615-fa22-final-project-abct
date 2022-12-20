@@ -150,7 +150,7 @@ lm2 <- data.frame(cbind(income, incomescore))
 summary(lm(incomescore ~ income, lm2))
 ```
 
-We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high and the absolute value of the t-stat for income is greater than 2.
+We see here that there is a very strong positive correlation between income bracket and SAT score, as the R^2 value is very high at 0.8705 and the absolute value of the t-stat for income is greater than 2.
 
 Now that we have evidence suggesting that income bracket is a good predictor for SAT score, we decided to look at some other potential predictors.
 
@@ -238,7 +238,7 @@ summary(bs)$cp
 
 ```
 
-Out of the 8 models produced, model 5 has the lowest Mallow's CP value and thus would be the best model. In this one, the predictor variables are:
+Out of the 8 models produced, model 5 has the lowest Mallow's CP value at 4.260576 and thus would be the best model. In this one, the predictor variables are:
 
 * income between 20-40k
 * income between 80-100k

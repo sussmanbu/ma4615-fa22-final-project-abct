@@ -227,6 +227,7 @@ newdata_inc</code></pre>
 </div>
 <div id="interactive-code" class="section level2">
 <h2>Interactive Code:</h2>
+<p>Here we created a new dataset that created columns for each of the income brackets, the average total score for each gender, and year based on each of the United States. This dataset is specifically used for our interactive site located on our <a href="https://abctma415f22.netlify.app/big_picture/">Big Picture</a> page.</p>
 <pre class="r"><code>incomegenderdata &lt;- school_scores_data_clean %&gt;% mutate(total.score = total.math + total.verbal) %&gt;% 
   mutate(income.between.20.40k = income.between.20.40k.math + income.between.20.40k.verbal) %&gt;%
   mutate(income.between.40.60k = income.between.40.60k.math + income.between.40.60k.verbal) %&gt;%
