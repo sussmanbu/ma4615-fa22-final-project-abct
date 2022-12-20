@@ -29,9 +29,9 @@ Some questions we would like to answer are:
 
 ### Map of Average Total Score by State
 
-In order to determine where differences in income lead to different SAT scores across states, we created a grid of SAT scores by regions and created a heat map of the United States below.
+To provide a quick overview of the dataset we are working with, we created a grid of SAT scores by regions and created a heat map of the United States below.
 
-```{r figure 3, echo = FALSE, message=FALSE, results=FALSE}
+```{r, echo = FALSE, message=FALSE, results=FALSE}
 # map of average total score by state
 library(tmap)
 library(tidyverse)
@@ -56,7 +56,11 @@ tm_shape(schooldata_tm) + tm_polygons(col = "avg.total.score", title = "Avg SAT 
 
 ```
 
+We see here that the highest average SAT scores are clustered in the midwest. This may be surprising to many, since the Northeast region, particularly New England, is thought of as the most intelligent part of the United States. We explore the reasons behind this phenomenon on the analysis page, but to sum it up, since many kids in the midwest do not plan on going to college, the SAT is only taken by the minority who are looking to attend institutions of higher education, leading to higher average SAT scores across the region. Our map here also does not show the average SAT scores of non-US-continental territories, and our analysis page discusses those scores and the reasons behind them. 
+
 ## Average SAT Score of Lowest and Highest Income Brackets
+
+Now, we look at the overarching question of our entire project: is income a good predictor of SAT scores? Before getting into the nitty-gritty of every income bracket, we decided to single out just the lowest and highest brackets and look at their average SAT scores among six states: three with the highest median household incomes, and three with the lowest. 
 
 ```{r, echo = FALSE, message=FALSE}
 schooldata <- read_csv(here::here("dataset/school_scores_data_clean.csv"))
@@ -80,9 +84,13 @@ incomescore6
 ggplot(data = incomescore6, mapping = aes(x = state.code, y = average.total.score.of.bracket, fill = income.bracket)) + geom_col() + labs(x = "State", y = "Average SAT Score", color = "Income Bracket", title = "Average SAT Score of Lowest and Highest Income Brackets") + facet_wrap(~income.bracket) 
 ```
 
+The figure above shows a significant difference in SAT scores between the two income brackets for all six states; on average, across these six states, scores increase by 24% between these two income brackets. This means that students coming from families making more than 100,000 dollars a year have scores nearly 400 points higher than their counterparts coming from families making less than 20,000 dollars a year. This supports our working hypothesis that higher family incomes lead to higher SAT scores, and we discuss the factors behind such a relationship in more depth on our analysis page. 
+
 ## Average SAT Score by Gender and State
 
-```{r}
+We knew that although the figure above supports our hypothesis that higher incomes lead to higher SAT scores, there are likely other factors that can be good predictors of SAT scores as well, so we created a similar graphic below, comparing average SAT scores across the same six states by gender rather than income bracket. 
+
+```{r, echo = FALSE, message=FALSE, results=FALSE}
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
 
 genderscore_pivoted <- genderscore %>%
@@ -102,7 +110,8 @@ ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = score, fill
 ```
 
 
-The dashboard below is an interactive graph that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
+
+The dashboard below is an interactive figure that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
 
 ### Interactive:
 

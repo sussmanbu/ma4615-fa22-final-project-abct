@@ -23,7 +23,7 @@ The variables we are most interested in are total math and verbal SAT scores as 
 
 ## Important Questions:
 
-Some questions we would like to answer are:
+As a reminder, some questions we would like to answer in our analysis are:
 
 1. What is the nature of the relationship between family income and SAT scores?
 2. Is this relationship statistically significant?
