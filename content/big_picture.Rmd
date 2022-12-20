@@ -94,22 +94,24 @@ We knew that although the figure above supports our hypothesis that higher incom
 genderscore <- read_csv(here::here("dataset/genderscore.csv"))
 
 genderscore_pivoted <- genderscore %>%
+  filter(state.code %in% sixstates) %>%
   select("state.code", "female.total.score", "male.total.score") %>%
   pivot_longer(c(female.total.score, male.total.score),
                names_to = "total.score", 
                values_to = "score",
                ) %>%
   mutate(gender = str_remove(total.score, ".total.score")) %>%
-  filter(state.code %in% sixstates) %>%
-  select(state.code, gender, score)
+  group_by(gender, state.code) %>%
+  summarise(gender.score = mean(score)) %>%
+  select(state.code, gender, gender.score)
 
 genderscore_pivoted
 
-ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = score, fill = gender)) + geom_col() + labs(x = "Gender", y = "Average SAT Score", color = "State Code", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
+ggplot(data = genderscore_pivoted, mapping = aes(x = state.code, y = gender.score, fill = gender)) + geom_col() + labs(x = "Gender", y = "Average SAT Score", color = "State Code", title = "Average SAT Score by Gender and State") + facet_wrap(~gender) 
 
 ```
 
-
+Though there is still a difference between the two genders' average SAT scores, it is not quite as significant as the disparity between the lowest and highest income brackets; here, males tend to have scores 4% higher than their female counterparts. While the difference here is not as large as that for income, it is still notable that gender was found to have an effect on SAT score, which we further discuss in the analysis page. 
 
 The dashboard below is an interactive figure that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
 
