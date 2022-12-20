@@ -113,7 +113,9 @@ Though there is still a difference between the two genders' average SAT scores, 
 
 The dashboard below is an interactive figure that we hope our visitors find enjoyable and informative. For any more questions, please feel free to contact us from our [github pages](https://abctma415f22.netlify.app/about/).
 
-### Interactive:
+## Interactive:
+
+To get started using this interactive, you can find instructions on how to use it [here](https://photos.google.com/share/AF1QipPklnf4x3KzSFGAmso8MMI7WPcWwKVKCUuUhl1MxNDzjjSPCwk5nHDcShPNnOKWIQ?key=ZVJnMW5NYnNEbW9KRFpSYXRLREZkREVHUnV4cW9n)
 
 [Income and Gender Scores based on State](https://avramoutar.shinyapps.io/incomegenderinteractive/)
 

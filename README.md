@@ -2,6 +2,9 @@
 
 **Make sure to read the full README file below, all pages and posts on your initial site, and look through the files in the `content` folder and the `config.toml` file.**
 
+## ZOOM RECORDING:
+[zoom recording](https://photos.google.com/share/AF1QipPklnf4x3KzSFGAmso8MMI7WPcWwKVKCUuUhl1MxNDzjjSPCwk5nHDcShPNnOKWIQ?key=ZVJnMW5NYnNEbW9KRFpSYXRLREZkREVHUnV4cW9n)
+
 For your final project, your team will be 
 
 
